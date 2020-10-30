@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void menu() {
-    printf("Willy Wangky no Fum Factory e Youkoso\n");
+void ShowMenu() {
     printf("new : New Game\n");
     printf("load : Load Game\n");
     printf("exit : Exit Game\n");
@@ -19,7 +18,9 @@ int main () {
 
     /* ALGORITMA */
     // Accept input
-    menu();
+    printf("Willy Wangky no Fum Factory e Youkoso\n");
+    
+    ShowMenu();
     fgets(main_opt, 5, stdin);
 
     while (strcmp(main_opt, exit) != 0) {
