@@ -5,12 +5,11 @@
 
 /* ********* Prototype ********* */
 boolean IsEmpty (PrioQueueChar Q) {
-
     return Head(Q) == Nil && Tail(Q) == Nil;
 }
 /* Mengirim true jika Q kosong: lihat definisi di atas */
-boolean IsFull (PrioQueueChar Q) {
 
+boolean IsFull (PrioQueueChar Q) {
     if (Head(Q) == 0) {
         return Tail(Q) == MaxEl(Q) - 1;
     }
@@ -55,6 +54,8 @@ void MakeEmpty (PrioQueueChar * Q, int Max) {
 void DeAlokasi(PrioQueueChar * Q) {
     MaxEl(*Q) = 0;
     free((*Q).T);
+    Head(*Q) = Nil;
+    Tail(*Q) = Nil;
 }
 /* Proses: Mengembalikan memori Q */
 /* I.S. Q pernah dialokasi */
@@ -62,61 +63,29 @@ void DeAlokasi(PrioQueueChar * Q) {
 
 /* *** Primitif Add/Delete *** */
 void Enqueue (PrioQueueChar * Q, infotype X) {
-
     //Algoritma
     if (IsEmpty(*Q)) {
-        Head(*Q) = 0;
-        Tail(*Q) = 0;
-        InfoTail(*Q) = X;
-    } else if (Tail(*Q) == MaxEl(*Q) - 1) {
-        Tail(*Q) = 0;
-        if (Prio(Elmt(*Q, MaxEl(*Q) - 1)) <= Prio(X)) {
-            InfoTail(*Q) = X;
-        } else {
-            boolean found = false;
-            int i = MaxEl(*Q) - 2;
-            int count = 0;
-            while (i >= Head(*Q) && !found) {
-                if (Prio(Elmt(*Q, i)) <= Prio(X)) {
-                    found = true;
-                }
-                count++;
-                i--;
-            }
-            int j = MaxEl(*Q) - 1;
-            Elmt(*Q, 0) = Elmt(*Q, j);
-            while (j > Head(*Q)) {
-                Elmt(*Q, j) = Elmt(*Q, j - 1);
-                j--;
-                }
-            Elmt(*Q, j) = X;
-            }
-        } else {
+        Head(*Q)++;
         Tail(*Q)++;
-        if (Prio(Elmt(*Q, MaxEl(*Q) - 1)) <= Prio(X)) {
-            InfoTail(*Q) = X;
-        } else {
-            boolean found = false;
-            int i = MaxEl(*Q) - 1;
-            int count = 0;
-            while (i >= Head(*Q) && !found) {
-                if (Prio(Elmt(*Q, i)) <= Prio(X)) {
-                    found = true;
-                }
-                count++;
-                i--;
-            }
-            if (found) {
-                int n = count;
-                int j = Tail(*Q);
-                Elmt(*Q, 0) = Elmt(*Q, Tail(*Q));
-                while (j > Head(*Q)) {
-                    Elmt(*Q, j) = Elmt(*Q, j - 1);
-                    j--;
-                    }
-                Elmt(*Q, j) = X;
-                }
-            
+        InfoTail(*Q) = X;
+    } else {
+        // Tambahin dulu di belakang
+        Tail(*Q) = (Tail(*Q) + 1) % MaxEl(*Q);
+        InfoTail(*Q) = X;
+        int curr = Tail(*Q);
+        int prev = (curr - 1 + MaxEl(*Q)) % MaxEl(*Q);
+        infotype temp;
+
+        // urutin
+        while (Prio(Elmt(*Q, curr)) < Prio(Elmt(*Q, prev)) && curr != Head(*Q)) {
+            // swapping
+            temp = Elmt(*Q, curr);
+            Elmt(*Q, curr) = Elmt(*Q, prev);
+            Elmt(*Q, prev) = temp;
+
+            // decrement
+            curr = prev;
+            prev = (curr - 1 + MaxEl(*Q)) % MaxEl(*Q);
         }
     }
 }
