@@ -10,8 +10,8 @@ Berisi definisi dan realisasi dari ADT-ADT yang digunakan
 - [x] Mesin Kata
 - [x] Mesin Karakter
     - [x] Mesin Token
-- [ ] Priority Queue
-- [ ] Stack
+- [x] Priority Queue
+- [x] Stack
 - [ ] Linked list
 - [ ] Tree
 - [ ] Graph (Multilist)
