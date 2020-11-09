@@ -1,5 +1,6 @@
 /* FILE: mainPhase.c */
-/* Author: Kahfi */
+/* Author: 13519012 Kahfi Soobhan Zulkifli
+           13519116 Jeane Mikha Erwansyah */
 
 #include <stdio.h>
 #include "./../header/boolean.h"
@@ -7,6 +8,8 @@
 #include "./../header/prioqueuechar.h"
 
 void SERVE (char * wahana) {
+    /* Memakan waktu */
+    /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
     int i;
     PrioQueueChar Q;
 
@@ -21,19 +24,31 @@ void SERVE (char * wahana) {
 }
 
 void REPAIR () {
+    /* Memakan waktu */
+    /* REPAIR {input: wahana} */
 
+    return;
 }
 
 void DETAIL () {
+    /* Tidak memakan waktu */
+    /* DETAIL {input: wahana} */
 
+    return;
 }
 
 void OFFICE () {
+    /* Tidak memakan waktu */
+    /* OFFICE {input: office} */
 
+    return;
 }
 
 void PREPARE () {
+    /* Tidak memakan waktu */
+    /* PREPARE {kosongkan antrian, --> prep phase} */
 
+    return;
 }
 
 int main () {
