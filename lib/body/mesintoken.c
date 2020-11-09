@@ -1,7 +1,7 @@
 /* File: mesintoken.c */
 /* Definisi Mesin Token: Model Akuisisi Versi I */
 
-#include "mesintoken.h"
+#include "../header/mesintoken.h"
 #include <stdio.h>
 
 /* State Mesin Kata */

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "array.h"
+#include "../header/array.h"
 
 /* I.S.: A tidak terdefinisi, nbEl dan elType terdefinisi
  * F.S.: A terdefinisi

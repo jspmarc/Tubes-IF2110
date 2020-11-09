@@ -3,7 +3,7 @@
  * 13519164 Josep Marcello */
 /* *** Realisasi ABSTRACT DATA TYPE POINT *** */
 
-#include "point.h"
+#include "../header/point.h"
 #include <stdio.h>
 #include <math.h>
 

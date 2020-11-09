@@ -4,7 +4,7 @@
  * 13519164
  * 30 September 2020 */
 
-#include "mesinkata.h"
+#include "../header/mesinkata.h"
 #include <stdio.h>
 
 boolean EndKata;

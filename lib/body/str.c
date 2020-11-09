@@ -1,7 +1,7 @@
 /* File : str.c */
 /* fungsi tambahan string */
 
-#include "boolean.h"
+#include "../header/boolean.h"
 
 /* fungsi menghitung panjang karakter di string */
 int strLen(char * string) {
@@ -29,6 +29,6 @@ boolean strIsEqual(char * s1, char * s2) {
             i++;
         }
     }
-    
+
     return eq;
 }

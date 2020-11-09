@@ -6,7 +6,7 @@
 /* ******** Definisi TYPE MATRIKS dengan indeks dan elemen integer ******** */
 
 #include "boolean.h"
-#include "matriks.h"
+#include "../header/matriks.h"
 #include <stdio.h>
 
 /* ********** DEFINISI PROTOTIPE PRIMITIF ********** */

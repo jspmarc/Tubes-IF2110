@@ -1,6 +1,6 @@
 # The head
 
-Berisi definisi dan realisasi dari ADT-ADT yang digunakan
+Berisi definisi dari ADT-ADT yang digunakan
 
 - [x] Point
 - [x] Jam

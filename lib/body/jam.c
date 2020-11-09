@@ -4,7 +4,7 @@
 /* Josep Marcello
  * 13519164 */
 
-#include "jam.h"
+#include "../header/jam.h"
 #include <stdio.h>
 
 /* ***************************************************************** */

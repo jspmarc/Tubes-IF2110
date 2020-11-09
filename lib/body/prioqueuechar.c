@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "boolean.h"
-#include "prioqueuechar.h"
+#include "../header/prioqueuechar.h"
 #include <stdlib.h>
 
 /* ********* Prototype ********* */
