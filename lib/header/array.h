@@ -1,64 +1,168 @@
-/* ADT Array dinamis
- * Dengan tipe data dibebaskan*/
+#ifndef ARRAY_H
+#define ARRAY_H
 
-/* Elemen selalu berdempetan
- * Rata kiri
- * Tipe data pasti signed */
+#include "boolean.h"
 
-/* Kamus ukuran tipe data:
- * char: elSize = 1 (kode: c)
- * short: elSize = 2 (kode: s)
- * int: elSize = 4 (kode: i)
- * long: elSize = 8 (kode: l)
- * float: elSize = 4 (kode: f)
- * double: elSize = 8 (kode: d)
+/*
+ * ini adalah ADT List implementasi array
+ * digunakan untuk menyimpan ID daftar aksi beserta durasi (dalam detik)
+ * atau menyimpan ID barang dan harganya.
  */
 
-#ifndef _ARRAY_H
-#define _ARRAY_H
-
+/**
+ * Struktur data untuk elemen array
+ */
 typedef struct {
-    void *Arr;
-    unsigned char ElSize;
-    char ElType;
-    unsigned NbEl;
-} Array;
+    int id; /* ID aksi atau barang */
+    int info; /* durasi (dalam detik) atau harga barang */
+} ElType;
 
-#define Nil -1;
-#define FirstIdx 0;
-
-/* I.S.: A tidak terdefinisi, nbEl dan elType terdefinisi
- * F.S.: A terdefinisi
+/**
+ * Stuktur data array
+ *
+ * array kosong memiliki NbEl 0
+ * array tidak terdefinisi memiliki MaxEl 0
  */
-void CreateEmpty(Array *A, int NbEl, char ElType);
+typedef struct {
+    ElType *arr; /* Untuk menyimpan elemen-elemen */
+    unsigned NbEl; /* Banyak elemen "saat ini" */
+    unsigned MaxEl; /* Banyak elemen maksimum */
+} array;
 
-/* I.S.: A terdefinisi
- * F.S.: A tidak terdefinisi
+/**
+ * Prosedur membuat array kosong dan membuat array seukuran size
+ *
+ * array *A - Pointer ke array yang ingin dibuat
+ * unsigned size - banyak elemen maksimum yang dapat ditampung array
  */
-void DeleteArray(Array *A);
-
-/* Mengubah nilai elemen di array a pada index ke-idx dengan elemen yg ditunjuk *el */
-/* I.S.: A terdefinisi, mungkin kosong
- * F.S.: Nilai elemen di indeks idx pada array A adalah nilai yang ditunjuk *el
+void CreateArray(array *A, unsigned size);
+/**
+ * Prosedur menghapus array. Mengosongkan array dan membuat array menjadi
+ * tidak terdefinisi
+ *
+ * array *A - Pointer ke array yang ingin dihapus
  */
-void SetEl(Array *A, unsigned Idx, char El);
-void SetEl(Array *A, unsigned Idx, short El);
-void SetEl(Array *A, unsigned Idx, int El);
-void SetEl(Array *A, unsigned Idx, long El);
-void SetEl(Array *A, unsigned Idx, float El);
-void SetEl(Array *A, unsigned Idx, double El);
-
-/* Mengembalikan pointer void ke elemen di array A pada indeks ke-idx */
-void* GetEl(Array A, unsigned Idx);
-
-/* I.S.: Array A terdefinisi, mungkin kosong
- * F.S.: *NewEl menjadi elemen pertama *A, *A digeser ke kanan
+void DeleteArray(array *A);
+/**
+ * Prosedur untuk memperbesar ukuran (banyak elemen yang dapat ditampung) array
+ *
+ * array *A - pointer ke array yang ingin diperbesar
+ * unsigned newSize - ukuran array baru
  */
-void UnShift(Array *A, void *NewEl);
-
-/* I.S.: Array A terdefinisi
- * F.S.: Menghapus elemen pertama A lalu menaruhnya di *El, *A digeser ke kiri
+void GrowArray(array *A, unsigned newSize);
+/**
+ * Prosedur untuk mengecilkan ukuran (banyak elemen yang dapat ditampung) array
+ *
+ * array *A - pointer ke array yang ingin diperkecil
+ * unsigned newSize - ukuran array baru
  */
-void* Shift(Array *A);
+void ShrinkArray(array *A, unsigned newSize);
+
+/**
+ * Fungsi untuk menentukan array kosong atau tidak
+ *
+ * array A - Array yang ingin ditentukan kekosongannya
+ * Returns true jika A kosong, false jika A tidak kosong
+ */
+boolean IsArrEmpty(array A);
+/**
+ * Fungsi untuk menentukan array penuh atau tidak
+ *
+ * array A - Array yang ingin ditentukan kepenuhannya
+ * Returns true jika A penuh, false jika A tidak penuh
+ */
+boolean IsArrFull(array A);
+/**
+ * Fungsi untuk mencari El pada array. Fungsi akan mengembalikan
+ * indeks dari El. Jika tidak ditemukan, akan mengembalikan -1
+ *
+ * array A - array yang harusnya menyimpan El
+ * ElType El - Elemen yang dicari
+ * Returns indeks El di A
+ */
+int SearchArrEl(array A, ElType El);
+
+/**
+ * Prosedur untuk menghapus elemen pertama dari array. Prosedur ini
+ * akan mengubah properti NbEl dari array
+ *
+ * array *A - pointer ke array yang yang ingin dihapus elemen pertamanya
+ * Returns elemen yang dihapus
+ */
+ElType DelArrFirst(array *A);
+/**
+ * Prosedur untuk menghapus elemen terakhir dari array. Prosedur ini
+ * akan mengurangi properti NbEl dari array sebanyak 1. Jika array kosong, akan
+ * mengembalikan ElType berisi 0
+ *
+ * array *A - pointer ke array yang ingin dihapus elemen terakhirnya
+ * Returns elemen yang dihapus
+ */
+ElType DelArrLast(array *A);
+/**
+ * Prosedur untuk menambahkan elemen ke akhir array. Jika array penuh, akan
+ * keluar warning dan tidak dilakukan apa-apa. Prosedur ini akan mengurangi
+ * properti NbEl dari array sebanyak 1. Jika array kosong, akan mengembalikan
+ * ElType berisi 0
+ *
+ * array *A - pointer ke array yang ingin ditambahkan elemen baru
+ * ElType El - elemen yang ingin ditambahkan ke array
+ */
+void InsArrFirst(array *A, ElType X);
+/**
+ * Prosedur untuk menambahkan elemen ke awal array. Jika array penuh, akan
+ * keluar warning dan tidak dilakukan apa-apa. Prosedur ini
+ * akan menambah properti NbEl dari array sebanyak 1
+ *
+ * array *A - pointer ke array yang ingin ditambahkan elemen baru
+ * ElType El - elemen yang ingin ditambahkan ke array
+ */
+void InsArrLast(array *A, ElType X);
+
+/**
+ * Prosedur untuk menggeser semua elemen ke kiri sebanyak n kali. Akan
+ * mengurangi properti NbEl sebanyak n. Kalau n lebih besar dari jumlah elemen
+ * di array, akan dilakukan "pengosongan" array
+ *
+ * Array *A - pointer ke array yang ingin digeser
+ * unsigned n - banyak pergeseran, jika negatif akan digeser ke kanan
+ */
+void ShiftArrLeft(array *A, int n);
+/**
+ * Prosedur untuk menggeser semua elemen ke kanan sebanyak n kali. Akan
+ * melakukan padding elemen di depan. Elemen untuk padding idealnya adalah 0
+ * atau apapun yang diisi dengan hanya 0, tapi bebas ditentukan saat
+ * implementasi. Kalau n lebih kecil dari elemeen maksimum akan menambah
+ * properti NbEl sebanyak n, selain itu akan dilakukan pengisian array dengan
+ * elemen padding, sehingga NbEl-nya sama dengan MaxEl-nya.
+ *
+ * Array *A - pointer ke array yang ingin digeser
+ * unsigned n - banyak pergeseran, jika negatif akan digeser ke kiri
+ */
+void ShiftArrRight(array *A, int n);
+
+/**
+ * Fungsi untuk melakukan sorting/pengurutan
+ *
+ * array *A - pointer ke array yang ingin di-sort
+ * boolean asc - jika true, array di-sort secara ascending, jika false
+ * descending
+ */
+void SortArr(array *A, boolean asc);
+
+/**
+ * Fungsi untuk menyalin A1
+ *
+ * array A1 - array yang ingin disalin
+ * Returns array salinan A1
+ */
+array CopyArr(array A1);
+
+/**
+ * Prosedur untuk menuliskan isi array
+ *
+ * array A - array yang ingin diprint
+ */
+void PrintArr(array A);
 
 #endif
