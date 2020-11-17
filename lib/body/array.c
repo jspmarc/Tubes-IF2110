@@ -154,8 +154,27 @@ void ShiftArrRight(array *A, int n) {
 }
 
 void SortArr(array *A, boolean asc) {
-    /* Pada implementasi ini, di-sort berdasarkan id */
-    /* TODO */
+  /* Implementasi Sort dengan Insertion Sort */
+  int i, j;
+  ElType k;
+
+  i = 1;
+  while(i < A->NbEl){
+    k = (A->arr)[i];
+    j = i - 1;
+    while(
+      j >= 0 &&
+      ((A->arr)[j].info < k.info && asc) || // info Key lebih kecil, ingin ascending
+      ((A->arr[j].info > k.info && !asc)) // info Key lebih besar, ingin descending
+    ) {
+      // "geser" array ke arah key, jalan ke "awal" array
+      A->arr[j+1] = A->arr[j];
+      j--;
+    }
+    // taruh key di tempat yang seharusnya
+    A->arr[j] = k;
+    i++;
+  }
 }
 
 array CopyArr(array A1) {
@@ -164,7 +183,7 @@ array CopyArr(array A1) {
 
     CreateArray(&A2, A1.MaxEl);
     while (A2.NbEl != A1.NbEl) {
-        InsLast(&A2, A1.arr[i++]);
+        InsArrLast(&A2, A1.arr[i++]);
     }
 
     return A2;
