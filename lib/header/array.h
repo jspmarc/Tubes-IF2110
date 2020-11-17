@@ -3,6 +3,8 @@
 
 #include "boolean.h"
 
+#define PadVal 0
+
 /*
  * ini adalah ADT List implementasi array
  * digunakan untuk menyimpan ID daftar aksi beserta durasi (dalam detik)
@@ -131,7 +133,7 @@ void ShiftArrLeft(array *A, int n);
 /**
  * Prosedur untuk menggeser semua elemen ke kanan sebanyak n kali. Akan
  * melakukan padding elemen di depan. Elemen untuk padding idealnya adalah 0
- * atau apapun yang diisi dengan hanya 0, tapi bebas ditentukan saat
+ * atau apapun yang diisi dengan hanya PadVal, tapi bebas ditentukan saat
  * implementasi. Kalau n lebih kecil dari elemeen maksimum akan menambah
  * properti NbEl sebanyak n, selain itu akan dilakukan pengisian array dengan
  * elemen padding, sehingga NbEl-nya sama dengan MaxEl-nya.

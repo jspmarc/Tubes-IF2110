@@ -5,16 +5,16 @@
 
 /**
  * Fungsi untuk membuat elemen padding saat melakukan shift
- * Elemen padding adalah struct terdiri dari 2 integer bernilai 0,
- * id dan info
+ * Elemen padding adalah struct terdiri dari 2 integer bernilai val,
+ * id dan info nya
  *
  * Returns elemen padding berupa struct berisi 0
  */
-ElType MakePadding() {
+ElType MakePadding(int val) {
     ElType E;
 
-    E.id = 0;
-    E.info = 0;
+    E.id = val;
+    E.info = val;
 
     return E;
 }
@@ -88,7 +88,7 @@ int SearchArrEl(array A, ElType El) {
 }
 
 ElType DelArrFirst(array *A) {
-    ElType retVal = MakePadding();
+    ElType retVal;
     if (!IsArrEmpty(*A)) {
         retVal = A->arr[0];
         ShiftArrLeft(A, 1);
@@ -97,7 +97,7 @@ ElType DelArrFirst(array *A) {
     return retVal;
 }
 ElType DelArrLast(array *A) {
-    ElType retVal = MakePadding();
+    ElType retVal;
     if(!IsArrEmpty(*A)) {
         retVal = A->arr[A->NbEl--];
     }
@@ -144,37 +144,41 @@ void ShiftArrLeft(array *A, int n) {
 void ShiftArrRight(array *A, int n) {
     if (n > A->MaxEl) {
         for (int i = 0; i < A->MaxEl; ++i) {
-            A->arr[i] = MakePadding();
+            A->arr[i] = MakePadding(0);
         }
 
         A->NbEl = A->MaxEl;
     } else {
-        /* TODO */
+        int i, j;
+        for (i = A->NbEl-1, j = n-1; j >= 0; ++i, --j) {
+            A->arr[j] = A->arr[i];
+        }
+        for (; i > -1; A->arr[i--] = MakePadding(0));
     }
 }
 
 void SortArr(array *A, boolean asc) {
-  /* Implementasi Sort dengan Insertion Sort */
-  int i, j;
-  ElType k;
+    /* Implementasi Sort dengan Insertion Sort */
+    int i, j;
+    ElType k;
 
-  i = 1;
-  while(i < A->NbEl){
+    i = 1;
+    while(i < A->NbEl){
     k = (A->arr)[i];
     j = i - 1;
     while(
-      j >= 0 &&
-      ((A->arr)[j].info < k.info && asc) || // info Key lebih kecil, ingin ascending
-      ((A->arr[j].info > k.info && !asc)) // info Key lebih besar, ingin descending
+        j >= 0 &&
+        ((A->arr)[j].info < k.info && asc) || // info Key lebih kecil, ingin ascending
+        ((A->arr[j].info > k.info && !asc)) // info Key lebih besar, ingin descending
     ) {
-      // "geser" array ke arah key, jalan ke "awal" array
-      A->arr[j+1] = A->arr[j];
-      j--;
+        // "geser" array ke arah key, jalan ke "awal" array
+        A->arr[j+1] = A->arr[j];
+        j--;
     }
     // taruh key di tempat yang seharusnya
     A->arr[j] = k;
     i++;
-  }
+    }
 }
 
 array CopyArr(array A1) {
