@@ -10,8 +10,8 @@
  *
  * Returns elemen padding berupa struct berisi 0
  */
-ElType MakePadding(int val) {
-    ElType E;
+ArrayElType MakePadding(int val) {
+    ArrayElType E;
 
     E.id = val;
     E.info = val;
@@ -23,17 +23,17 @@ ElType MakePadding(int val) {
  * Fungsi bantuan untuk mencari kesamaan diantara dua buah struct dengan
  * data id dan info
  *
- * ElType Item1 - variabel pertama dengan tipe data ElType yang ingin dicocokan
- * ElType Item2 - variabel kedua dengan tipe data ElType yang ingin dicocokan
+ * ArrayElType Item1 - variabel pertama dengan tipe data ArrayElType yang ingin dicocokan
+ * ArrayElType Item2 - variabel kedua dengan tipe data ArrayElType yang ingin dicocokan
  */
 
-boolean SameItem(ElType Item1, ElType Item2) {
+boolean SameItem(ArrayElType Item1, ArrayElType Item2) {
     return Item1.id == Item2.id
         && Item1.info == Item2.info;
 }
 
 void CreateArray(array *A, unsigned size) {
-    A->arr = (ElType *) malloc(size * sizeof(ElType));
+    A->arr = (ArrayElType *) malloc(size * sizeof(ArrayElType));
 
     if (A->arr == NULL) { /* arr gagal dialokasikan */
         free(A->arr);
@@ -52,13 +52,13 @@ void DeleteArray(array *A) {
 }
 
 void GrowArray(array *A, unsigned newSize) {
-    A->arr = (ElType*) reallocarray(A->arr, newSize, sizeof(ElType));
+    A->arr = (ArrayElType*) reallocarray(A->arr, newSize, sizeof(ArrayElType));
     A->MaxEl = newSize;
 }
 
 void ShrinkArray(array *A, unsigned newSize) {
     if (A->NbEl <= newSize) {
-        A->arr = (ElType*) reallocarray(A->arr, newSize, sizeof(ElType));
+        A->arr = (ArrayElType*) reallocarray(A->arr, newSize, sizeof(ArrayElType));
         A->MaxEl = newSize;
     } else { /* Ukuran baru lebih kecil dari banyak elemen */
         puts("Something bad happened, please try re-running the program");
@@ -74,7 +74,7 @@ boolean IsArrFull(array A) {
     return A.NbEl == A.MaxEl;
 }
 
-int SearchArrEl(array A, ElType El) {
+int SearchArrEl(array A, ArrayElType El) {
     boolean found = false;
     int i;
 
@@ -87,8 +87,8 @@ int SearchArrEl(array A, ElType El) {
     return found ? i : -1;
 }
 
-ElType DelArrFirst(array *A) {
-    ElType retVal;
+ArrayElType DelArrFirst(array *A) {
+    ArrayElType retVal;
     if (!IsArrEmpty(*A)) {
         retVal = A->arr[0];
         ShiftArrLeft(A, 1);
@@ -96,15 +96,15 @@ ElType DelArrFirst(array *A) {
 
     return retVal;
 }
-ElType DelArrLast(array *A) {
-    ElType retVal;
+ArrayElType DelArrLast(array *A) {
+    ArrayElType retVal;
     if(!IsArrEmpty(*A)) {
         retVal = A->arr[A->NbEl--];
     }
 
     return retVal;
 }
-void InsArrFirst(array *A, ElType X) {
+void InsArrFirst(array *A, ArrayElType X) {
     if (!IsArrFull(*A)) {
         if (!IsArrEmpty(*A)) {
             ShiftArrRight(A, 1);
@@ -114,7 +114,7 @@ void InsArrFirst(array *A, ElType X) {
         puts("Array penuh");
     }
 }
-void InsArrLast(array *A, ElType X) {
+void InsArrLast(array *A, ArrayElType X) {
     if (!IsArrFull(*A)) {
         if (!IsArrEmpty(*A)) {
             A->arr[0] = X;
@@ -160,7 +160,7 @@ void ShiftArrRight(array *A, int n) {
 void SortArr(array *A, boolean asc) {
     /* Implementasi Sort dengan Insertion Sort */
     int i, j;
-    ElType k;
+    ArrayElType k;
 
     i = 1;
     while(i < A->NbEl){

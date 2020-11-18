@@ -39,11 +39,11 @@ typedef struct {
 /* F.S. Alamat P dialokasi, jika berhasil maka Info(P)=X dan
         Next(P)=Nil */
 /*      P=Nil jika alokasi gagal */
-void AlokasiElQueue(address *P, infotype X, int prio);
+void AlokasiQueue(address *P, infotype X, int prio);
 
 /* I.S. P adalah hasil alokasi, P != Nil */
 /* F.S. Alamat P didealokasi, dikembalikan ke sistem */
-void DealokasiElQueue(address  P);
+void DealokasiQueue(address  P);
 
 /* Mengirim true jika Q kosong: HEAD(Q)=Nil and TAIL(Q)=Nil */
 boolean IsQueueEmpty(Queue Q);

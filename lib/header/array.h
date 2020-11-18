@@ -17,7 +17,7 @@
 typedef struct {
     int id; /* ID aksi atau barang */
     int info; /* durasi (dalam detik) atau harga barang */
-} ElType;
+} ArrayElType;
 
 /**
  * Stuktur data array
@@ -26,7 +26,7 @@ typedef struct {
  * array tidak terdefinisi memiliki MaxEl 0
  */
 typedef struct {
-    ElType *arr; /* Untuk menyimpan elemen-elemen */
+    ArrayElType *arr; /* Untuk menyimpan elemen-elemen */
     unsigned NbEl; /* Banyak elemen "saat ini" */
     unsigned MaxEl; /* Banyak elemen maksimum */
 } array;
@@ -79,10 +79,10 @@ boolean IsArrFull(array A);
  * indeks dari El. Jika tidak ditemukan, akan mengembalikan -1
  *
  * array A - array yang harusnya menyimpan El
- * ElType El - Elemen yang dicari
+ * ArrayElType El - Elemen yang dicari
  * Returns indeks El di A
  */
-int SearchArrEl(array A, ElType El);
+int SearchArrEl(array A, ArrayElType El);
 
 /**
  * Prosedur untuk menghapus elemen pertama dari array. Prosedur ini
@@ -91,35 +91,35 @@ int SearchArrEl(array A, ElType El);
  * array *A - pointer ke array yang yang ingin dihapus elemen pertamanya
  * Returns elemen yang dihapus
  */
-ElType DelArrFirst(array *A);
+ArrayElType DelArrFirst(array *A);
 /**
  * Prosedur untuk menghapus elemen terakhir dari array. Prosedur ini
  * akan mengurangi properti NbEl dari array sebanyak 1. Jika array kosong, akan
- * mengembalikan ElType berisi 0
+ * mengembalikan ArrayElType berisi 0
  *
  * array *A - pointer ke array yang ingin dihapus elemen terakhirnya
  * Returns elemen yang dihapus
  */
-ElType DelArrLast(array *A);
+ArrayElType DelArrLast(array *A);
 /**
  * Prosedur untuk menambahkan elemen ke akhir array. Jika array penuh, akan
  * keluar warning dan tidak dilakukan apa-apa. Prosedur ini akan mengurangi
  * properti NbEl dari array sebanyak 1. Jika array kosong, akan mengembalikan
- * ElType berisi 0
+ * ArrayElType berisi 0
  *
  * array *A - pointer ke array yang ingin ditambahkan elemen baru
- * ElType El - elemen yang ingin ditambahkan ke array
+ * ArrayElType El - elemen yang ingin ditambahkan ke array
  */
-void InsArrFirst(array *A, ElType X);
+void InsArrFirst(array *A, ArrayElType X);
 /**
  * Prosedur untuk menambahkan elemen ke awal array. Jika array penuh, akan
  * keluar warning dan tidak dilakukan apa-apa. Prosedur ini
  * akan menambah properti NbEl dari array sebanyak 1
  *
  * array *A - pointer ke array yang ingin ditambahkan elemen baru
- * ElType El - elemen yang ingin ditambahkan ke array
+ * ArrayElType El - elemen yang ingin ditambahkan ke array
  */
-void InsArrLast(array *A, ElType X);
+void InsArrLast(array *A, ArrayElType X);
 
 /**
  * Prosedur untuk menggeser semua elemen ke kiri sebanyak n kali. Akan
