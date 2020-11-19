@@ -3,6 +3,7 @@
 
 #include "./boolean.h"
 #include "./listrek.h"
+#include "./resources.h"
 
 #ifndef UPGRADEWAHANA_H
 #define UPGRADEWAHANA_H
@@ -15,10 +16,9 @@ typedef struct tUpN* addrNode;
 typedef struct tUpN{
     TreeInfoType upgradeName; /* Nama upgrade */
     TreeInfoType upgradeDesc; /* Deskripsi upgrade */
-    union {
-        addrNode left; /* Leaf kiri upgrade */
-        addrNode right; /* Leaf kanan upgrade */
-    } leaf;
+    addrNode left; /* Leaf kiri upgrade */
+    addrNode right; /* Leaf kanan upgrade */
+    Resource resourceCost;
     boolean isTaken; /* upgrade sudah diambil atau belum */
 } tNode;
 
@@ -32,8 +32,8 @@ typedef addrNode BinTree;
 
 /* *** Selektor *** */
 #define Akar(P) (P)->info
-#define Left(P) (P)->left
-#define Right(P) (P)->right
+#define Left(P) (P)->leaf.left
+#define Right(P) (P)->leaf.right
 
 /* *** Konstruktor *** */
 /* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi berhasil */

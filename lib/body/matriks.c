@@ -78,81 +78,20 @@ void BacaMATRIKS (MATRIKS * M, int NB, int NK) {
 
     for (indeks i = GetFirstIdxBrs(*M); i < NB; ++i)
         for (indeks j = GetFirstIdxKol(*M); j < NK; ++j)
-            scanf("%d", &Elmt(*M, i, j));
+            scanf("%c", &Elmt(*M, i, j));
 }
 void TulisMATRIKS (MATRIKS M) {
     /* KAMUS LOKAL */
     /* ALGORITMA */
     for (indeks i = GetFirstIdxBrs(M); i < M.NBrsEff; ++i) {
         for (indeks j = GetFirstIdxKol(M); j < M.NKolEff; ++j) {
-            if (j != NKolEff(M)-1) printf("%d ", Elmt(M, i, j));
+            if (j != NKolEff(M)-1) printf("%c ", Elmt(M, i, j));
             else if (j == GetLastIdxKol(M) && i != GetLastIdxBrs(M))
-                printf("%d\n", Elmt(M, i, j));
+                printf("%c\n", Elmt(M, i, j));
             else /* j == Last Idx Kol and i == Last idx brs */
-                printf("%d", Elmt(M, i, j));
+                printf("%c", Elmt(M, i, j));
         }
     }
-}
-
-/* ********** KELOMPOK OPERASI ARITMATIKA TERHADAP TYPE ********** */
-MATRIKS TambahMATRIKS (MATRIKS M1, MATRIKS M2) {
-
-    /* KAMUS LOKAL */
-    /* ALGORITMA */
-    if (!EQSize(M1, M2)) return M1;
-
-    for (indeks i = GetFirstIdxBrs(M1); i <= GetLastIdxBrs(M1); ++i)
-        for (indeks j = GetFirstIdxKol(M1); j <= GetLastIdxKol(M1); ++j)
-            Elmt(M1, i, j) += Elmt(M2, i, j);
-
-    return M1;
-}
-MATRIKS KurangMATRIKS (MATRIKS M1, MATRIKS M2) {
-    /* KAMUS LOKAL */
-    /* ALGORITMA */
-    if (!EQSize(M1, M2))
-        return M1;
-
-    for (indeks i = GetFirstIdxBrs(M1); i <= GetLastIdxBrs(M1); ++i)
-        for (indeks j = GetFirstIdxKol(M1); j <= GetLastIdxKol(M1); ++j)
-            Elmt(M1, i, j) -= Elmt(M2, i, j);
-
-    return M1;
-}
-MATRIKS KaliMATRIKS (MATRIKS M1, MATRIKS M2) {
-    /* KAMUS LOKAL */
-    MATRIKS MRes;
-
-    /* ALGORITMA */
-    if (NBrsEff(M2) != NKolEff(M1))
-        return M1;
-
-    MakeMATRIKS(NBrsEff(M1), NKolEff(M2), &MRes);
-    for (indeks i = GetFirstIdxBrs(M1); i <= GetLastIdxBrs(M1); ++i) {
-        for (indeks j = GetFirstIdxKol(M2); j <= GetLastIdxKol(M2); ++j) {
-            Elmt(MRes, i, j) = 0;
-            for (indeks k = GetFirstIdxBrs(M1); k <= GetLastIdxBrs(M2); ++k)
-                Elmt(MRes, i, j) += Elmt(M1, i, k) * Elmt(M2, k, j);
-        }
-    }
-
-    return MRes;
-}
-MATRIKS KaliKons (MATRIKS M, MatriksElType X) {
-    /* KAMUS LOKAL */
-    /* ALGORITMA */
-    for (indeks i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); ++i)
-        for (indeks j = GetFirstIdxKol(M); j <= GetLastIdxKol(M); ++j)
-            Elmt(M, i, j) *= X;
-
-    return M;
-}
-void PKaliKons (MATRIKS * M, MatriksElType K) {
-    /* KAMUS LOKAL */
-    /* ALGORITMA */
-    for (indeks i = GetFirstIdxBrs(*M); i <= GetLastIdxBrs(*M); ++i)
-        for (indeks j = GetFirstIdxKol(*M); j <= GetLastIdxKol(*M); ++j)
-            Elmt(*M, i, j) *= K;
 }
 
 /* ********** KELOMPOK OPERASI RELASIONAL TERHADAP MATRIKS ********** */
@@ -177,7 +116,9 @@ boolean EQSize (MATRIKS M1, MATRIKS M2) {
 }
 
 /* ********** Operasi lain ********** */
-int NBElmt (MATRIKS M) {
+int NBElmt (MATRIKS M)
+/* Mengirimkan banyaknya elemen M */
+{
     /* KAMUS LOKAL */
     /* ALGORITMA */
     return NKolEff(M) * NBrsEff(M);
@@ -204,37 +145,20 @@ boolean IsSimetri (MATRIKS M) {
 
     return true;
 }
-boolean IsSatuan (MATRIKS M) {
+
+void Transpose (MATRIKS * M) {
     /* KAMUS LOKAL */
+    MatriksElType temp;
+
     /* ALGORITMA */
-    if (!IsBujurSangkar(M)) return false;
-
-    for (indeks i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); ++i) {
-        for (indeks j = GetFirstIdxKol(M); j <= GetLastIdxKol(M); ++j) {
-            if ((i == j) && (Elmt(M, i, j) != 1)) return false;
-
-            if (Elmt(M, i, j) != 0 && i != j) return false;
+    if (IsBujurSangkar(*M)) {
+        for (indeks i = GetFirstIdxBrs(*M); i <= GetLastIdxBrs(*M); ++i) {
+            for (indeks j = GetFirstIdxKol(*M);
+                    j <= GetLastIdxKol(*M) && i > j; ++j) {
+                temp = Elmt(*M, i, j);
+                Elmt(*M, i,j) = Elmt(*M, j, i);
+                Elmt(*M, j, i) = temp;
+            }
         }
     }
-
-    return true;
-}
-boolean IsSparse (MATRIKS M) {
-    /* KAMUS LOKAL */
-    int count,
-        size = NBElmt(M);
-    /* ALGORITMA */
-    count = 0;
-
-    for (indeks i = GetFirstIdxBrs(M); i <= GetLastIdxBrs(M); ++i)
-        for (indeks j = GetFirstIdxKol(M); j <= GetLastIdxKol(M); ++j)
-            count += Elmt(M, i, j) != 0;
-
-    return (count*100)/size <= 5;
-}
-MATRIKS Inverse1 (MATRIKS M) {
-    /* KAMUS LOKAL */
-    /* ALGORITMA */
-    return KaliKons(M, -1);
-
 }
