@@ -15,7 +15,7 @@ void IgnoreBlank() {
 }
 
 void STARTKATA() {
-    START();
+    START(stdin);
     IgnoreBlank();
 
     if (CC == MARK) {
@@ -45,5 +45,6 @@ void SalinKata() {
         ADV();
     }
 
+    CKata.TabKata[i] = '\0';
     CKata.Length = i;
 }

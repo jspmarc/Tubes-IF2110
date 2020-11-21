@@ -10,8 +10,8 @@ boolean EOP;
 static FILE * pita;
 static int retval;
 
-void START() {
-    pita = stdin;
+void START(FILE* f) {
+    pita = f;
     ADV();
 }
 

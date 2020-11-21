@@ -1,9 +1,9 @@
 /* File : stacklist.c */
 #include "boolean.h"
-#include "../header//stacklist.h"
+#include "../header/stacklist.h"
 #include <stdlib.h>
 
-void Alokasi (StackAddress *P, infotype X) {
+void Alokasi (StackAddress *P, StackInfoType X) {
     *P = (StackAddress) malloc(sizeof(ElmtStack));
     if (P != Nil) {
         Info(*P) = X;
@@ -21,7 +21,7 @@ boolean IsEmpty (Stack S) {
 void CreateEmpty (Stack * S) {
     Top(*S) = Nil;
 }
-void Push (Stack * S, infotype X) {
+void Push (Stack * S, StackInfoType X, unsigned char idAksi) {
     StackAddress P;
 
     Alokasi(&P, X);
@@ -31,7 +31,7 @@ void Push (Stack * S, infotype X) {
         Top(*S) = P;
     }
 }
-void Pop (Stack * S, infotype * X) {
+void Pop (Stack * S, StackInfoType * X) {
     StackAddress P;
 
     P = Top(*S);

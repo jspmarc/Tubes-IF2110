@@ -45,7 +45,7 @@ void BuyResource() {
     printf("\t-  nonlogam\n");
     printf("\t-  metaloid\n");
 
-    STARTKATA();
+    STARTKATA(stdin);
 
     copyTabKata(CKata, &qty);
     IgnoreBlank();
@@ -70,16 +70,16 @@ void BuyResource() {
     }
 }
 
-void ExecBuy(Resource *rP, actBuy aB) {
-    char* asd = aB.K.TabKata;
-    if (strIsEqual(asd, "logam")) {
-        rP->logam += aB.qty_i;
-        rP->uang -= aB.qty_i*hargaLogam;
-    } else if (strIsEqual(asd, "nonlogam")) {
-        rP->nonlogam += aB.qty_i;
-        rP->uang -= aB.qty_i*hargaNonLogam;
-    } else /*TabKata === "metaloid" */ {
-        rP->metaloid += aB.qty_i;
-        rP->uang -= aB.qty_i*hargaMetaloid;
-    }
-}
+/*void ExecBuy(Resource *rP, actBuy aB) {*/
+    /*char* asd = aB.K.TabKata;*/
+    /*if (strIsEqual(asd, "logam")) {*/
+        /*rP->logam += aB.qty_i;*/
+        /*rP->uang -= aB.qty_i*hargaLogam;*/
+    /*} else if (strIsEqual(asd, "nonlogam")) {*/
+        /*rP->nonlogam += aB.qty_i;*/
+        /*rP->uang -= aB.qty_i*hargaNonLogam;*/
+    /*} else [>TabKata === "metaloid" <] {*/
+        /*rP->metaloid += aB.qty_i;*/
+        /*rP->uang -= aB.qty_i*hargaMetaloid;*/
+    /*}*/
+/*}*/

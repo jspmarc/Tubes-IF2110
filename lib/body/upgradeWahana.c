@@ -9,18 +9,16 @@
 
 #define Nil NULL
 
-typedef struct {
-    char* upgradeName;
-    char* upgradeDesc;
-    Resource resourceCost;
-    boolean isTaken;
-} TreeInfoType;
+typedef char* TreeInfoType;
 
 typedef struct tUpN* addrNode;
 typedef struct tUpN{
+    TreeInfoType upgradeName; /* Nama upgrade */
+    TreeInfoType upgradeDesc; /* Deskripsi upgrade */
     addrNode left; /* Leaf kiri upgrade */
     addrNode right; /* Leaf kanan upgrade */
-    TreeInfoType upgradeInfo;
+    Resource resourceCost; /* Harga untuk mengambil tree */
+    boolean isTaken; /* upgrade sudah diambil atau belum */
 } tNode;
 
 typedef addrNode UpgradeTree;
