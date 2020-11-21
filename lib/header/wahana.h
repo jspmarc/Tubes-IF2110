@@ -34,33 +34,38 @@ typedef struct {
     Point ukuran; /*    (X: ukuran panjang, Y: ukuran lebar) (Point) */
     Point lokasi; /*    (X: lokasi di sepanjang sumbu X,
                         ;Y: lokasi di sepanjang sunbu Y) (Point) */
-    UpgradeTree upgrade; /* Upgrade tree/path untuk wahana (UpgradeTree) */
+    UpgradeTree upgradePath; /* Upgrade tree/path untuk wahana (UpgradeTree) */
     char* nama; /* Nama wahana (string) */
     char* deskripsi; /* Deskripsi wahana (string) */
+    boolean rideable; /* Kalo rusak ini jadi false (boolelan) */
 } Wahana;
 
 /**
  * Fungsi untuk membangun sebuah wahana.
- * Fungsi akan meminta masukan dari pengguna terkait tipe, durasi, kapasitas,
- * harga, ukuran, lokasi, nama, dan deskripsi. Upgrade path untuk wahana akan
- * ditentukan sesuai dengan tipe.
+ * Properti dan resource untuk build wahana ditentukan oleh tipe wahana.
  *
  * - *ResourcePemain (Resource) pointer ke resources yang dimiliki pemain
- * - ResourceDibutuhkan (Resource) resources yang dibutuhkan untuk membangun
+ * - idWahana (unsigned char) resources yang dibutuhkan untuk membangun
  * - durasiPembuatan (JAM) waktu yang dibutuhkan untuk membuat wahana
  */
-Wahana BuildWahana(Resource *resourcePemain, Resource resourceDibutuhkan, JAM durasiPembuatan);
+Wahana BuildWahana(Resource *resourcePemain
+                   , unsigned char idWahana
+                   , JAM durasiPembuatan);
 
 /**
  * Fungsi untuk mengupgrade sebuah wahana.
- * Fungsi akan menanyakan upgrade yg ingin diambil pemain lalu fungsi akan
- * memindahkan tree upgrade wahana ke yg dipilih pemain
+ * Upgrade akan menambah kapasitas wahana dan juga ukuran.
+ * Resource yang dibutuhkan untuk upgrade akan ditentukan oleh tipe wahana.
  *
  * - *W (Wahana) pointer ke wahana yang ingin diupgrade
  * - *ResourcePemain (Resource) pointer ke resources yang dimiliki pemain
  * - ResourceDibutuhkan (Resource) resources yang dibutuhkan untuk mengupgrade
  * - durasiPembuatan (JAM) waktu yang dibutuhkan untuk mengupgrade wahana
  */
-void UpgradeWahana(Wahana *W, Resource *resourcePemain, Resource resourceDibutuhkan, JAM durasiUpgrade);
+void UpgradeWahana(Wahana *W, Resource *resourcePemain, JAM durasiUpgrade);
+
+void Break(Wahana *W);
+
+void Repair(Wahana *W, Resource *resourcePemain, JAM durasiPerbaikan);
 
 #endif

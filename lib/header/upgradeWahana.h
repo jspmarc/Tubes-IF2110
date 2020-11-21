@@ -18,7 +18,7 @@ typedef struct tUpN{
     TreeInfoType upgradeDesc; /* Deskripsi upgrade */
     addrNode left; /* Leaf kiri upgrade */
     addrNode right; /* Leaf kanan upgrade */
-    Resource resourceCost;
+    Resource resourceCost; /* Harga untuk mengambil tree */
     boolean isTaken; /* upgrade sudah diambil atau belum */
 } tNode;
 
@@ -32,8 +32,8 @@ typedef addrNode BinTree;
 
 /* *** Selektor *** */
 #define Akar(P) (P)->info
-#define Left(P) (P)->leaf.left
-#define Right(P) (P)->leaf.right
+#define Left(P) (P)->left
+#define Right(P) (P)->right
 
 /* *** Konstruktor *** */
 /* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi berhasil */

@@ -3,15 +3,15 @@
            13519116 Jeane Mikha Erwansyah */
 
 #include <stdio.h>
-#include "./../header/boolean.h"
-#include "./../header/str.c"
-#include "./../header/prioqueuechar.h"
+#include "./../lib/header/boolean.h"
+#include "./../lib/header/str.h"
+#include "./../lib/header/prioqueuell.h"
 
 void SERVE (char * wahana) {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
     int i;
-    PrioQueueChar Q;
+    Queue Q;
 
     for (i = 0; i < len(daftar_wahana); i++) { //ini mau akses array wahana, buat ngecek bener atau nggak
         if (strIsEqual(wahana, daftar_wahana[i])) {
