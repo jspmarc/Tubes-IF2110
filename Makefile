@@ -4,7 +4,7 @@ CC = gcc
 ## flags for compiler
 CFLAGS = -g -Wall
 ## final output
-TARGET = main 
+TARGET = main_exec
 
 # Folders
 ## "temporary" output for object files
@@ -12,7 +12,7 @@ BUILD_DIR = ./build
 ## "libraries" we use, ADTs
 LIB_DIR = ./lib
 ## the main "driver", heart of the program
-MAIN_DIR = ./main
+MAIN_DIR = ./src
 
 # Processing folders
 ## get .c files
@@ -25,9 +25,10 @@ OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
 INC_DIRS := $(LIB_DIR)/header
 ## Include them in compilation time
 INC_FLAGS := $(addprefix -I, $(INC_DIRS))
+LDFLAGS = -lm
 
 ./$(TARGET): $(OBJS)
-	$(CC) $(OBJS) -o $@
+	$(CC) $(OBJS) $(LDFLAGS) -o $@
 
 $(BUILD_DIR)/%.o: %.c
 	$(MKDIR_P) $(dir $@)
