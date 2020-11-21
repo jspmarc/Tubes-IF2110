@@ -1,14 +1,11 @@
 #include "../lib/header/wahana.h"
 #include "../lib/header/stacklist.h"
-#include "./main.c"
+#include "../lib/header/globals.h"
 #include <stdio.h>
 
-Resource buildResources[] = {
-}
+Stack actionStack;
 
-void GameBuild(Resource playerResources) {
-    /** Resource dibutuhkan dan durasiPembuatan ditentukan oleh tipe wahana
-     * lalu ditentukan kapasitas dan ukuran wahana */
-    BuildWahana(&playerResources, resourceDibutuhkan, durasiPembuatan)
-    Push(&actionStack, 1);
+void Undo() {
+    void* _;
+    Pop(&actionStack, _);
 }

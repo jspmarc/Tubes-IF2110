@@ -18,8 +18,7 @@ void STARTKATA() {
     START();
     IgnoreBlank();
 
-    if (CC == MARK)
-    {
+    if (CC == MARK) {
         EndKata = true;
     } else {
         EndKata = false;

@@ -23,6 +23,7 @@
  *  - lokasi (Point) -> lokasi wahana
  *  - nama (String) -> nama wahana
  *  - deskripsi (String) -> deskripsi wahana
+ *  - rideable (boolean) -> menandakan wahana bisa digunakan atau tidak
  *
  * di spek ada: `History Upgrade Wahana` itu kayaknya bakal dihandle fungsi
  */
@@ -40,6 +41,11 @@ typedef struct {
     boolean rideable; /* Kalo rusak ini jadi false (boolelan) */
 } Wahana;
 
+typedef struct {
+    char* nama;
+    char* deskripsi;
+} actWah;
+
 /**
  * Fungsi untuk membangun sebuah wahana.
  * Properti dan resource untuk build wahana ditentukan oleh tipe wahana.
@@ -48,9 +54,9 @@ typedef struct {
  * - idWahana (unsigned char) resources yang dibutuhkan untuk membangun
  * - durasiPembuatan (JAM) waktu yang dibutuhkan untuk membuat wahana
  */
-Wahana BuildWahana(Resource *resourcePemain
-                   , unsigned char idWahana
-                   , JAM durasiPembuatan);
+void BuildWahana(unsigned char idWahana, JAM durasiPembuatan);
+
+Wahana ExecBuild();
 
 /**
  * Fungsi untuk mengupgrade sebuah wahana.
@@ -64,8 +70,24 @@ Wahana BuildWahana(Resource *resourcePemain
  */
 void UpgradeWahana(Wahana *W, Resource *resourcePemain, JAM durasiUpgrade);
 
+void ExecUpgrd();
+
+/**
+ * Fungsi untuk merusak wahana secara random
+ *
+ * - *W {Wahana} pointer ke wahana yang ingin dirusak
+ */
 void Break(Wahana *W);
 
+/**
+ * Fungsi untuk membetulkan wahana
+ *
+ * - *W {Wahana} pointer ke wahana yang ingin dibenerin
+ * - *resourcePemain {Resource} resource pemain
+ * - durasiPerbaikan {JAM} durasi perbaikan
+ */
 void Repair(Wahana *W, Resource *resourcePemain, JAM durasiPerbaikan);
+
+void WahanaDetail(Wahana *W);
 
 #endif
