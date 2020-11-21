@@ -26,7 +26,7 @@ void BacaPoint (Point * P) {
     double x, y;
 
      /*ALGORITMA*/
-    scanf("%f %f", &x, &y);
+    scanf("%lf %lf", &x, &y);
     *P = MakePoint(x, y);
 }
 void TulisPoint (Point P) {

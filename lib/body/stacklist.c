@@ -3,14 +3,14 @@
 #include "../header//stacklist.h"
 #include <stdlib.h>
 
-void Alokasi (address *P, infotype X) {
-    *P = (address) malloc(sizeof(ElmtStack));
+void Alokasi (StackAddress *P, infotype X) {
+    *P = (StackAddress) malloc(sizeof(ElmtStack));
     if (P != Nil) {
         Info(*P) = X;
         Next(*P) = Nil;
     }
 }
-void Dealokasi (address P) {
+void Dealokasi (StackAddress P) {
     free(P);
 }
 
@@ -22,7 +22,7 @@ void CreateEmpty (Stack * S) {
     Top(*S) = Nil;
 }
 void Push (Stack * S, infotype X) {
-    address P;
+    StackAddress P;
 
     Alokasi(&P, X);
 
@@ -32,7 +32,7 @@ void Push (Stack * S, infotype X) {
     }
 }
 void Pop (Stack * S, infotype * X) {
-    address P;
+    StackAddress P;
 
     P = Top(*S);
     *X = Info(P);

@@ -168,8 +168,10 @@ void SortArr(array *A, boolean asc) {
     j = i - 1;
     while(
         j >= 0 &&
+        (
         ((A->arr)[j].info < k.info && asc) || // info Key lebih kecil, ingin ascending
         ((A->arr[j].info > k.info && !asc)) // info Key lebih besar, ingin descending
+				)
     ) {
         // "geser" array ke arah key, jalan ke "awal" array
         A->arr[j+1] = A->arr[j];
