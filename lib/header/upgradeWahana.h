@@ -2,13 +2,12 @@
 /* Implementasi dengan menggunakan tree */
 
 #include "./boolean.h"
-#include "./listrek.h"
 #include "./resources.h"
 
 #ifndef UPGRADEWAHANA_H
 #define UPGRADEWAHANA_H
 
-#define Nil NULL /* konstanta Nil sesuai pada modul listrek */
+#define Nil NULL
 
 typedef char* TreeInfoType;
 
@@ -163,23 +162,6 @@ void DelDaunTerkiri(BinTree *P, TreeInfoType *X);
 /* I.S. P tidak kosong, minimum ada 1 daun bernilai X. */
 /* F.S. Semua daun bernilai X dihapus dari P. */
 void DelDaun(BinTree *P, TreeInfoType X);
-/* Jika P adalah pohon kosong, maka menghasilkan list kosong. */
-/* Jika P bukan pohon kosong: menghasilkan list yang elemennya adalah semua daun pohon P,
-   jika semua alokasi list berhasil.
-   Daun terkiri menjadi elemen pertama dari list, diikuti elemen kanannya, dst.
-   Menghasilkan list kosong jika ada alokasi yang gagal. */
-ListRek MakeListRekDaun(BinTree P);
-/* Jika P adalah pohon kosong, maka menghasilkan list kosong. */
-/* Jika P bukan pohon kosong: menghasilkan list yang elemennya adalah semua elemen pohon P
-   dengan urutan preorder, jika semua alokasi berhasil.
-   Menghasilkan list kosong jika ada alokasi yang gagal. */
-ListRek MakeListRekPreorder(BinTree P);
-/* Jika P adalah pohon kosong, maka menghasilkan list kosong. */
-/* Jika P bukan pohon kosong: menghasilkan list yang elemennya adalah semua elemen pohon P
-   yang levelnya=N, jika semua alokasi berhasil.
-   Elemen terkiri menjadi elemen pertama dari list, diikuti elemen kanannya, dst.
-   Menghasilkan list kosong jika ada alokasi yang gagal. */
-ListRek MakeListRekLevel(BinTree P, int N);
 
 /* *** Binary  Search  Tree  *** */
 /* Mengirimkan true jika ada node dari P yang bernilai X */
