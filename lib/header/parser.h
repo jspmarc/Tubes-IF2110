@@ -1,3 +1,4 @@
+#include "prioqueuell.h"
 #include "stacklist.h"
 #include "point.h"
 #include "jam.h"
@@ -18,7 +19,7 @@ durasi 7
 deskripsi dsajfgasdufgdsafhdsahfhjhjj
 ukuran (1,1)
 upgrdTree {idUpgrade {b {d {}, e {}, f {}}}, c {g {}, h {i {}}}}
-upgrade (id, nama, deskripsi, [(material, jumlah)], terpakai)
+upgrade (id, nama, deskripsi, [(material, jumlah)], terpakai).
 
 Material:
 logam 100
@@ -34,8 +35,8 @@ nama fasjdfhkdasjfdksafjsfadshjf
 duit 100
 curTime 7200
 opTIme 31400
-stackAksi [{kode aksi, kode aksi}]
-wahana [id, posisi, upgrade tree]
+stackAksi [(Id list aksi, (tuple aksi))]
+wahana [id, posisi, upgrade tree, [(Info, prio)]].
 */
 
 #define ParserMark '.'
@@ -43,7 +44,7 @@ wahana [id, posisi, upgrade tree]
 #define ElmtSeparator ','
 #define ItemSeparator ' '
 #define blank ' '
-#define PanjangToken 8
+#define PanjangToken 24
 #define TupleStart '('
 #define TupleEnd ')'
 #define TreeStart '{'
@@ -65,12 +66,12 @@ void SkipBlank();
 void ReadToken();
 void ReadString(char *str);
 int ReadInt();
-double ReadDouble();
 Material ReadMaterial();
 UpgradeType ReadUpgrade();
 UpgradeTree ReadTree();
 JAM ReadJAM();
 Point ReadPoint();
 Stack ReadStack();
+Queue ReadQueue();
 
 #endif

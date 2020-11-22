@@ -20,7 +20,6 @@
 #define BUILD 1
 #define UPGRD 2
 #define BUY 3
-#define UNDO 4
 
 /* Deklarasi StackInfoType */
 typedef void* StackInfoType;

@@ -8,13 +8,13 @@
 /* Konstanta */
 #define Nil NULL
 
-/* Deklarasi infotype */
-typedef int infotype;
+/* Deklarasi QueueInfoType */
+typedef int QueueInfoType;
 
 /* Queue dengan representasi berkait dengan pointer */
 typedef struct tElmtQueue * address;
 typedef struct tElmtQueue {
-    infotype Info;
+    QueueInfoType Info;
     int prio;
     address Next;
 } ElmtQueue;
@@ -39,7 +39,7 @@ typedef struct {
 /* F.S. Alamat P dialokasi, jika berhasil maka Info(P)=X dan
         Next(P)=Nil */
 /*      P=Nil jika alokasi gagal */
-void AlokasiQueue(address *P, infotype X, int prio);
+void AlokasiQueue(address *P, QueueInfoType X, int prio);
 
 /* I.S. P adalah hasil alokasi, P != Nil */
 /* F.S. Alamat P didealokasi, dikembalikan ke sistem */
@@ -62,13 +62,13 @@ void CreateEmptyQueue(Queue * Q);
 /* Pada dasarnya adalah proses insert last */
 /* I.S. Q mungkin kosong */
 /* F.S. X menjadi TAIL, TAIL "maju" */
-void Enqueue(Queue * Q, infotype X, int prio);
+void Enqueue(Queue * Q, QueueInfoType X, int prio);
 
 /* Proses: Menghapus X pada bagian HEAD dari Q dan mendealokasi
    elemen HEAD */
 /* Pada dasarnya operasi delete first */
 /* I.S. Q tidak mungkin kosong */
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "mundur" */
-void Dequeue(Queue * Q, infotype * X);
+void Dequeue(Queue * Q, QueueInfoType * X);
 
 #endif

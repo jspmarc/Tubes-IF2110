@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "../header/prioqueuell.h"
 
-void AlokasiElQueue (address *P, infotype X, int prio){
+void AlokasiElQueue (address *P, QueueInfoType X, int prio){
     *P = malloc(sizeof(ElmtQueue));
     if (*P != Nil) {
         Info(*P) = X;
@@ -32,7 +32,7 @@ void CreateEmptyQueue(Queue * Q) {
     Tail(*Q) = Nil;
 }
 /*** Primitif Enqueue/Dequeue ***/
-void Enqueue(Queue * Q, infotype X, int prio) {
+void Enqueue(Queue * Q, QueueInfoType X, int prio) {
     address P, Piterator;
     AlokasiElQueue(&P, X, prio);
     if (P != Nil) {
@@ -63,7 +63,7 @@ void Enqueue(Queue * Q, infotype X, int prio) {
         }
     }
 }
-void Dequeue(Queue * Q, infotype * X) {
+void Dequeue(Queue * Q, QueueInfoType * X) {
     address P = Head(*Q);
 
     *X = Info(P);

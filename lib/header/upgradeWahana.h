@@ -14,13 +14,13 @@ typedef struct {
     char* upgradeDesc;
     Resource resourceCost;
     boolean isTaken;
-} TreeInfoType;
+} UpgradeType;
 
 typedef struct tUpN* addrNode;
 typedef struct tUpN{
     addrNode left; /* Leaf kiri upgrade */
     addrNode right; /* Leaf kanan upgrade */
-    TreeInfoType upgradeInfo;
+    UpgradeType upgradeInfo;
 } tNode;
 
 typedef addrNode UpgradeTree;
@@ -39,18 +39,18 @@ typedef addrNode BinTree;
 /* *** Konstruktor *** */
 /* Menghasilkan sebuah pohon biner dari A, L, dan R, jika alokasi berhasil */
 /* Menghasilkan pohon kosong (Nil) jika alokasi gagal */
-BinTree Tree(TreeInfoType Akar, BinTree L, BinTree R);
+BinTree Tree(UpgradeType Akar, BinTree L, BinTree R);
 /* I.S. Akar, L, R terdefinisi. P Sembarang */
 /* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R
    jika alokasi berhasil. P = Nil jika alokasi gagal. */
-void MakeTree(TreeInfoType Akar, BinTree L, BinTree R, BinTree *P);
+void MakeTree(UpgradeType Akar, BinTree L, BinTree R, BinTree *P);
 
 /* Manajemen Memory */
 /* Mengirimkan addrNode hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka addrNode tidak Nil, dan misalnya menghasilkan P,
   maka Akar(P) = X, Left(P) = Nil, Right(P)=Nil */
 /* Jika alokasi gagal, mengirimkan Nil */
-addrNode AlokasiNodeTree(TreeInfoType X);
+addrNode AlokasiNodeTree(UpgradeType X);
 /* I.S. P terdefinisi */
 /* F.S. P dikembalikan ke sistem */
 /* Melakukan dealokasi/pengembalian addrNode P */
@@ -106,18 +106,18 @@ void PrintTree(BinTree P, int h);
 /* *** Operasi lain *** */
 /* I.S. P boleh kosong */
 /* F.S. P bertambah simpulnya, dengan X sebagai simpul daun terkiri */
-void AddDaunTerkiri(BinTree *P, TreeInfoType X);
+void AddDaunTerkiri(BinTree *P, UpgradeType X);
 /* I.S. P tidak kosong, X adalah salah satu daun Pohon Biner P */
 /* F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri = true), atau
         sebagai anak Kanan X (jika Kiri = false) */
 /*		Jika ada > 1 daun bernilai X, diambil daun yang paling kiri */
-void AddDaun(BinTree *P, TreeInfoType X, TreeInfoType Y, boolean Kiri);
+void AddDaun(BinTree *P, UpgradeType X, UpgradeType Y, boolean Kiri);
 /* I.S. P tidak kosong */
 /* F.S. P dihapus daun terkirinya, dan didealokasi, dengan X adalah info yang semula
         disimpan pada daun terkiri yang dihapus */
-void DelDaunTerkiri(BinTree *P, TreeInfoType *X);
+void DelDaunTerkiri(BinTree *P, UpgradeType *X);
 /* I.S. P tidak kosong, minimum ada 1 daun bernilai X. */
 /* F.S. Semua daun bernilai X dihapus dari P. */
-void DelDaun(BinTree *P, TreeInfoType X);
+void DelDaun(BinTree *P, UpgradeType X);
 
 #endif
