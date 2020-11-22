@@ -1,3 +1,7 @@
+#include "stacklist.h"
+#include "point.h"
+#include "jam.h"
+#include "upgradeWahana.h"
 #include "boolean.h"
 
 #ifndef PARSER_H
@@ -12,9 +16,9 @@ harga 100
 kapasitas 10
 durasi 7
 deskripsi dsajfgasdufgdsafhdsahfhjhjj
-ukuranX 1
-ukuranY 1
-upgrdTree {(nama, deskripsi,[(logam, 100), (nonlogam, 15)], true) {b {d {}, e {}, f {}}}, c {g {}, h {i {}}}}
+ukuran (1,1)
+upgrdTree {idUpgrade {b {d {}, e {}, f {}}}, c {g {}, h {i {}}}}
+upgrade (id, nama, deskripsi, [(material, jumlah)], terpakai)
 
 Material:
 logam 100
@@ -22,10 +26,8 @@ nonlolgam 50
 metaloid 75.
 
 Map:
-baris 5
-kolom 5
-officeX 3
-officeY 10.
+ukuran (5,5)
+office (3,10).
 
 State:
 nama fasjdfhkdasjfdksafjsfadshjf
@@ -41,20 +43,34 @@ wahana [id, posisi, upgrade tree]
 #define ElmtSeparator ','
 #define ItemSeparator ' '
 #define blank ' '
-#define PanjangBaris 100
+#define PanjangToken 8
+#define TupleStart '('
+#define TupleEnd ')'
+#define TreeStart '{'
+#define TreeEnd '}'
+#define ArrayStart '['
+#define ArrayEnd ']'
 
 typedef struct {
-    char TabBaris[PanjangBaris];
-} Baris;
+    char Token[PanjangToken];
+    int length;
+} Token;
 
 extern boolean isFileParsed;
-extern Baris CBaris;
+extern Token CToken;
 
 void StartParser();
-void ReadLine();
-void StackParser();
-void* NTupleParser();
-void ArrayParser();
-void TreeParser();
+void SkipNewLine();
+void SkipBlank();
+void ReadToken();
+void ReadString(char *str);
+int ReadInt();
+double ReadDouble();
+Material ReadMaterial();
+UpgradeType ReadUpgrade();
+UpgradeTree ReadTree();
+JAM ReadJAM();
+Point ReadPoint();
+Stack ReadStack();
 
 #endif
