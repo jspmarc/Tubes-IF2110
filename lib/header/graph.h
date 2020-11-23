@@ -1,68 +1,63 @@
-/* file : graph.h */
-/* deklarasi graph dengan representasi multi list */
+/* File : graph.h */
+/* Definisi ADT Graph */
+/* Menggunakan representai multilist */
 
-#ifndef _GRAPH_H
-#define _GRAPH_H
+#ifndef GRAPH_H
+#define GRAPH_H
 
 #include "boolean.h"
+#include "listlinier.h"
 
-#define MaxEdge 5
-#define Nil NULL
+#define NodeUndef 0
 
-typedef int Node;
-
-// Graph : list of pointer to Edge [0..MaxNode-1]
-typedef struct tEdge *address;
-
-/* Edge,
-  m : untuk cek apakah sudah dicek
-  node1 : simpul1 yang terhubung
-  node2 : simpul2 yang terhubung dengan simpul1
-  edge1 : alamat edge lain yang terhubung dengan node1
-  edge2 : alamat edge lain yang terhubung dengan node2
-*/
-typedef struct tEdge {
-    boolean m;
-    Node node1;
-    Node node2;
-    address edge1;
-    address edge2;
-} Edge;
-
-// Array [0..MaxNode-1] penyimpan address-address edge
+typedef List infotypeG;
+typedef struct tElmtGraph *addressG;
+typedef struct tElmtGraph {
+    infotypeG info;
+    addressG next;
+} ElmtGraph;
 typedef struct {
-    address edge[MaxEdge];
+    addressG FirstG;
 } Graph;
-/* Graph.edge[i] menunjuk pada edge ke-i */
-/* Graph kosong setiap elemennya nil */
 
+/* SELEKTOR */
+#define Info(P) (P)->info
+#define Next(P) (P)->next
+#define FirstG(G) (G).FirstG
 
-/* Selektor */
-#define GraphEdge(G, i) (G).edge[i]
-#define Nodes(G) 
-#define IsChecked(E) E->m
-#define Node1(E) E->node1
-#define Node2(E) E->node2
-#define Edge1(E) E->edge1
-#define Edge2(E) E->edge2
+/****************** PEMBUATAN GRAPH KOSONG ******************/
+void CreateEmptyGraph(Graph *G);
+/* I.S. G sembarang */
+/* F.S. Terbentuk graph kosong */
 
-void CreateEmptyGraph (Graph * G);
-/* Mengembalikan graph kosong */
-/* tabel [0..MaxNode-1] menunjuk ke NULL */
+/****************** TEST GRAPH KOSONG ******************/
+boolean IsEmptyGraph(Graph G);
+/* mengeluarkan true jika graph G kosong */
 
-void Connect (Graph * G, Node N1, Node N2);
-/* Menghubungkan node N1 dengan node N2 di graph G */
+/****************** Manajemen Memori ******************/
+addressG AlokasiGraph (infotypeG X);
+/* Mengirimkan address hasil alokasi sebuah elemen */
+/* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
+/* menghasilkan P, maka Info(P)=X, Next(P)=Nil */
+/* Jika alokasi gagal, mengirimkan Nil */
+void DealokasiGraph (addressG *P);
+/* I.S. P terdefinisi */
+/* F.S. P dikembalikan ke sistem */
+/* Melakukan dealokasi/pengembalian address P */
 
-void Disconnect (Graph * G, Node N1, Node N2);
-/* Memutuskan hubungan node N1 dengan node N2 di graph G */
+/*** PENAMBAHAN ELEMEN ***/
+void InsVFirstGraph (Graph *G, infotypeG X);
+/* I.S. G mungkin kosong */
+/* F.S. Melakukan alokasi sebuah elemen dan */
+/* menambahkan elemen pertama dengan list X jika alokasi berhasil */
+void InsVLastGraph(Graph *G, infotypeG X);
+/* I.S. G mungkin kosong */
+/* F.S. Melakukan alokasi sebuah elemen dan */
+/* menambahkan elemen graph di akhir: elemen terakhir yang baru */
+/* merupakan list X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
 
-address Alokasi (Node N1, Node N2);
-/* Mengalokasi address dengan nilai N */
-
-void Dealokasi (address * P);
-/* Mengembalikan address ke sistem */
-
-boolean IsConnected (Graph G, Node N1, Node N2);
-/* Menghasilkan true juga node N1 terhubung dengan N2 di graph G */
+/*** PENCARIAN ELEMEN ***/
+boolean IsNodeConnected(Graph G, infotype X1, infotype X2);
+/* true jika X1 dan X2 terhubung, false jika tidak */
 
 #endif

@@ -1,5 +1,6 @@
 #include "./stacklist.h"
 #include "./resources.h"
+#include "./point.h"
 
 /* List ID aksi: (Prep phase)
  * ID   -   Aksi
@@ -9,9 +10,12 @@
  * 4    -   Undo
  * 5    -   Execute
  * 6    -   Main (play)
- */
+*/
+
 extern Stack actionStack;
 extern Resource playerResources;
+extern Point playerPos;
+extern int crrntMapID;
 
 void init();
 
