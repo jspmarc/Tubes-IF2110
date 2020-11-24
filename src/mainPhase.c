@@ -3,23 +3,20 @@
            13519116 Jeane Mikha Erwansyah */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "./../lib/header/boolean.h"
 #include "./../lib/header/str.h"
 #include "./../lib/header/prioqueuell.h"
+#include "./../lib/header/jam.h"
+#include "./../lib/header/wahana.h"
+#include "./../lib/header/globals.h"
+#include "map.c"
 
-void SERVE (char * wahana) {
+void SERVE () {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
-    int i;
-    Queue Q;
 
-    for (i = 0; i < len(daftar_wahana); i++) { //ini mau akses array wahana, buat ngecek bener atau nggak
-        if (strIsEqual(wahana, daftar_wahana[i])) {
-            Q = daftar_antrian_wahana[i]; //masih asumsi kalau daftar antrian per wahana berbentuk array
-            Dequeue(&Q, Head(Q));
-
-        }
-    } 
+    ShowMap(crrntMapID, playerPos, Map1);
 
 }
 
@@ -51,13 +48,41 @@ void PREPARE () {
     return;
 }
 
-int main () {
+int main() {
+    Queue Q;
+    int i;
+    char * perintah;
+    boolean open = true;
+    JAM cur, close;
+
     printf("Selamat datang, pengunjung sekalian di Willy Wangky\n");
     printf("Jangan lupa untuk mengantri dan tetap menjaga jarak antar pengunjung\n");
     printf("Terima kasih\n");
 
-
+    CreateEmptyQueue(&Q);
+    for (i = 0; i < 5; i++) {
+        Enqueue(&Q, i, 3);
+        Enqueue(&Q, i+1, 1);
+        Enqueue(&Q, i+2, 2);
+    }
     
+    while (open && JNEQ(cur, close)) {
+        scanf("%c", perintah);
+
+        if (strIsEqual(perintah, "serve")) {
+            SERVE();
+        } else if (strIsEqual(perintah, "repair")) {
+            REPAIR();
+        } else if (strIsEqual(perintah, "detail")) {
+            DETAIL();
+        } else if (strIsEqual(perintah, "office")) {
+            OFFICE();
+        } else if (strIsEqual(perintah, "prepare")) {
+            PREPARE();
+        } else {
+            printf("Masukan Anda salah. Silakan ulangi lagi!");
+        }
+    }
 
     return 0;
 }
