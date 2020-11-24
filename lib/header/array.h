@@ -14,10 +14,7 @@
 /**
  * Struktur data untuk elemen array
  */
-typedef struct {
-    int id; /* ID aksi atau barang */
-    int info; /* durasi (dalam detik) atau harga barang */
-} ArrayElType;
+typedef void* ArrayElType;
 
 /**
  * Stuktur data array

@@ -5,18 +5,19 @@
 #include "boolean.h"
 #include <stdlib.h>
 
-/* Konstanta */
-#define Nil NULL
+#define KAKI_PEGEL 100
 
 /* Deklarasi QueueInfoType */
+/* Kesabaran pengunjung */
 typedef int QueueInfoType;
 
 /* Queue dengan representasi berkait dengan pointer */
 typedef struct tElmtQueue * address;
 typedef struct tElmtQueue {
-    QueueInfoType Info;
-    int prio;
-    address Next;
+    QueueInfoType kesabaran; /* Kesabaran pengunjung */
+    address Next; /* Pengunjung di belakangnya */
+    int prio; /* prioritas pengunjung */
+    unsigned int wahanaID[KAKI_PEGEL]; /* Wahana yang mau dinaikin pengunjung */
 } ElmtQueue;
 
 /* Type queue dengan ciri HEAD dan TAIL : */
@@ -31,7 +32,7 @@ typedef struct {
 #define InfoHead(Q) (Q).HEAD->Info
 #define InfoTail(Q) (Q).TAIL->Info
 #define Next(P) (P)->Next
-#define Info(P) (P)->Info
+#define Kesabaran(P) (P)->kesabaran
 #define Prio(P) (P)->prio
 
 /* Prototype manajemen memori */
@@ -70,5 +71,7 @@ void Enqueue(Queue * Q, QueueInfoType X, int prio);
 /* I.S. Q tidak mungkin kosong */
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "mundur" */
 void Dequeue(Queue * Q, QueueInfoType * X);
+
+void PelangganMarah(Queue *Q);
 
 #endif

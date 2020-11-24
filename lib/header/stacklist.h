@@ -3,6 +3,7 @@
 #define _STACKLIST_H
 
 #include "boolean.h"
+#include "jam.h"
 #include <stdlib.h>
 
 /* Konstanta */
@@ -22,14 +23,20 @@
 #define BUY 3
 
 /* Deklarasi StackInfoType */
+/* Nunjuk ke struk eksekusi aksi */
 typedef void* StackInfoType;
+
+typedef struct {
+    unsigned char idAksi;
+    JAM durasiAksi;
+} PropertiAksi;
 
 /* Stack dengan representasi berkait dengan pointer */
 typedef struct tElmtStack * StackAddress;
 typedef struct tElmtStack {
     StackInfoType Info;
-    unsigned char idAksi;
     StackAddress Next;
+    PropertiAksi prop;
 } ElmtStack;
 
 /* Struktur data stack dengan akses element Top()

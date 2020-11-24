@@ -5,9 +5,9 @@ harga 100
 kapasitas 10
 durasi 7
 deskripsi dsajfgasdufgdsafhdsahfhjhjj
-ukuranX 1
-ukuranY 1
-upgrdTree {(nama, deskripsi,[(logam, 100), (nonlogam, 15)], true) {b {d {}, e {}, f {}}}, c {g {}, h {i {}}}}
+ukuran (1,1)
+upgrdTree {idUpgrade {b {d {}, e {}, f {}}}, c {g {}, h {i {}}}}
+upgrade (id, nama, deskripsi, [(material, jumlah)], terpakai).
 
 Material:
 logam 100
@@ -15,15 +15,17 @@ nonlolgam 50
 metaloid 75.
 
 Map:
-baris 5
-kolom 5
-officeX 3
-officeY 10.
+id 1
+ukuran (5,5)
+gate1 (0,5)
+gate2 (5,0)
+antrian (1,1)
+office (3,10).
 
 State:
 nama fasjdfhkdasjfdksafjsfadshjf
 duit 100
 curTime 7200
 opTIme 31400
-stackAksi [(kode aksi, tuple aksi)]
-wahana [(id, posisi, upgrade tree)]
+stackAksi [(Id list aksi, (tuple aksi))]
+wahana [id, posisi, upgrade tree, [(Info, prio)]].

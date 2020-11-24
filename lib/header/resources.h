@@ -1,42 +1,24 @@
 #include "mesinkata.h"
+#include "jam.h"
+#include "array.h"
 
 #ifndef RESOURCES_H
 #define RESOURCES_H
 
-#define BanyakMaterial 100
+#define MAX_MATERIAL 1000
+#define JUMLAH_MATERIAL_DAPAT_DIBELI 0x7fffffff
 
-/* *** ADT resource *** */
-/* ADT untuk resource yang dibutuhkan untuk membangun & mengupgrade
- * wahana serta ADT untuk menyimpan resource yang dimiliki pemain
- */
-
+/* Spek (harga dan nama) material yg dpt dibeli */
 typedef struct {
-    char* NamaMaterial;
-    int harga;
+    unsigned char idMaterial;
+    unsigned short biayaMaterial; /* Harga material */
+    int jumlahMaterial; /* 0x7fffffff jika diakses saat akan dibeli, selain itu menggambarkan banyak material yg dimiliki */
+    char* namaMaterial; /* Nama material */
 } Material;
 
 typedef struct {
-    Material ListMaterial[BanyakMaterial]; /* List material */
-    int uang; /* duit (aku mau kaya) */
+    int uang; /* Banyak uang yang dimiliki pemain */
+    Material materials[MAX_MATERIAL]; /* Array of PlayerMaterial, id material berkoresponden dengan index, klo ga punya bikin jumlah-nya jadi 0 */
 } Resource;
-
-
-typedef struct {
-    int qty_i; /* banyak barang yang dibeli */
-    Kata K; /* barang yang dibeli */
-} actBuy;
-
-
-/**
- * Fungsi untuk membeli resource. Aksi akan ditambahkan ke stack.
- */
-void BuyResource();
-
-/**
- * Fungsi untuk mengeksekusi aksi pembelian
- *
- * *rP {Resource} - pointer ke struct resource pemain
- */
-void ExecBuy(Resource *rP, actBuy aB);
 
 #endif
