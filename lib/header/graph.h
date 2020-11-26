@@ -8,25 +8,36 @@
 #include "boolean.h"
 #include "listlinier.h"
 
-#define NodeUndef 0
+#define Nil NULL
 
-typedef List infotypeG;
-typedef struct tElmtGraph *addressG;
-typedef struct tElmtGraph {
-    infotypeG info;
-    addressG next;
-} ElmtGraph;
+typedef struct tNode * adrNode;
+typedef struct tSuccNode * adrSuccNode;
+typedef struct tNode {
+    int Id;
+    int NPred;
+    adrSuccNode Trail;
+    adrNode Next;
+} Node;
+typedef struct tSuccNode {
+    adrNode Succ;
+    adrSuccNode Next;
+} SuccNode;
+
 typedef struct {
-    addressG FirstG;
+    adrNode First;
 } Graph;
 
 /* SELEKTOR */
-#define Info(P) (P)->info
-#define Next(P) (P)->next
-#define FirstG(G) (G).FirstG
+#define First(G) (G).First
+#define Id(Pn) (Pn)->Id
+#define NPred(Pn) (Pn)->NPred
+#define Trail(Pn) (Pn)->Trail
+#define Next(Pn) (Pn)->Next
+#define Succ(Pt) (Pt)->Succ
+#define Next(Pt) (Pt)->Next
 
 /****************** PEMBUATAN GRAPH KOSONG ******************/
-void CreateEmptyGraph(Graph *G);
+void CreateGraph(int X, Graph * G);
 /* I.S. G sembarang */
 /* F.S. Terbentuk graph kosong */
 
@@ -35,29 +46,65 @@ boolean IsEmptyGraph(Graph G);
 /* mengeluarkan true jika graph G kosong */
 
 /****************** Manajemen Memori ******************/
-addressG AlokasiGraph (infotypeG X);
+adrNode AlokNode (int X);
 /* Mengirimkan address hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
 /* menghasilkan P, maka Info(P)=X, Next(P)=Nil */
 /* Jika alokasi gagal, mengirimkan Nil */
-void DealokasiGraph (addressG *P);
+void DealokNode (adrNode P);
 /* I.S. P terdefinisi */
 /* F.S. P dikembalikan ke sistem */
 /* Melakukan dealokasi/pengembalian address P */
 
-/*** PENAMBAHAN ELEMEN ***/
-void InsVFirstGraph (Graph *G, infotypeG X);
-/* I.S. G mungkin kosong */
-/* F.S. Melakukan alokasi sebuah elemen dan */
-/* menambahkan elemen pertama dengan list X jika alokasi berhasil */
-void InsVLastGraph(Graph *G, infotypeG X);
-/* I.S. G mungkin kosong */
-/* F.S. Melakukan alokasi sebuah elemen dan */
-/* menambahkan elemen graph di akhir: elemen terakhir yang baru */
-/* merupakan list X jika alokasi berhasil. Jika alokasi gagal: I.S.= F.S. */
+adrSuccNode AlokSuccNode (adrNode Pn);
+/* Mengembalikan address hasil alokasi. */
+/* Jika alokasi berhasil, maka address tidak Nil, misalnya
+    menghasilkan Pt, maka Succ(Pt)=Pn dan Next(Pt)=Nil. Jika
+    alokasi gagal, mengembalikan Nil. */
 
-/*** PENCARIAN ELEMEN ***/
-boolean IsNodeConnected(Graph G, infotype X1, infotype X2);
-/* true jika X1 dan X2 terhubung, false jika tidak */
+void DealokSuccNode (adrSuccNode P);
+/* I.S. P terdefinisi; F.S. P dikembalikan ke sistem */
+/* *** Manajemen Memory List Successor (Trailer) *** */
+
+adrNode SearchNode (Graph G, int X);
+/* Mengembalikan address simpul dengan I */
+    // adrNode P = First(G);
+
+    // while (P != Nil) && (ID(P) != X) {
+    //     P = Next(P);
+    // }
+    // return P;
+
+adrSuccNode SearchEdge (Graph G, int prec, int succ);
+/* mengembalikan address trailer yang menyimpan info busur (prec,succ)
+jika sudah ada pada graph G, Nil jika belum */
+    // adrNode P;
+    // P = SearchNode(G, prec);
+    // if (P != Nil) {
+        // adrSuccNode Pt;
+        // Pt = Trail(P);
+        // while (Next(Pt) != Nil) && ()
+    // }
+
+void InsertNode (Graph * G, int X, adrNode * Pn);
+/* { Menambahkan simpul X ke dalam graph, jika alokasi X berhasil. */
+/* I.S. G terdefinisi, X terdefinisi dan belum ada pada G. */
+/* F.S. Jika alokasi berhasil, X menjadi elemen terakhir G, Pn berisi
+    address simpul X. Jika alokasi gagal, G tetap, Pn berisi Nil */
+
+void InsertEdge (Graph * G, int prec, int succ);
+/* Menambahkan busur dari prec menuju succ ke dalam G */
+/* I.S. G, prec, succ terdefinisi. */
+/* F.S. Jika belum ada busur (prec,succ) di G, maka tambahkan busur
+(prec,succ) ke G. Jika simpul prec/succ belum ada pada G,
+tambahkan simpul tersebut dahulu. Jika sudah ada busur (prec,succ)
+di G, maka G tetap. */
+
+void DeleteNode (Graph * G, int X);
+/* Menghapus simpul X dari G */
+/* I.S. G terdefinisi, X terdefinisi dan ada pada G, jumlah simpul
+pada G lebih dari 1. */
+/* F.S. simpul X dan semua busur yang terhubung ke X dihapus
+dari G. */
 
 #endif
