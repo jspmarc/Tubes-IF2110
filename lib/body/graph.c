@@ -45,7 +45,7 @@ void InsVFirstGraph (Graph *G, infotypeG X) {
         if (IsEmptyGraph(*G)) {
             FirstG(*G) = P;
         } else {
-            Next(P) = FirstG(*G)
+            Next(P) = FirstG(*G);
             FirstG(*G) = P;
         }
     }

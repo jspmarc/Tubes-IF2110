@@ -9,17 +9,21 @@
 #ifndef WAHANA_H
 #define WAHANA_H
 
+/* Isi simpul setiap upgrade. Dapat mengubah semua properti wahana */
 typedef struct {
     unsigned char id; /* ID wahana (ID tree-nya, unik) */
     unsigned short kapasitas; /* Kapasitas wahana */
     unsigned int harga; /* Harga untuk naikin wahana */
     JAM durasi; /* Durasi naikin wahana */
     char* nama; /* Nama wahana */
+    char* description; /* Deskripsi wahana */
     Resource UpgradeCost; /* Resource yg dibutuhkan untuk upgrade */
     boolean isTaken; /* Upgrade sudah diambil */
 } UpgradeType;
 
+/* pointer ke simpul tree */
 typedef struct tUpN* addrNode;
+/* simpul pada tree */
 typedef struct tUpN{
     addrNode left; /* Leaf kiri upgrade */
     addrNode right; /* Leaf kanan upgrade */
@@ -27,9 +31,13 @@ typedef struct tUpN{
 } UpNode;
 
 
-/* Definisi PohonBiner : */
-/* Pohon Biner kosong : P = Nil */
+/* Definisi WahanaTree : */
+/* WahanaTree kosong : P = Nil */
+
+/* Menyimpan informasi tentang wahana dan upgrade-nya */
 typedef addrNode WahanaTree;
+/* nama node/daun pertama di tiap upgrade tree */
+typedef addrNode Wahana;
 
 /* *** PROTOTYPE *** */
 
@@ -46,19 +54,46 @@ WahanaTree Tree(UpgradeType Akar, WahanaTree L, WahanaTree R);
 /* F.S. Membentuk pohon P dengan Akar(P)=Akar, Left(P)=L, dan Right(P)=R
    jika alokasi berhasil. P = Nil jika alokasi gagal. */
 void MakeTree(UpgradeType Akar, WahanaTree L, WahanaTree R, WahanaTree *P);
-
-void MakeDaun(char* name, char* desc, Resource resourceCost);
+/**
+ * Fungsi untuk membuat isi simpul (akar) dari suatu node/simpul.
+ *
+ * id - id tree wahana
+ * kapasitas - kapasitas wahana di node yang ingin diisi
+ * harga - harga wahana di node yang ingin diisi
+ * durasi - durasi penggunaan wahana di node yang ingin diisi
+ * nama - nama wahan di node yang ingin diisi
+ * description - deskripsi wahana di node yang ingin diisi
+ * cost - harga untuk mengupgrade/mengambil node yang ingin diisi
+ */
+UpgradeType IsiSimpul(unsigned char id, unsigned short kapasitas, unsigned int harga,
+            JAM durasi, char* nama, char* description, Resource upCost);
 
 /* Manajemen Memory */
-/* Mengirimkan addrNode hasil alokasi sebuah elemen */
-/* Jika alokasi berhasil, maka addrNode tidak Nil, dan misalnya menghasilkan P,
-  maka Akar(P) = X, Left(P) = Nil, Right(P)=Nil */
-/* Jika alokasi gagal, mengirimkan Nil */
-addrNode AlokasiNodeTree(char* name, char* desc, Resource r);
+/**
+ * Mengirimkan addrNode hasil alokasi sebuah elemen
+ * Jika alokasi berhasil, maka addrNode tidak Nil, dan misalnya menghasilkan P,
+   maka Akar(P) = X, Left(P) = Nil, Right(P)=Nil
+ * Jika alokasi gagal, mengirimkan Nil
+ *
+ * UT - struct berisi informasi node
+ */
+addrNode AlokasiNodeTree(UpgradeType UT);
 /* I.S. P terdefinisi */
 /* F.S. P dikembalikan ke sistem */
 /* Melakukan dealokasi/pengembalian addrNode P */
 void DealokasiNodeTree(addrNode P);
+
+/* *** Predikat-Predikat Penting *** */
+/* Mengirimkan true jika P adalah pohon biner kosong */
+boolean IsTreeEmpty(WahanaTree P);
+/* Mengirimkan true jika P adalah pohon biner tidak kosong dan hanya memiliki 1 elemen */
+boolean IsTreeOneElmt(WahanaTree P);
+/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon unerleft: hanya mempunyai subpohon kiri */
+boolean IsUnerLeft(WahanaTree P);
+/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon unerright: hanya mempunyai subpohon kanan*/
+boolean IsUnerRight(WahanaTree P);
+/* Mengirimkan true jika pohon biner tidak kosong P adalah pohon biner: mempunyai subpohon kiri dan subpohon kanan*/
+boolean IsBiner(WahanaTree P);
 
 /* I.S. P boleh kosong */
 /* F.S. P bertambah simpulnya, dengan X sebagai simpul daun terkiri */
@@ -123,10 +158,51 @@ A
 */
 void PrintTree(WahanaTree P, int h);
 
+/* *** Searching *** */
+/* Mengirimkan true jika ada node dari P yang bernilai X */
+boolean SearchTree(WahanaTree P, UpgradeType X);
+
+/**
+ * Fungsi untuk memeriksa isi informasi dari antara 2 struct info node sama
+ * atau tidak
+ *
+ * UT1 - Struct informasi node pertama
+ * UT2 - struct informasi node kedua
+ */
+boolean IsInfoNodeSame(UpgradeType UT1, UpgradeType UT2);
+
+/**
+ * Fungsi untuk mempersiapkan pembangunan wahanna.
+ * Sama saja dengan mengamil upgrade ke-0 wahana.
+ * Akan memasukkan aksi ini ke stackAksi (variabel global)
+ *
+ * PARAMETER BELOM DITENTUIN
+ */
 void BuildWahana();
+/**
+ * Fungsi untuk mengeksekusi aksi build dari stackAksi (variabel global)
+ * Akan mengepop aksi ini dari stackAksi (variabel global)
+ *
+ * PARAMETER BELOM DITENTUIN
+ */
 void ExecBuild();
 
+/**
+ * Fungsi untuk mempersiapkan upgrade wahanna.
+ * Pemain harus memilih upgrade ke daun kiri atau kanan.
+ * Sama seperti build, tapi bkn mengambil simpul pertama, melainkan simpul
+ * lainnya
+ * Akan memasukkan aksi ini ke stackAksi (variabel global)
+ *
+ * PARAMETER BELOM DITENTUIN
+ */
 void UpgradeWahana();
+/**
+ * Fungsi untuk mengeksekusi aksi upgrade dari stackAksi (variabel global)
+ * Akan mengepop aksi ini dari stackAksi (variabel global)
+ *
+ * PARAMETER BELOM DITENTUIN
+ */
 void ExecUpgrade();
 
 #endif

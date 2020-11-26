@@ -122,6 +122,8 @@ Material ReadMaterial(){
     M.harga = ReadInt();
     SkipNewLine();
 
+    M.qty = 0xefffffff; /* INT_MAX */
+
     return M;
 }
 
@@ -169,6 +171,7 @@ Stack ReadStack() {
                         break;
                     case UPGRD:
                         /* UpgradeWahana */
+                        /* Isi Tuple: () */
                         break;
                     case BUY:
                         /* BuyResource */
@@ -193,9 +196,10 @@ Stack ReadStack() {
                             }
                         }
                         StackElmt = (actBuy*) malloc(sizeof(actBuy));
+                        StackElmt = &aB;
 
                         /* Ngepush variabel actBuy ke stack */
-                        Push(&RetS, (void*) StackElmt, BUY);
+                        Push(&RetS, StackElmt, BUY);
                         break;
                 }
             }
