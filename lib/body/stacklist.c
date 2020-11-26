@@ -21,21 +21,23 @@ boolean IsStackEmpty (Stack S) {
 void CreateEmptyStack (Stack * S) {
     Top(*S) = Nil;
 }
-void Push (Stack * S, StackInfoType X, unsigned char idAksi) {
+void Push (Stack * S, StackInfoType X, PropertiAksi prop) {
     StackAddress P;
 
     AlokasiStack(&P, X);
 
     if (P != Nil) {
         StackNext(P) = Top(*S);
+        Aksi(P) = prop;
         Top(*S) = P;
     }
 }
-void Pop (Stack * S, StackInfoType * X) {
+void Pop (Stack * S, StackInfoType * X, PropertiAksi *prop) {
     StackAddress P;
 
     P = Top(*S);
     *X = StackInfo(P);
+    *prop = Aksi(P);
     Top(*S) = StackNext(P);
 
     DealokasiStack(P);

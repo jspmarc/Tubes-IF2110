@@ -11,7 +11,7 @@ boolean EndKata;
 Kata CKata;
 
 void IgnoreBlank() {
-    while (CC == BLANK || CC == NEWLINE) ADV();
+    while (CC == BLANK || CC == CR || CC == LF) ADV();
 }
 
 void STARTKATA() {
@@ -31,7 +31,6 @@ void ADVKATA() {
         EndKata = true;
     } else {
         SalinKata();
-        IgnoreBlank();
     }
 }
 
@@ -40,7 +39,7 @@ void SalinKata() {
 
     i = 0;
 
-    while(i < NMax && CC != MARK && CC != BLANK && CC != NEWLINE) {
+    while(i < NMax && CC != MARK && CC != BLANK && CC != CR && CC != LF) {
         CKata.TabKata[i++] = CC;
         ADV();
     }

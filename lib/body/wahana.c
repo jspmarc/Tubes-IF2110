@@ -43,11 +43,11 @@ UpgradeType IsiSimpul(unsigned char id, unsigned short kapasitas, unsigned int h
     return simpul;
 }
 
-UpgradeType UbahIsiSimpul(WahanaTree P, unsigned char id, unsigned short kapasitas, unsigned int harga,
+UpgradeType UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, unsigned int harga,
             JAM durasi, Kata nama, Kata description, Resource upCost) {
     UpgradeType simpul;
 
-		simpul = Akar(SearchUpgrade(P, id));
+		simpul = Akar(SearchUpgrade(*P, id));
     simpul.kapasitas = kapasitas;
     simpul.harga = harga;
     simpul.durasi = durasi;
@@ -217,8 +217,15 @@ boolean IsInfoNodeSame(UpgradeType UT1, UpgradeType UT2) {
     return tf;
 }
 
-void BuildWahana() {}
-void ExecBuild();
-
-void UpgradeWahana();
-void ExecUpgrade();
+WahanaUpgradeStack UpgradeWahana(ATangibleWahana T, unsigned char id){
+	WahanaUpgradeStack s;
+	s = (WahanaUpgradeStack)malloc(sizeof(WahanaUpgradeInfo));
+	TangibleWahana(s) = T;
+	UpgradeID(s) = id;
+	return s;
+}
+void ExecUpgrade(WahanaUpgradeStack Upgrade){
+	// do stuff
+	// free WahanaUpgradeStack: avoid memory leak!
+	free(Upgrade);
+}

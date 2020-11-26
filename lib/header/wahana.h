@@ -5,6 +5,7 @@
 #include "boolean.h"
 #include "resources.h"
 #include "jam.h"
+#include "point.h"
 
 #ifndef WAHANA_H
 #define WAHANA_H
@@ -29,6 +30,28 @@ typedef struct tUpN{
     addrNode right; /* Leaf kanan upgrade */
     UpgradeType upgradeInfo; /* info dari (upgrade) wahana untuk node */
 } UpNode;
+
+/* untuk menyimpan metadata tambahan pada wahana: posisi */
+typedef struct TangibleWahana {
+	UpgradeType baseTree;
+	Point posisi;
+	unsigned char currentUpgradeID;
+} TangibleWahana;
+typedef struct TangibleWahana* ATangibleWahana;
+
+/* Definisi Selektor TangibleWahana */
+#define WahanaPoint(W) (W)->posisi
+#define TreeWahana(W) (W)->baseTree
+#define UpgradeId(W) (W)->currentUpgradeID
+
+typedef struct WahanaUpgrade{
+	ATangibleWahana Wahana;
+	unsigned char idUpgrade;
+} WahanaUpgradeInfo;
+typedef struct WahanaUpgrade* WahanaUpgradeStack;
+
+#define TangibleWahana(P) (P)->Wahana
+#define UpgradeID(P) (P)->idUpgrade
 
 
 /* Definisi WahanaTree : */
@@ -84,7 +107,7 @@ UpgradeType BuatSimpulKosong(unsigned char id);
  * description - deskripsi wahana di node yang ingin diisi
  * cost - harga untuk mengupgrade/mengambil node yang ingin diisi
  */
-UpgradeType UbahIsiSimpul(WahanaTree P, unsigned char id, unsigned short kapasitas, unsigned int harga,
+UpgradeType UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, unsigned int harga,
             JAM durasi, Kata nama, Kata description, Resource upCost);
 
 /* Manajemen Memory */
@@ -197,21 +220,21 @@ addrNode SearchUpgrade(WahanaTree P, unsigned char id);
  */
 boolean IsInfoNodeSame(UpgradeType UT1, UpgradeType UT2);
 
-/**
- * Fungsi untuk mempersiapkan pembangunan wahanna.
- * Sama saja dengan mengamil upgrade ke-0 wahana.
- * Akan memasukkan aksi ini ke stackAksi (variabel global)
- *
- * PARAMETER BELOM DITENTUIN
- */
-void BuildWahana();
-/**
- * Fungsi untuk mengeksekusi aksi build dari stackAksi (variabel global)
- * Akan mengepop aksi ini dari stackAksi (variabel global)
- *
- * PARAMETER BELOM DITENTUIN
- */
-void ExecBuild();
+///**
+// * Fungsi untuk mempersiapkan pembangunan wahanna.
+// * Sama saja dengan mengamil upgrade ke-0 wahana.
+// * Akan memasukkan aksi ini ke stackAksi (variabel global)
+// *
+// * Wahana - Tree Wahana yang akan di-bangun
+// * Loc - Lokasi pembangunan
+// */
+//ATangibleWahana BuildWahana(UpgradeType Wahana, Point Loc);
+///**
+// * Fungsi untuk mengeksekusi aksi build dari stackAksi (variabel global)
+// * Akan mengepop aksi ini dari stackAksi (variabel global)
+// *
+// * Wahana - TangibleWahana dari Stack
+// */
 
 /**
  * Fungsi untuk mempersiapkan upgrade wahanna.
@@ -220,15 +243,16 @@ void ExecBuild();
  * lainnya
  * Akan memasukkan aksi ini ke stackAksi (variabel global)
  *
- * PARAMETER BELOM DITENTUIN
+ * Upgrade - WahanaUpgradeStack
  */
-void UpgradeWahana();
+WahanaUpgradeStack UpgradeWahana(ATangibleWahana T, unsigned char id);
 /**
  * Fungsi untuk mengeksekusi aksi upgrade dari stackAksi (variabel global)
  * Akan mengepop aksi ini dari stackAksi (variabel global)
  *
- * PARAMETER BELOM DITENTUIN
+ * *Wahana - Wahana yang sudah dibangun
+ * id - ID Node tree, bagian upgrade
  */
-void ExecUpgrade();
+void ExecUpgrade(WahanaUpgradeStack Upgrade);
 
 #endif

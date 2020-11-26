@@ -10,8 +10,8 @@
 #include "../header/str.h"
 #include <stdio.h>
 
-Stack actionStack;
-Resource playerResources;
+//Stack actionStack;
+//Resource playerResources;
 array BuyableMaterials;
 
 void InitResources() {
@@ -70,7 +70,10 @@ void BuyResource() {
         qty_i = ParseTabKata(qty); /* Pengecekan input */
         a.qty = qty_i; /* Banyak pembelian */
         a.id = getMaterialId(jenis); /* nama dari barang yang dibeli (tipe data kata) */
-        if (qty_i != -1 && qty_i > 0) Push(&actionStack, &a, BUY);
+        PropertiAksi prop;
+        prop.durasiAksi = MakeJAM(0, 30, 0);
+        prop.idAksi = BUY;
+        if (qty_i != -1 && qty_i > 0) Push(&actionStack, &a, prop);
         else if (qty_i <= 0) puts("Pembelian minimal 1");
     }
 }

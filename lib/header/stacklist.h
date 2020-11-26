@@ -54,7 +54,9 @@ typedef struct {
 #define AksiTop(S) (S).TOP->idAksi
 #define StackNext(P) (P)->StackNext
 #define StackInfo(P) (P)->StackInfo
-#define Aksi(P) (P)->idAksi
+#define Aksi(P) (P)->prop
+#define IdAksi(P) (P).idAksi
+#define DurasiAksi(P) (P).durasiAksi
 
 /* Prototype manajemen memori */
 /* I.S. Sembarang */
@@ -77,12 +79,12 @@ void CreateEmptyStack (Stack * S);
 /* F.S. X menjadi TOP yang baru jika alokasi X berhasil, */
 /*      jika tidak, S tetap */
 /* Pada dasarnya adalah operasi Insert First pada list linier */
-void Push (Stack * S, StackInfoType X, unsigned char idAksi);
+void Push (Stack * S, StackInfoType X, PropertiAksi prop);
 /* Menghapus X dari Stack S. */
 /* I.S. S tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, */
 /*      elemen TOP yang lama didealokasi */
 /* Pada dasarnya adalah operasi Delete First pada list linier */
-void Pop (Stack * S, StackInfoType * X);
+void Pop (Stack * S, StackInfoType * X, PropertiAksi *prop);
 
 #endif

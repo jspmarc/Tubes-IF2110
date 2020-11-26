@@ -7,9 +7,7 @@
 #include "../lib/header/stacklist.h"
 #include "../lib/header/wahana.h"
 #include "../lib/header/globals.h"
-
-extern Stack actionStack;
-extern Resource playerResources;
+#include "map.h"
 
 void ShowMenu() {
     printf("new : New Game\n");
@@ -21,7 +19,6 @@ void ShowMenu() {
 int main () {
     /* KAMUS */
     init();
-    char main_opt[5];
 
     Kata new, load, exit;
     new.TabKata[0] = 'n';
@@ -52,7 +49,14 @@ int main () {
 		do{
 			if(IsKataSama(CKata, new)){
 				// ke new
-				printf("new\n");
+				printf("Masukkan nama: ");
+				IgnoreBlank();
+				ADVKATA();
+				SalinKataKe(&Nama);
+				printf("Selamat datang, ");
+				TulisKataKe(Nama, stdout);
+				printf("!\n");
+				ShowMap(crrntMapID, playerPos, Map1);
 			}
 			else if(IsKataSama(CKata, load)){
 				// ke load ?

@@ -39,6 +39,7 @@ typedef struct {
   Point Gate2;
   Point Office;
   Point Antrian;
+  MATRIKS *Repre;
 } MAP;
 
 #define Number(M) (M).Number
@@ -48,6 +49,7 @@ typedef struct {
 #define Gate2(M) (M).Gate2
 #define Office(M) (M).Office
 #define Antrian(M) (M).Antrian
+#define Mat(M) *((M).Repre)
 
 MAP Map1;
 MAP Map2;

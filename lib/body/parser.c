@@ -90,9 +90,6 @@ void ReadUpgrade(WahanaTree *T){
 		ReadToken();
 		SkipBlank();
 		ReadToken();
-		cos = ReadInt();
-		ReadToken();
-		SkipBlank();
 		i = 0;
 		while(CC != ArrayEnd && !isFileParsed){
 			ADV();
@@ -101,7 +98,7 @@ void ReadUpgrade(WahanaTree *T){
 			i++;
 		}
 		durJ = DetikToJAM(dur);
-		IsiSimpul(x, cap, cos, durJ, nam, des, Res);
+		UbahIsiSimpul(T, x, cap, pri, durJ, nam, des, Res);
 	}
 	SkipNewLine();
 }

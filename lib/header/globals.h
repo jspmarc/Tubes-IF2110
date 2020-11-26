@@ -26,6 +26,8 @@ extern Resource playerResources;
 extern Point playerPos;
 extern int crrntMapID;
 extern JAM currentJam;
+extern Kata Nama;
+extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of TangibleWahana. */
 
 /* Data */
 extern array DoableActions; /* Nyimpen array of struct aksi */
