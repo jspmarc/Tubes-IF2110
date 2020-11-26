@@ -4,13 +4,20 @@
  */
 
 #include "../header/resources.h"
-#include "../header/mesinkata.h"
 #include "../header/stacklist.h"
+#include "../header/mesinkata.h"
 #include "../header/globals.h"
 #include "../header/str.h"
 #include <stdio.h>
 
 Stack actionStack;
+Resource playerResources;
+array BuyableMaterials;
+
+void InitResources() {
+    CreateArray(&BuyableMaterials, BANYAK_MATERIAL);
+    /* Baca dari file */
+}
 
 void copyTabKata(Kata K1, Kata *K2) {
     int i;
@@ -27,7 +34,7 @@ int ParseTabKata(Kata K1) {
         ret *= 10;
 
         if (addval > 9 || addval < 0) {
-            printf("Bukan bilangan\n");
+            printf("Bukan bilangan atau bilangan tidak valid\n");
             ret = -1;
             break;
         } else ret += addval;
@@ -41,9 +48,9 @@ void BuyResource() {
     int qty_i;
 
     printf("Ingin membeli apa?\nList:\n");
-    printf("\t-  logam\n");
-    printf("\t-  nonlogam\n");
-    printf("\t-  metaloid\n");
+    for (int i = 0; i < BuyableMaterials.NbEl; ++i) {
+        printf("- %s\n", MaterialList[BuyableMaterials.arr[i].id].NamaMaterial);
+    }
 
     STARTKATA(stdin);
 
@@ -59,27 +66,24 @@ void BuyResource() {
         actBuy a;
 
         qty_i = ParseTabKata(qty); /* Pengecekan input */
-        a.qty_i = qty_i;
-        if (strIsEqual(jenis.TabKata, "logam")
-            || strIsEqual(jenis.TabKata, "nonlogam")
-            || strIsEqual(jenis.TabKata, "metaloid")) {
-            a.K = jenis;
-            if (qty_i != -1) Push(&actionStack, &a, BUY);
-        }
-        else printf("Bukan bahan yang bisa dibeli.\n");
+        a.qty_i = qty_i; /* Banyak pembelian */
+        a.K = jenis; /* nama dari barang yang dibeli (tipe data kata) */
+        if (qty_i != -1 && qty_i > 0) Push(&actionStack, &a, BUY);
+        else if (qty_i <= 0) puts("Pembelian minimal 1");
     }
 }
 
-/*void ExecBuy(Resource *rP, actBuy aB) {*/
-    /*char* asd = aB.K.TabKata;*/
-    /*if (strIsEqual(asd, "logam")) {*/
-        /*rP->logam += aB.qty_i;*/
-        /*rP->uang -= aB.qty_i*hargaLogam;*/
-    /*} else if (strIsEqual(asd, "nonlogam")) {*/
-        /*rP->nonlogam += aB.qty_i;*/
-        /*rP->uang -= aB.qty_i*hargaNonLogam;*/
-    /*} else [>TabKata === "metaloid" <] {*/
-        /*rP->metaloid += aB.qty_i;*/
-        /*rP->uang -= aB.qty_i*hargaMetaloid;*/
-    /*}*/
-/*}*/
+void ExecBuy(actBuy aB, JAM *curJam) {
+    char* asd = aB.K.TabKata;
+    int harga, i = 0;
+
+    /* Akan mencari indeks di mana ditemukan material dengan nama sesuai
+     * variabel `asd` pada playerResources */
+    for (; !strIsEqual(asd, playerResources.ListMaterial[i].NamaMaterial); ++i);
+    playerResources.ListMaterial[i].qty += aB.qty_i;
+
+    harga = playerResources.ListMaterial[i].harga;
+    playerResources.uang = harga * aB.qty_i;
+
+    *curJam = DetikToJAM(JAMToDetik(*curJam) - LAMA_BELI);
+}
