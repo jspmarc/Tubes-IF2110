@@ -10,6 +10,7 @@
 
 #define NMax 50
 #define BLANK ' '
+#define NEWLINE '\n'
 
 typedef struct {
     char TabKata[NMax]; /* container penyimpan kata, indeks yang dipakai [0..NMax-1] */
