@@ -36,74 +36,61 @@ typedef struct {
 #define Succ(Pt) (Pt)->Succ
 
 /****************** PEMBUATAN GRAPH KOSONG ******************/
-void CreateGraph(int X, Graph * G);
 /* I.S. G sembarang */
 /* F.S. Terbentuk graph kosong */
+void CreateGraph(int X, Graph * G);
 
 /****************** TEST GRAPH KOSONG ******************/
-boolean IsEmptyGraph(Graph G);
 /* mengeluarkan true jika graph G kosong */
+boolean IsEmptyGraph(Graph G);
 
 /****************** Manajemen Memori ******************/
-adrNode AlokNode (int X);
 /* Mengirimkan address hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
 /* menghasilkan P, maka GraphInfo(P)=X, GraphNext(P)=Nil */
 /* Jika alokasi gagal, mengirimkan Nil */
-void DealokNode (adrNode P);
+adrNode AlokNode (int X);
 /* I.S. P terdefinisi */
 /* F.S. P dikembalikan ke sistem */
 /* Melakukan dealokasi/pengembalian address P */
+void DealokNode (adrNode P);
 
-adrSuccNode AlokSuccNode (adrNode Pn);
 /* Mengembalikan address hasil alokasi. */
 /* Jika alokasi berhasil, maka address tidak Nil, misalnya
     menghasilkan Pt, maka Succ(Pt)=Pn dan GraphNext(Pt)=Nil. Jika
     alokasi gagal, mengembalikan Nil. */
+adrSuccNode AlokSuccNode (adrNode Pn);
 
-void DealokSuccNode (adrSuccNode P);
 /* I.S. P terdefinisi; F.S. P dikembalikan ke sistem */
 /* *** Manajemen Memory List Successor (Trailer) *** */
+void DealokSuccNode (adrSuccNode P);
 
-adrNode SearchNode (Graph G, int X);
 /* Mengembalikan address simpul dengan I */
-    // adrNode P = GraphFirst(G);
+adrNode SearchNode (Graph G, int X);
 
-    // while (P != Nil) && (ID(P) != X) {
-    //     P = GraphNext(P);
-    // }
-    // return P;
-
-adrSuccNode SearchEdge (Graph G, int prec, int succ);
 /* mengembalikan address trailer yang menyimpan info busur (prec,succ)
 jika sudah ada pada graph G, Nil jika belum */
-    // adrNode P;
-    // P = SearchNode(G, prec);
-    // if (P != Nil) {
-        // adrSuccNode Pt;
-        // Pt = Trail(P);
-        // while (GraphNext(Pt) != Nil) && ()
-    // }
+adrSuccNode SearchEdge (Graph G, int prec, int succ);
 
-void InsertNode (Graph * G, int X, adrNode * Pn);
 /* { Menambahkan simpul X ke dalam graph, jika alokasi X berhasil. */
 /* I.S. G terdefinisi, X terdefinisi dan belum ada pada G. */
 /* F.S. Jika alokasi berhasil, X menjadi elemen terakhir G, Pn berisi
     address simpul X. Jika alokasi gagal, G tetap, Pn berisi Nil */
+void InsertNode (Graph * G, int X, adrNode * Pn);
 
-void InsertEdge (Graph * G, int prec, int succ);
 /* Menambahkan busur dari prec menuju succ ke dalam G */
 /* I.S. G, prec, succ terdefinisi. */
 /* F.S. Jika belum ada busur (prec,succ) di G, maka tambahkan busur
 (prec,succ) ke G. Jika simpul prec/succ belum ada pada G,
 tambahkan simpul tersebut dahulu. Jika sudah ada busur (prec,succ)
 di G, maka G tetap. */
+void InsertEdge (Graph * G, int prec, int succ);
 
-void DeleteNode (Graph * G, int X);
 /* Menghapus simpul X dari G */
 /* I.S. G terdefinisi, X terdefinisi dan ada pada G, jumlah simpul
 pada G lebih dari 1. */
 /* F.S. simpul X dan semua busur yang terhubung ke X dihapus
 dari G. */
+void DeleteNode (Graph * G, int X);
 
 #endif

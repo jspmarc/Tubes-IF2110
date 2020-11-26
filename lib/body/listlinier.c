@@ -77,10 +77,10 @@ void InsVLast (LL *L, infotype X) {
     addressLL P;
 
     P = AlokasiLL(X);
-    if (P != Nil) InsertLast(L, P);
+    if (P != Nil) InsertLLLast(L, P);
 }
 
-void DelVFirst (LL *L, infotype *X) {
+void DelLLVFirst (LL *L, infotype *X) {
     addressLL P;
 
     DelLLFirst(L, &P);
@@ -88,25 +88,25 @@ void DelVFirst (LL *L, infotype *X) {
     Dealokasi(&P);
 }
 
-void DelVLast (LL *L, infotype *X) {
+void DelLLVLast (LL *L, infotype *X) {
     addressLL P;
 
-    DelLast(L, &P);
+    DelLLLast(L, &P);
     *X = Info(P);
     Dealokasi(&P);
 }
 
-void InsertFirst (LL *L, addressLL P) {
+void InsertLLFirst (LL *L, addressLL P) {
     LLNext(P) = LLFirst(*L);
     LLFirst(*L) = P;
 }
 
-void InsertAfter (LL *L, addressLL P, addressLL Prec) {
+void InsertLLAfter (LL *L, addressLL P, addressLL Prec) {
     LLNext(P) = LLNext(Prec);
     LLNext(Prec) = P;
 }
 
-void InsertLast (LL *L, addressLL P) {
+void InsertLLLast (LL *L, addressLL P) {
     addressLL curNode;
 
     if (IsEmpty(*L)) InsertLLFirst(L, P);
@@ -118,7 +118,7 @@ void InsertLast (LL *L, addressLL P) {
     }
 }
 
-void DelFirst (LL *L, addressLL *P) {
+void DelLLFirst (LL *L, addressLL *P) {
     *P = LLFirst(*L);
     LLFirst(*L) = LLNext(*P);
 }
@@ -145,7 +145,7 @@ void DelP (LL *L, infotype X)
     }
 }
 
-void DelLast (LL *L, addressLL *P) {
+void DelLLLast (LL *L, addressLL *P) {
     addressLL V, beforeV;
 
     V = LLFirst(*L);
@@ -246,12 +246,12 @@ void DelAll (LL *L) {
 
     for (addressLL P = LLFirst(*L); LLNext(P) != Nil;) {
         addressLL tempP;
-        DelLast(L, &tempP);
+        DelLLLast(L, &tempP);
         Dealokasi(&tempP);
     }
 
     /* P ada di node terakhir */
-    DelVLLFirst(L, &_);
+    DelLLVFirst(L, &_);
 }
 
 void InversLL (LL *L) {
@@ -259,14 +259,14 @@ void InversLL (LL *L) {
     int Q;
 
     if (!IsEmpty(*L)) {
-        DelLast(L, &tempP);
+        DelLLLast(L, &tempP);
         InsertLLFirst(L, tempP);
         P = tempP;
 
         Q = NbElmt(*L)-1;
         while(Q--) {
-            DelLast(L, &tempP);
-            InsertAfter(L, tempP, P);
+            DelLLLast(L, &tempP);
+            InsertLLAfter(L, tempP, P);
             P = tempP;
         }
     }
@@ -386,13 +386,13 @@ void PecahLL (LL *L1, LL *L2, LL L){
     CreateEmpty(L1);
     P = LLFirst(L);
     while(i < count){
-        InsertLast(L1, AlokasiLL(Info(P)));
+        InsertLLLast(L1, AlokasiLL(Info(P)));
         P = LLNext(P);
         i++;
     }
     CreateEmpty(L2);
     while(P != Nil){
-        InsertLast(L2, AlokasiLL(Info(P)));
+        InsertLLLast(L2, AlokasiLL(Info(P)));
         P = LLNext(P);
     }
 }

@@ -5,243 +5,157 @@
 #include "../header/graph.h"
 #include <stdlib.h>
 
-// #define Nil NULL
-
-// typedef struct tNode * adrNode;
-// typedef struct tSuccNode * adrSuccNode;
-// typedef struct tNode {
-//     int Id;
-//     int NPred;
-//     adrSuccNode Trail;
-//     adrNode Next;
-// } Node;
-// typedef struct tSuccNode {
-//     adrNode Succ;
-//     adrSuccNode Next;
-// } SuccNode;
-
-// typedef struct {
-//     adrNode First;
-// } Graph;
-
-/* SELEKTOR */
-// #define GraphFirst(G) (G).First
-// #define Id(Pn) (Pn)->Id
-// #define NPred(Pn) (Pn)->NPred
-// #define Trail(Pn) (Pn)->Trail
-// #define GraphNext(Pn) (Pn)->Next
-// #define Succ(Pt) (Pt)->Succ
-// #define GraphNext(Pt) (Pt)->Next
-
-/****************** PEMBUATAN GRAPH KOSONG ******************/
 void CreateGraph(int X, Graph * G) {
-    GraphFirst(*G) = Nil;
+  GraphFirst(*G) = Nil;
 }
-/* I.S. G sembarang */
-/* F.S. Terbentuk graph kosong */
 
-/****************** Manajemen Memori ******************/
 adrNode AlokNode (int X) {
-    /* KAMUS */
-    adrNode P;
+  /* KAMUS */
+  adrNode P;
 
-    /* ALGORITMA */
-    P = (adrNode) malloc (sizeof(Node));
-    if (P != Nil) {
-        Id(P) = X;
-        NPred(P) = 0;
-        Trail(P) = Nil;
-        GraphNext(P) = Nil;
-    }
-    return P;
+  /* ALGORITMA */
+  P = (adrNode) malloc (sizeof(Node));
+  if (P != Nil) {
+    Id(P) = X;
+    NPred(P) = 0;
+    Trail(P) = Nil;
+    GraphNext(P) = Nil;
+  }
+  return P;
 }
-/* Mengirimkan address hasil alokasi sebuah elemen */
-/* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
-/* menghasilkan P, maka Info(P)=X, GraphNext(P)=Nil */
-/* Jika alokasi gagal, mengirimkan Nil */
-
 
 void DealokNode (adrNode P) {
-    free(P);
+  free(P);
 }
 /* I.S. P terdefinisi */
 /* F.S. P dikembalikan ke sistem */
 /* Melakukan dealokasi/pengembalian address P */
 
 adrSuccNode AlokSuccNode (adrNode Pn) {
-    /* KAMUS */
-    adrSuccNode P;
+  /* KAMUS */
+  adrSuccNode P;
 
-    /* ALGORITMA */
-    P = (adrSuccNode) malloc(sizeof(SuccNode));
-    if (P != Nil) {
-        Succ(P) = Pn;
-        GraphNext(P) = Nil;
-    }
-    return P;
+  /* ALGORITMA */
+  P = (adrSuccNode) malloc(sizeof(SuccNode));
+  if (P != Nil) {
+    Succ(P) = Pn;
+    GraphNext(P) = Nil;
+  }
+  return P;
 }
 /* Mengembalikan address hasil alokasi. */
 /* Jika alokasi berhasil, maka address tidak Nil, misalnya
-    menghasilkan Pt, maka Succ(Pt)=Pn dan GraphNext(Pt)=Nil. Jika
-    alokasi gagal, mengembalikan Nil. */
+  menghasilkan Pt, maka Succ(Pt)=Pn dan GraphNext(Pt)=Nil. Jika
+  alokasi gagal, mengembalikan Nil. */
 
 void DealokSuccNode (adrSuccNode P) {
-    free(P);
+  free(P);
 }
 /* I.S. P terdefinisi; F.S. P dikembalikan ke sistem */
 /* *** Manajemen Memory List Successor (Trailer) *** */
 
 adrNode SearchNode (Graph G, int X) {
 /* Mengembalikan address simpul dengan I */
-    /* KAMUS */
-    adrNode P = GraphFirst(G);
+  /* KAMUS */
+  adrNode P = GraphFirst(G);
 
-    /* ALGORITMA */
-    while ((P != Nil) && (Id(P) != X)) {
-        P = GraphNext(P);
-    }
-    return P;
+  /* ALGORITMA */
+  while ((P != Nil) && (Id(P) != X)) {
+    P = GraphNext(P);
+  }
+  return P;
 }
 
 adrSuccNode SearchEdge (Graph G, int prec, int succ) {
 /* mengembalikan address trailer yang menyimpan info busur (prec,succ)
 jika sudah ada pada graph G, Nil jika belum */
-    /* KAMUS */
-    adrNode P;
-    adrSuccNode Pt;
+  /* KAMUS */
+  adrNode P;
+  adrSuccNode Pt;
 
-    /* ALGORITMA */
-    P = SearchNode(G, prec);
-    if (P != Nil) {
-        Pt = Trail(P);
-        while ((Pt != Nil) && (Id(Succ(Pt)) != succ)) {
-            Pt = GraphNext(Pt);
-        }
-        return Pt;
-    } else {
-        return Nil;
+  /* ALGORITMA */
+  P = SearchNode(G, prec);
+  while(P != Nil && Id(P) != prec) P = GraphNext(P);
+  if(P != Nil){
+    // Ada node dengan ID prec di graf
+    // cari successor dengan id succ
+    Pt = Trail(P);
+    P = Succ(Pt);
+    while(Pt != Nil && Id(P) != succ){
+      Pt = GraphNext(Pt);
+      P = Succ(Pt);
     }
+  }
+  // Pt pasti menyimpan info (prec, succ), atau Nil.
+  return Pt;
 }
 
 void InsertNode (Graph * G, int X, adrNode * Pn) {
-    adrNode P;
-    adrNode CrrntElmt;
+  adrNode P;
+  adrNode CrrntElmt;
 
-    CrrntElmt = GraphFirst(*G);
-    while (GraphNext(CrrntElmt) != Nil) {
-        CrrntElmt = GraphNext(CrrntElmt);
-    }
+  CrrntElmt = GraphFirst(*G);
+  while (GraphNext(CrrntElmt) != Nil) {
+    CrrntElmt = GraphNext(CrrntElmt);
+  }
 
-    P = AlokNode(X);
-    if (P != Nil) {
-        GraphNext(CrrntElmt) = P;
-    }
+  P = AlokNode(X);
+  GraphNext(CrrntElmt) = P;
 
-    *Pn = P;
+  *Pn = P;
 }
-/* Menambahkan simpul X ke dalam graph, jika alokasi X berhasil. */
-/* I.S. G terdefinisi, X terdefinisi dan belum ada pada G. */
-/* F.S. Jika alokasi berhasil, X menjadi elemen terakhir G, Pn berisi
-    address simpul X. Jika alokasi gagal, G tetap, Pn berisi Nil */
 
 void InsertEdge (Graph * G, int prec, int succ) {
-    adrSuccNode P1, P2, P3, P4;
-    adrSuccNode NodeSuccBaru;
-    adrNode NodeBaru, NodeBaruPrec, NodeBaruSucc;
+  adrNode NP, NS;
+  adrSuccNode Trail;
+  // Tambah dulu prec dan succ kalau belum ada
+  NP = SearchNode(*G, prec);
+  if(NP == Nil) InsertNode(G, prec, &NP);
+  NS = SearchNode(*G, succ);
+  if(NS) InsertNode(G, prec, &NS);
 
-    /* Kondisi : Edge prec,succ sudah ada */
-    // Nothing
-    /* Kondisi : Edge prec,succ belum ada */
-    if (SearchEdge(*G, prec, succ) == Nil) {
-        P1 = SearchNode(*G, prec);
-        P2 = SearchNode(*G, prec);
-        /* Kondisi : Node prec dan succ ada */
-        if ((P1 != Nil) && (P2 != Nil)) {
-            if (Trail(P1) != Nil) {
-                P1 = Trail(P1);
-                while (GraphNext(P1) != Nil) {
-                    P1 = GraphNext(P1);
-                }
-                NodeBaru = AlokSuccNode(P2);
-                if (NodeSuccBaru != Nil) {
-                    GraphNext(P1) = NodeSuccBaru;
-                }
-            }
-        }
-        /* Kondisi : Node prec ada, succ belum */
-        else if ((P1 != Nil) && (P2 == Nil)) {
-            P3 = GraphFirst(*G);
-            while (GraphNext(P3) != Nil) {
-                P3 = GraphNext(P3);
-            }
-            NodeBaru = AlokNode(succ);
-            if (NodeBaru != Nil) {
-                GraphNext(P3) = NodeBaru;
-                P4 = Trail(P1);
-                while (GraphNext(P4) != Nil) {
-                    P4 = GraphNext(P4);
-                }
-                NodeSuccBaru = AlokNode(NodeBaru);
-                if (NodeSuccBaru != Nil) {
-                    GraphNext(P4) = NodeSuccBaru;
-                }
-            }
-        }
-        /* Kondisi : Node prec belum ada, succ ada */
-        else if ((P1 == Nil) && (P2 != Nil)) {
-            P3 = GraphFirst(*G);
-            while (GraphNext(P3) != Nil) {
-                P3 = GraphNext(P3);
-            }
-            NodeBaru = AlokNode(prec);
-            if (NodeBaru != Nil) {
-                GraphNext(P3) = NodeBaru;
-                NodeSuccBaru = AlokSuccNode(succ);
-                if (NodeSuccBaru != Nil) {
-                    Trail(P3) = NodeSuccBaru;
-                }
-            }
-        }
-        /* Kondisi : Node prec dan succ belum ada */
-        else {
-            P3 = GraphFirst(*G);
-            while (GraphNext(P3) != Nil) {
-                P3 = GraphNext(P3);
-            }
-            NodeBaruPrec = AlokNode(prec);
-            if (NodeBaruPrec != Nil) {
-                GraphNext(P3) = NodeBaruPrec;
-                NodeBaruSucc = AlokNode(succ);
-                if (NodeBaruSucc != Nil) {
-                    GraphNext(NodeBaruPrec) = NodeBaruSucc;
-                    NodeSuccBaru = AlokSuccNode(NodeBaruSucc);
-                    if (NodeSuccBaru != Nil) {
-                        Trail(NodeBaruPrec) = NodeSuccBaru;
-                    }
-                }
-            }
-        }
+  // Baru tambah edgenya, kalau belum ada
+  if(SearchEdge(*G, prec, succ) == Nil){
+    Trail = Trail(NP);
+    if(Trail == Nil) Trail(NP) = AlokSuccNode(NS);
+    else{
+      while(GraphNext(Trail) != Nil) Trail = GraphNext(Trail);
+      GraphNext(Trail) = AlokSuccNode(NS);
     }
+    NPred(NS)++; // Tambah jumlah predecessor dari successor node
+  }
 }
-/* Menambahkan busur dari prec menuju succ ke dalam G */
-/* I.S. G, prec, succ terdefinisi. */
-/* F.S. Jika belum ada busur (prec,succ) di G, maka tambahkan busur
-(prec,succ) ke G. Jika simpul prec/succ belum ada pada G,
-tambahkan simpul tersebut dahulu. Jika sudah ada busur (prec,succ)
-di G, maka G tetap. */
 
 void DeleteNode (Graph * G, int X) {
-    adrNode P;
-    
-    P = SearchNode(*G, X);
-    GraphNext(P) = Nil;
-    Trail(P) = Nil;
-    DealokNode(P);
-}
-
-/*** PENCARIAN ELEMEN ***/
-boolean IsNodeConnected(Graph G, infotype X1, infotype X2) {
-	return true;
+  adrNode P, Q, T;
+  adrSuccNode R, S;
+  
+  P = SearchNode(*G, X);
+  Q = GraphFirst(*G);
+  while(Q != Nil){
+    // Cari semua kemunculan edge Q, P
+    R = SearchEdge(*G, Id(Q), X);
+    //kalau ada, hapus
+    if(R != Nil){
+      S = Trail(Q);
+      if(S == R) Trail(Q) = GraphNext(S);
+      else{
+        while(GraphNext(S) != R) S = GraphNext(S);
+        GraphNext(S) = GraphNext(R);
+      }
+      DealokSuccNode(R);
+    }
+  }
+  // baru hapus node P
+  T = GraphFirst(*G);
+  if(T == P) GraphFirst(*G) = GraphNext(T);
+  else{
+    while(GraphNext(T) != P) T = GraphNext(P);
+    GraphNext(T) = GraphNext(P);
+  }
+  GraphNext(P) = Nil;
+  Trail(P) = Nil;
+  DealokNode(P);
 }
 /* Menghapus simpul X dari G */
 /* I.S. G terdefinisi, X terdefinisi dan ada pada G, jumlah simpul

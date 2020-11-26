@@ -25,7 +25,7 @@ typedef struct {
 /* Setiap elemen dengan addressLL P dapat diacu Info(P), LLNext(P) */
 /* Elemen terakhir list : jika addressLLnya Last, maka LLNext(Last)=Nil */
 #define Info(P) (P)->info
-#define LLNext(P) (P)->Next
+#define LLNext(P) (P)->next
 #define LLFirst(L) ((L).First)
 
 /* PROTOTYPE */
@@ -86,47 +86,47 @@ void InsVLast (LL *L, infotype X);
 /* I.S. LL L tidak kosong  */
 /* F.S. Elemen pertama list dihapus: nilai info disimpan pada X */
 /*      dan alamat elemen pertama di-dealokasi */
-void DelVFirst (LL *L, infotype *X);
+void DelLLVFirst (LL *L, infotype *X);
 /* I.S. list tidak kosong */
 /* F.S. Elemen terakhir list dihapus: nilai info disimpan pada X */
 /*      dan alamat elemen terakhir di-dealokasi */
-void DelVLast (LL *L, infotype *X);
+void DelLLVLast (LL *L, infotype *X);
 
 /****************** PRIMITIF BERDASARKAN ALAMAT ******************/
 /*** PENAMBAHAN ELEMEN BERDASARKAN ALAMAT ***/
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. Menambahkan elemen ber-addressLL P sebagai elemen pertama */
-void InsertFirst (LL *L, addressLL P);
+void InsertLLFirst (LL *L, addressLL P);
 /* I.S. Prec pastilah elemen list dan bukan elemen terakhir, */
 /*      P sudah dialokasi  */
-/* F.S. Insert P sebagai elemen sesudah elemen beralamat Prec */
-void InsertAfter (LL *L, addressLL P, addressLL Prec);
+/* F.S. InsertLL P sebagai elemen sesudah elemen beralamat Prec */
+void InsertLLAfter (LL *L, addressLL P, addressLL Prec);
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. P ditambahkan sebagai elemen terakhir yang baru */
-void InsertLast (LL *L, addressLL P);
+void InsertLLLast (LL *L, addressLL P);
 
 /*** PENGHAPUSAN SEBUAH ELEMEN ***/
 /* I.S. LL tidak kosong */
 /* F.S. P adalah alamat elemen pertama list sebelum penghapusan */
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */
 /* First element yg baru adalah suksesor elemen pertama yang lama */
-void DelFirst (LL *L, addressLL *P);
+void DelLLFirst (LL *L, addressLL *P);
 /* I.S. Sembarang */
 /* F.S. Jika ada elemen list beraddressLL P, dengan info(P)=X  */
 /* Maka P dihapus dari list dan di-dealokasi */
 /* Jika tidak ada elemen list dengan info(P)=X, maka list tetap */
 /* LL mungkin menjadi kosong karena penghapusan */
-void DelP (LL *L, infotype X);
+void DelLLP (LL *L, infotype X);
 /* I.S. LL tidak kosong */
 /* F.S. P adalah alamat elemen terakhir list sebelum penghapusan  */
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */
 /* Last element baru adalah predesesor elemen terakhir yg lama, */
 /* jika ada */
-void DelLast (LL *L, addressLL *P);
+void DelLLLast (LL *L, addressLL *P);
 /* I.S. LL tidak kosong. Prec adalah anggota list  */
 /* F.S. Menghapus LLNext(Prec): */
 /*      Pdel adalah alamat elemen list yang dihapus  */
-void DelAfter (LL *L, addressLL *Pdel, addressLL Prec);
+void DelLLAfter (LL *L, addressLL *Pdel, addressLL Prec);
 
 /****************** PROSES SEMUA ELEMEN LIST ******************/
 /* I.S. LL mungkin kosong */
@@ -151,8 +151,8 @@ addressLL AdrMin (LL L);
 float Average (LL L);
 
 /****************** PROSES TERHADAP LIST ******************/
-/* Delete semua elemen list dan alamat elemen di-dealokasi */
-void DelAll (LL *L);
+/* DelLLete semua elemen list dan alamat elemen di-dealokasi */
+void DelLLAll (LL *L);
 
 /* I.S. sembarang. */
 /* F.S. elemen list dibalik : */
