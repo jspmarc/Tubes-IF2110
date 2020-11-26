@@ -48,3 +48,25 @@ void SalinKata() {
     CKata.TabKata[i] = '\0';
     CKata.Length = i;
 }
+
+void SalinKataKe(Kata *K1){
+	int i;
+
+	for(i = 0; i < CKata.Length; i++){
+		K1->TabKata[i] = CKata.TabKata[i];
+	}
+	K1->Length = CKata.Length;
+}
+
+boolean IsKataSama(Kata K1, Kata K2){
+	int i;
+	boolean sama;
+
+	i = 0;
+	sama = K1.Length == K2.Length;
+	while(sama && i < K1.Length){
+		sama = K1.TabKata[i] == K2.TabKata[i];
+		i++;
+	}
+	return sama;
+}

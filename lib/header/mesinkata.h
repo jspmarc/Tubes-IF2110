@@ -45,4 +45,10 @@ void ADVKATA();
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 void SalinKata();
 
+/* Menyalin kata dari CKata ke K1 */
+void SalinKataKe(Kata *K1);
+
+/* Predikat: Mengecek apakah K1 dan K2 mengandung kata yang sama */
+boolean IsKataSama(Kata K1, Kata K2);
+
 #endif
