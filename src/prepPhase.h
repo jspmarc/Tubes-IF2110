@@ -3,8 +3,9 @@
 #include "../lib/header/globals.h"
 #include <stdio.h>
 
-void Undo() {
-    void* t;
-    t = NULL;
-    Pop(&actionStack, t);
-}
+#ifndef PREPPHASE_H
+#define PREPPHASE_H
+extern Stack actionStack;
+
+void Undo();
+#endif

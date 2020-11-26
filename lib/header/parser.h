@@ -2,7 +2,7 @@
 #include "stacklist.h"
 #include "point.h"
 #include "jam.h"
-#include "upgradeWahana.h"
+#include "wahana.h"
 #include "boolean.h"
 
 #ifndef PARSER_H
@@ -64,11 +64,11 @@ void StartParser();
 void SkipNewLine();
 void SkipBlank();
 void ReadToken();
-void ReadString(char *str);
+void ReadKata(Kata *str);
 int ReadInt();
 Material ReadMaterial();
-UpgradeType ReadUpgrade();
-UpgradeTree ReadTree();
+void ReadUpgrade(WahanaTree *T);
+WahanaTree ReadTree();
 JAM ReadJAM();
 Point ReadPoint();
 Stack ReadStack();

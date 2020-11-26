@@ -1,11 +1,11 @@
 /* File : mmap.c */
 /* File untuk debug(?) ADT dan fungsi map di map.c */
 
-#include "map.c"
+#include "map.h"
 #include <stdio.h>
 
-int main () {
-    StartMap();
+int _main () {
+    //StartMap();
 
     return 0;
 }

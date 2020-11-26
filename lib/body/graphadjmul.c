@@ -10,10 +10,10 @@
 
 // typedef int Node;
 
-// Graph : list of pointer to Edge [0..MaxNode-1]
+// GraphAdjMul : list of pointer to Edge [0..MaxNode-1]
 // typedef struct {
 //     address edge[MaxNode];
-// } Graph;
+// } GraphAdjMul;
 
 // typedef struct tNode *address;
 // typedef struct tNode {
@@ -26,7 +26,7 @@
 
 
 /* Selektor */
-// #define GraphEdge(G, i) (G).edge[i]
+// #define GraphAdjMulEdge(G, i) (G).edge[i]
 // #define Nodes(G)
 // #define IsChecked(E) (E).m
 // #define Node1(E) (E).node1
@@ -34,27 +34,27 @@
 // #define Edge1(E) (E).edge1
 // #define Edge2(E) (E).edge2
 
-void CreateEmptyGraph (Graph * G) {
+void CreateEmptyGraphAdjMul (GraphAdjMul * G) {
 /* Mengembalikan graph kosong */
 /* tabel [0..MaxNode-1] menunjuk ke NULL */
   for (int i = 0; i < MaxNode; i++) {
-    GraphEdge(*G, i) = Nil;
+    GraphAdjMulEdge(*G, i) = Nil;
   }
 }
 
-void Connect (Graph * G, Node N1, Node N2) {
+void Connect (GraphAdjMul * G, Node N1, Node N2) {
 /* Menghubungkan node N1 dengan node N2 di graph G secara langsung */
   /* KAMUS */
   address E;
   int i;
 
   /* ALGORITMA */
-  E = Alokasi(N1, N2);
-  for (i = 0; i < MaxEdge && GraphEdge(*G, i) != Nil; i++);
-  GraphEdge(*G, i) = E;
+  E = AlokasiGraphAdjMul(N1, N2);
+  for (i = 0; i < MaxEdge && GraphAdjMulEdge(*G, i) != Nil; i++);
+  GraphAdjMulEdge(*G, i) = E;
 }
 
-void Disconnect (Graph * G, Node N1, Node N2) {
+void Disconnect (GraphAdjMul * G, Node N1, Node N2) {
 /* Memutuskan hubungan langsung antara node N1 dengan node N2 di graph G */
 /* address kemudian di-dealokasi */
   /* KAMUS */
@@ -63,23 +63,23 @@ void Disconnect (Graph * G, Node N1, Node N2) {
 
   /* ALGORITMA */
   i = 0;
-  while ((i < MaxEdge) && (Node1(GraphEdge(*G, i)) != N1) && (Node2(GraphEdge(*G, i)) != N2)) {
+  while ((i < MaxEdge) && (Node1(GraphAdjMulEdge(*G, i)) != N1) && (Node2(GraphAdjMulEdge(*G, i)) != N2)) {
     i++;
   }
   
-  if ((Node1(GraphEdge(*G, i)) == N1) && (Node2(GraphEdge(*G, i)) == N2)) {
-    P = GraphEdge(*G, i);
+  if ((Node1(GraphAdjMulEdge(*G, i)) == N1) && (Node2(GraphAdjMulEdge(*G, i)) == N2)) {
+    P = GraphAdjMulEdge(*G, i);
 
     /* Jika ada next elemen, geser maju elemen list berikutnya */
-    if ((GraphEdge(*G, i+1) != Nil) && (i != MaxEdge-1)) { 
-      GraphEdge(*G, i) = GraphEdge(*G, i+1);
+    if ((GraphAdjMulEdge(*G, i+1) != Nil) && (i != MaxEdge-1)) { 
+      GraphAdjMulEdge(*G, i) = GraphAdjMulEdge(*G, i+1);
     }
 
-    Dealokasi(&P);
+    DealokasiGraphAdjMul(&P);
   }
 }
 
-address Alokasi (Node N1, Node N2) {
+address AlokasiGraphAdjMul (Node N1, Node N2) {
 /* Mengalokasi address dengan nilai node1 N1 dan node2 N2 */
 /* Jika alokasi gagal mengembalikan Nil */
   /* KAMUS */
@@ -97,12 +97,12 @@ address Alokasi (Node N1, Node N2) {
   return P;
 }
 
-void Dealokasi (address * P) {
+void DealokasiGraphAdjMul (address * P) {
 /* Mengembalikan address ke sistem */
   free(P);
 }
 
-boolean IsConnected (Graph G, Node N1, Node N2) {
+boolean IsConnected (GraphAdjMul G, Node N1, Node N2) {
 /* Menghasilkan true juga node N1 terhubung dengan N2 di graph G 
   Terhubung di sini tidak secara langsung */
   // cek m dahulu
@@ -115,7 +115,7 @@ boolean IsConnected (Graph G, Node N1, Node N2) {
   connected = false;
   for (i = 0; i < MaxNode; i++) {
     /* Set E ke edge ke-i */
-    E = GraphEdge(G, i);
+    E = GraphAdjMulEdge(G, i);
     /* Memeriksa edge yang belum diperiksa */
     if (!IsChecked(E)) {
       // Jika node1 adalah N1, periksa :
@@ -141,7 +141,7 @@ boolean IsConnected (Graph G, Node N1, Node N2) {
 
     // Set kembali semua ke unchecked
     for (j = 0; j < MaxNode; j++) {
-      IsChecked(GraphEdge(G, i)) = false;
+      IsChecked(GraphAdjMulEdge(G, i)) = false;
     }
   }
   return connected;

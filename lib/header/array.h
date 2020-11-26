@@ -14,7 +14,11 @@
 /**
  * Struktur data untuk elemen array
  */
-typedef void* ArrayElType;
+typedef struct elType {
+	int id;
+	int info;
+	void* metadata;
+} ArrayElType;
 
 /**
  * Stuktur data array

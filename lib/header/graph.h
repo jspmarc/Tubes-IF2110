@@ -28,13 +28,12 @@ typedef struct {
 } Graph;
 
 /* SELEKTOR */
-#define First(G) (G).First
+#define GraphFirst(G) (G).First
 #define Id(Pn) (Pn)->Id
 #define NPred(Pn) (Pn)->NPred
 #define Trail(Pn) (Pn)->Trail
-#define Next(Pn) (Pn)->Next
+#define GraphNext(Pn) (Pn)->Next
 #define Succ(Pt) (Pt)->Succ
-#define Next(Pt) (Pt)->Next
 
 /****************** PEMBUATAN GRAPH KOSONG ******************/
 void CreateGraph(int X, Graph * G);
@@ -49,7 +48,7 @@ boolean IsEmptyGraph(Graph G);
 adrNode AlokNode (int X);
 /* Mengirimkan address hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka address tidak nil, dan misalnya */
-/* menghasilkan P, maka Info(P)=X, Next(P)=Nil */
+/* menghasilkan P, maka GraphInfo(P)=X, GraphNext(P)=Nil */
 /* Jika alokasi gagal, mengirimkan Nil */
 void DealokNode (adrNode P);
 /* I.S. P terdefinisi */
@@ -59,7 +58,7 @@ void DealokNode (adrNode P);
 adrSuccNode AlokSuccNode (adrNode Pn);
 /* Mengembalikan address hasil alokasi. */
 /* Jika alokasi berhasil, maka address tidak Nil, misalnya
-    menghasilkan Pt, maka Succ(Pt)=Pn dan Next(Pt)=Nil. Jika
+    menghasilkan Pt, maka Succ(Pt)=Pn dan GraphNext(Pt)=Nil. Jika
     alokasi gagal, mengembalikan Nil. */
 
 void DealokSuccNode (adrSuccNode P);
@@ -68,10 +67,10 @@ void DealokSuccNode (adrSuccNode P);
 
 adrNode SearchNode (Graph G, int X);
 /* Mengembalikan address simpul dengan I */
-    // adrNode P = First(G);
+    // adrNode P = GraphFirst(G);
 
     // while (P != Nil) && (ID(P) != X) {
-    //     P = Next(P);
+    //     P = GraphNext(P);
     // }
     // return P;
 
@@ -83,7 +82,7 @@ jika sudah ada pada graph G, Nil jika belum */
     // if (P != Nil) {
         // adrSuccNode Pt;
         // Pt = Trail(P);
-        // while (Next(Pt) != Nil) && ()
+        // while (GraphNext(Pt) != Nil) && ()
     // }
 
 void InsertNode (Graph * G, int X, adrNode * Pn);

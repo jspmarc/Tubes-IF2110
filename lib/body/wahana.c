@@ -21,11 +21,33 @@ void MakeTree(UpgradeType Akar, WahanaTree L, WahanaTree R, WahanaTree *P) {
     *P = Tree(Akar, L, R);
 }
 
+UpgradeType BuatSimpulKosong(unsigned char id){
+	UpgradeType simpul;
+	simpul.id = id;
+	return simpul;
+}
+
 UpgradeType IsiSimpul(unsigned char id, unsigned short kapasitas, unsigned int harga,
-            JAM durasi, char* nama, char* description, Resource upCost) {
+            JAM durasi, Kata nama, Kata description, Resource upCost) {
     UpgradeType simpul;
 
     simpul.id = id;
+    simpul.kapasitas = kapasitas;
+    simpul.harga = harga;
+    simpul.durasi = durasi;
+    simpul.nama = nama;
+    simpul.description = description;
+    simpul.UpgradeCost = upCost;
+    simpul.isTaken = false;
+
+    return simpul;
+}
+
+UpgradeType UbahIsiSimpul(WahanaTree P, unsigned char id, unsigned short kapasitas, unsigned int harga,
+            JAM durasi, Kata nama, Kata description, Resource upCost) {
+    UpgradeType simpul;
+
+		simpul = Akar(SearchUpgrade(P, id));
     simpul.kapasitas = kapasitas;
     simpul.harga = harga;
     simpul.durasi = durasi;
@@ -118,42 +140,36 @@ void DelDaun(WahanaTree *P, UpgradeType X) {
 }
 
 void PrintPreorder(WahanaTree P) {
-    if (IsTreeEmpty(P)) printf("()");
-    else if (IsTreeOneElmt(P)) fprintf(stdout, "(%s()())", Akar(P).nama);
-    else {
-        fprintf(stdout, "(%s", Akar(P).nama);
-        PrintPreorder(Left(P));
-        PrintPreorder(Right(P));
-        printf(")");
-    }
+		printf("(");
+		if(!IsTreeEmpty(P)){
+			TulisKataKe(Akar(P).nama, stdout);
+			PrintPreorder(Left(P));
+			PrintPreorder(Right(P));
+		}
+		printf(")");
 }
 void PrintInorder(WahanaTree P) {
-    if (IsTreeEmpty(P)) printf("()");
-    else if (IsTreeOneElmt(P)) fprintf(stdout, "(()%s())", Akar(P).nama);
-    else {
-        printf("(");
-        PrintInorder(Left(P));
-        fprintf(stdout, "%s", Akar(P).nama);
-        PrintInorder(Right(P));
-        printf(")");
-    }
+		printf("(");
+		if(!IsTreeEmpty(P)){
+			PrintPreorder(Left(P));
+			TulisKataKe(Akar(P).nama, stdout);
+			PrintPreorder(Right(P));
+		}
+		printf(")");
 }
 void PrintPostorder(WahanaTree P) {
-    if (IsTreeEmpty(P)) printf("()");
-    else if (IsTreeOneElmt(P)) fprintf(stdout, "(()()%s)", Akar(P).nama);
-    else {
-        printf("(");
-        PrintPostorder(Left(P));
-        PrintPostorder(Right(P));
-        fprintf(stdout, "%s", Akar(P).nama);
-        printf(")");
-    }
+		printf("(");
+		if(!IsTreeEmpty(P)){
+			PrintPreorder(Left(P));
+			PrintPreorder(Right(P));
+			TulisKataKe(Akar(P).nama, stdout);
+		}
+		printf(")");
 }
 void PrintIndent(WahanaTree P, int h, int Depth) {
     if (IsTreeEmpty(P)); /* do nothing */
-    else if (IsTreeOneElmt(P)) fprintf(stdout, "%s\n", Akar(P).nama);
-    else {
-        fprintf(stdout, "%s\n", Akar(P).nama);
+    else TulisKataKe(Akar(P).nama, stdout);
+    if(!IsTreeOneElmt(P)) {
         if (!IsTreeEmpty(Left(P))) {
             fprintf(stdout, "%*s", h+(h*Depth), "");
             PrintIndent(Left(P), h, Depth+1);
@@ -176,6 +192,15 @@ boolean SearchTree(WahanaTree P, UpgradeType X) {
     }
 }
 
+addrNode SearchUpgrade(WahanaTree P, unsigned char id){
+	addrNode R;
+	if(IsTreeEmpty(P)) return NULL;
+	if(Akar(P).id == id) return P;
+	R = SearchUpgrade(Left(P), id);
+	if(R == NULL) R = SearchUpgrade(Right(P), id);
+	return R;
+}
+
 boolean IsInfoNodeSame(UpgradeType UT1, UpgradeType UT2) {
     boolean tf = true;
 
@@ -183,8 +208,8 @@ boolean IsInfoNodeSame(UpgradeType UT1, UpgradeType UT2) {
     tf = tf && (UT1.kapasitas == UT2.kapasitas);
     tf = tf && (UT1.harga == UT2.harga);
     tf = tf && (JAMToDetik(UT1.durasi) == JAMToDetik(UT2.durasi));
-    tf = tf && (strIsEqual(UT1.nama, UT2.nama));
-    tf = tf && (strIsEqual(UT1.description, UT2.description));
+    tf = tf && (IsKataSama(UT1.nama, UT2.nama));
+    tf = tf && (IsKataSama(UT1.description, UT2.description));
     tf = tf && (UT1.isTaken == UT2.isTaken);
     tf = tf && (UT1.UpgradeCost.uang == UT2.UpgradeCost.uang);
     tf = tf && (true); /* Ngecek array materials sama atau tidak */

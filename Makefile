@@ -27,8 +27,11 @@ INC_DIRS := $(LIB_DIR)/header
 INC_FLAGS := $(addprefix -I, $(INC_DIRS))
 LDFLAGS = -lm
 
+run: ./$(TARGET)
+	./$<
+
 ./$(TARGET): $(OBJS)
-	$(CC) $(OBJS) $(LDFLAGS) -o $@
+	$(CC) $(OBJS) $(LDFLAGS) $(INC_FLAGS) -o $@
 
 $(BUILD_DIR)/%.o: %.c
 	$(MKDIR_P) $(dir $@)
@@ -37,6 +40,6 @@ $(BUILD_DIR)/%.o: %.c
 .PHONY: clean
 
 clean:
-	$(RM) -r $(BUILD_DIR)
+	$(RM) -rf $(BUILD_DIR)
 
 MKDIR_P ?= mkdir -p

@@ -79,14 +79,14 @@ void TulisMATRIKS (MATRIKS M);
 */
 
 /* ********** KELOMPOK OPERASI RELASIONAL TERHADAP MATRIKS ********** */
-boolean EQ (MATRIKS M1, MATRIKS M2);
+boolean MatriksEQ (MATRIKS M1, MATRIKS M2);
 /* Mengirimkan true jika M1 = M2, yaitu NBElmt(M1) = NBElmt(M2) dan */
 /* untuk setiap i,j yang merupakan indeks baris dan kolom M1(i,j) = M2(i,j) */
-/* Juga merupakan strong EQ karena GetFirstIdxBrs(M1) = GetFirstIdxBrs(M2) 
+/* Juga merupakan strong MatriksEQ karena GetFirstIdxBrs(M1) = GetFirstIdxBrs(M2) 
    dan GetLastIdxKol(M1) = GetLastIdxKol(M2) */
-boolean NEQ (MATRIKS M1, MATRIKS M2);
+boolean MatriksNE (MATRIKS M1, MATRIKS M2);
 /* Mengirimkan true jika M1 tidak sama dengan M2 */
-boolean EQSize (MATRIKS M1, MATRIKS M2);
+boolean MatriksEQSize (MATRIKS M1, MATRIKS M2);
 /* Mengirimkan true jika ukuran efektif matriks M1 sama dengan ukuran efektif M2 */
 /* yaitu GetBrsEff(M1) = GetNBrsEff (M2) dan GetNKolEff (M1) = GetNKolEff (M2) */
 

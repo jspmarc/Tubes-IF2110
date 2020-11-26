@@ -11,7 +11,7 @@
 
 typedef int Node;
 
-// Graph : list of pointer to Edge [0..MaxNode-1]
+// GraphAdjMul : list of pointer to Edge [0..MaxNode-1]
 typedef struct tEdge *address;
 
 /* Edge,
@@ -32,13 +32,13 @@ typedef struct tEdge {
 // Array [0..MaxNode-1] penyimpan address-address edge
 typedef struct {
     address edge[MaxEdge];
-} Graph;
-/* Graph.edge[i] menunjuk pada edge ke-i */
-/* Graph kosong setiap elemennya nil */
+} GraphAdjMul;
+/* GraphAdjMul.edge[i] menunjuk pada edge ke-i */
+/* GraphAdjMul kosong setiap elemennya nil */
 
 
 /* Selektor */
-#define GraphEdge(G, i) (G).edge[i]
+#define GraphAdjMulEdge(G, i) (G).edge[i]
 #define Nodes(G) 
 #define IsChecked(E) E->m
 #define Node1(E) E->node1
@@ -46,23 +46,23 @@ typedef struct {
 #define Edge1(E) E->edge1
 #define Edge2(E) E->edge2
 
-void CreateEmptyGraph (Graph * G);
+void CreateEmptyGraphAdjMul (GraphAdjMul * G);
 /* Mengembalikan graph kosong */
 /* tabel [0..MaxNode-1] menunjuk ke NULL */
 
-void Connect (Graph * G, Node N1, Node N2);
+void Connect (GraphAdjMul * G, Node N1, Node N2);
 /* Menghubungkan node N1 dengan node N2 di graph G */
 
-void Disconnect (Graph * G, Node N1, Node N2);
+void Disconnect (GraphAdjMul * G, Node N1, Node N2);
 /* Memutuskan hubungan node N1 dengan node N2 di graph G */
 
-address Alokasi (Node N1, Node N2);
+address AlokasiGraphAdjMul (Node N1, Node N2);
 /* Mengalokasi address dengan nilai N */
 
-void Dealokasi (address * P);
+void DealokasiGraphAdjMul (address * P);
 /* Mengembalikan address ke sistem */
 
-boolean IsConnected (Graph G, Node N1, Node N2);
+boolean IsConnected (GraphAdjMul G, Node N1, Node N2);
 /* Menghasilkan true juga node N1 terhubung dengan N2 di graph G */
 
 #endif

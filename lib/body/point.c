@@ -35,13 +35,13 @@ void TulisPoint (Point P) {
 }
 
 /* *** Kelompok operasi relasional terhadap Point *** */
-boolean EQ (Point P1, Point P2) {
+boolean PointEQ (Point P1, Point P2) {
     /*ALGORITMA*/
     return Absis(P1) == Absis(P2) && Ordinat(P1) == Ordinat(P2);
 }
-boolean NEQ (Point P1, Point P2) {
+boolean PointNE (Point P1, Point P2) {
     /*ALGORITMA*/
-    return !( EQ(P1, P2) );
+    return !( PointEQ(P1, P2) );
 }
 
 /* *** KELOMPOK OPERASI LAIN TERHADAP TYPE *** */

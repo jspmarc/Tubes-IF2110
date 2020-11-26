@@ -4,6 +4,7 @@
 #ifndef __MESINKATA_H__
 #define __MESINKATA_H__
 
+#include<stdio.h>
 #include "boolean.h"
 #include "mesinkar.h"
 
@@ -50,5 +51,8 @@ void SalinKataKe(Kata *K1);
 
 /* Predikat: Mengecek apakah K1 dan K2 mengandung kata yang sama */
 boolean IsKataSama(Kata K1, Kata K2);
+
+/* Menuliskan Kata K ke FILE f */
+void TulisKataKe(Kata K, FILE* f);
 
 #endif

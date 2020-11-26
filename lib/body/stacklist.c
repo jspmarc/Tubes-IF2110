@@ -3,31 +3,31 @@
 #include "../header/stacklist.h"
 #include <stdlib.h>
 
-void Alokasi (StackAddress *P, StackInfoType X) {
+void AlokasiStack (StackAddress *P, StackInfoType X) {
     *P = (StackAddress) malloc(sizeof(ElmtStack));
     if (P != Nil) {
-        Info(*P) = X;
-        Next(*P) = Nil;
+        StackInfo(*P) = X;
+        StackNext(*P) = Nil;
     }
 }
-void Dealokasi (StackAddress P) {
+void DealokasiStack (StackAddress P) {
     free(P);
 }
 
 /* ********* PROTOTYPE REPRESENTASI LOJIK STACK ***************/
-boolean IsEmpty (Stack S) {
+boolean IsStackEmpty (Stack S) {
     return Top(S) == Nil;
 }
-void CreateEmpty (Stack * S) {
+void CreateEmptyStack (Stack * S) {
     Top(*S) = Nil;
 }
 void Push (Stack * S, StackInfoType X, unsigned char idAksi) {
     StackAddress P;
 
-    Alokasi(&P, X);
+    AlokasiStack(&P, X);
 
     if (P != Nil) {
-        Next(P) = Top(*S);
+        StackNext(P) = Top(*S);
         Top(*S) = P;
     }
 }
@@ -35,8 +35,8 @@ void Pop (Stack * S, StackInfoType * X) {
     StackAddress P;
 
     P = Top(*S);
-    *X = Info(P);
-    Top(*S) = Next(P);
+    *X = StackInfo(P);
+    Top(*S) = StackNext(P);
 
-    Dealokasi(P);
+    DealokasiStack(P);
 }

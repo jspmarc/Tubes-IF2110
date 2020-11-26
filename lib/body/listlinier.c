@@ -1,266 +1,266 @@
 /* File : listlinier.c */
 /* contoh ADT list berkait dengan representasi fisik pointer  */
-/* Representasi address dengan pointer */
+/* Representasi addressLL dengan pointer */
 /* infotype adalah integer */
 #include "../header/listlinier.h"
 #include "boolean.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-boolean IsEmpty (List L) {
-    return First(L) == Nil;
+boolean IsEmpty (LL L) {
+    return LLFirst(L) == Nil;
 }
 
-void CreateEmpty (List *L) {
-    First(*L) = Nil;
+void CreateEmpty (LL *L) {
+    LLFirst(*L) = Nil;
 }
 
-address Alokasi (infotype X) {
-    address P;
+addressLL AlokasiLL (infotype X) {
+    addressLL P;
 
-    P = (address) malloc(sizeof(ElmtList));
+    P = (addressLL) malloc(sizeof(ElmtLL));
     if  (P != Nil) {
         Info(P) = X;
-        Next(P) = Nil;
+        LLNext(P) = Nil;
     }
 
     return P;
 }
 
-void Dealokasi (address *P) {
+void Dealokasi (addressLL *P) {
     free(*P);
 }
 
-address Search (List L, infotype X) {
-    address P;
+addressLL Search (LL L, infotype X) {
+    addressLL P;
 
-    P =  First(L);
+    P =  LLFirst(L);
     if (!IsEmpty(L)) {
-        while (Info(P) != X && Next(P) != Nil) P = Next(P);
+        while (Info(P) != X && LLNext(P) != Nil) P = LLNext(P);
 
         return Info(P) == X ? P : Nil;
     } else return Nil;
 }
 
-boolean FSearch (List L, address P) {
-    address curP;
+boolean FSearch (LL L, addressLL P) {
+    addressLL curP;
 
-    curP = First(L);
-    while (curP != P && curP != Nil) curP = Next(curP);
+    curP = LLFirst(L);
+    while (curP != P && curP != Nil) curP = LLNext(curP);
 
     return curP == Nil;
 }
 
-address SearchPrec (List L, infotype X) {
-    address P;
+addressLL SearchPrec (LL L, infotype X) {
+    addressLL P;
 
-    P = First(L);
+    P = LLFirst(L);
     if (IsEmpty(L) || Info(P) == X) return Nil;
 
-    for(; Info(Next(P)) != X && Next(Next(P)) != Nil; P = Next(P));
+    for(; Info(LLNext(P)) != X && LLNext(LLNext(P)) != Nil; P = LLNext(P));
 
-    if (Info(Next(P)) == X) return P;
+    if (Info(LLNext(P)) == X) return P;
 
-    /* Artinya Info(Next(P)) bukan X, meskipun P satu node sebelum node
+    /* Artinya Info(LLNext(P)) bukan X, meskipun P satu node sebelum node
      * terakhir, akan tetap masuk ke if apabila X ada di Info node terakhir */
     return Nil;
 }
 
-void InsVFirst (List *L, infotype X) {
-    address P;
+void InsVFirst (LL *L, infotype X) {
+    addressLL P;
 
-    P = Alokasi(X);
-    if (P != Nil) InsertFirst(L, P);
+    P = AlokasiLL(X);
+    if (P != Nil) InsertLLFirst(L, P);
 }
 
-void InsVLast (List *L, infotype X) {
-    address P;
+void InsVLast (LL *L, infotype X) {
+    addressLL P;
 
-    P = Alokasi(X);
+    P = AlokasiLL(X);
     if (P != Nil) InsertLast(L, P);
 }
 
-void DelVFirst (List *L, infotype *X) {
-    address P;
+void DelVFirst (LL *L, infotype *X) {
+    addressLL P;
 
-    DelFirst(L, &P);
+    DelLLFirst(L, &P);
     *X = Info(P);
     Dealokasi(&P);
 }
 
-void DelVLast (List *L, infotype *X) {
-    address P;
+void DelVLast (LL *L, infotype *X) {
+    addressLL P;
 
     DelLast(L, &P);
     *X = Info(P);
     Dealokasi(&P);
 }
 
-void InsertFirst (List *L, address P) {
-    Next(P) = First(*L);
-    First(*L) = P;
+void InsertFirst (LL *L, addressLL P) {
+    LLNext(P) = LLFirst(*L);
+    LLFirst(*L) = P;
 }
 
-void InsertAfter (List *L, address P, address Prec) {
-    Next(P) = Next(Prec);
-    Next(Prec) = P;
+void InsertAfter (LL *L, addressLL P, addressLL Prec) {
+    LLNext(P) = LLNext(Prec);
+    LLNext(Prec) = P;
 }
 
-void InsertLast (List *L, address P) {
-    address curNode;
+void InsertLast (LL *L, addressLL P) {
+    addressLL curNode;
 
-    if (IsEmpty(*L)) InsertFirst(L, P);
+    if (IsEmpty(*L)) InsertLLFirst(L, P);
     else {
-        curNode = First(*L);
-        while (Next(curNode) != Nil) curNode = Next(curNode);
+        curNode = LLFirst(*L);
+        while (LLNext(curNode) != Nil) curNode = LLNext(curNode);
 
-        Next(curNode) = P;
+        LLNext(curNode) = P;
     }
 }
 
-void DelFirst (List *L, address *P) {
-    *P = First(*L);
-    First(*L) = Next(*P);
+void DelFirst (LL *L, addressLL *P) {
+    *P = LLFirst(*L);
+    LLFirst(*L) = LLNext(*P);
 }
 
-void DelP (List *L, infotype X)
+void DelP (LL *L, infotype X)
 {
-    address P, bP;
+    addressLL P, bP;
 
     if (!IsEmpty(*L)) {
-        P = First(*L);
+        P = LLFirst(*L);
         bP = Nil;
-        while (Info(P) != X && Next(P) != Nil) {
+        while (Info(P) != X && LLNext(P) != Nil) {
             bP = P;
-            P = Next(P);
+            P = LLNext(P);
         }
 
         if (bP == Nil && Info(P) == X) /* X adalah elemen pertama */ {
-            DelFirst(L, &bP);
+            DelLLFirst(L, &bP);
             Dealokasi(&P);
         } else if (Info(P) == X) {
-            Next(bP) = Next(P);
+            LLNext(bP) = LLNext(P);
             Dealokasi(&P);
         }
     }
 }
 
-void DelLast (List *L, address *P) {
-    address V, beforeV;
+void DelLast (LL *L, addressLL *P) {
+    addressLL V, beforeV;
 
-    V = First(*L);
+    V = LLFirst(*L);
     beforeV = Nil;
-    while (Next(V) != Nil) {
+    while (LLNext(V) != Nil) {
         beforeV = V;
-        V = Next(V);
+        V = LLNext(V);
     }
 
     *P = V;
-    if (beforeV != Nil) /* Bukan elemen pertama */ Next(beforeV) = Nil;
-    else First(*L) = Nil;
+    if (beforeV != Nil) /* Bukan elemen pertama */ LLNext(beforeV) = Nil;
+    else LLFirst(*L) = Nil;
 }
 
-void DelAfter (List *L, address *Pdel, address Prec) {
+void DelAfter (LL *L, addressLL *Pdel, addressLL Prec) {
     /* Pdel adalah node setelah Prec, node yang mau dihapus */
-    *Pdel = Next(Prec);
+    *Pdel = LLNext(Prec);
 
-    Next(Prec) = Next(*Pdel);
+    LLNext(Prec) = LLNext(*Pdel);
 }
 
-void PrintInfo (List L) {
+void PrintInfo (LL L) {
     printf("[");
-    for (address P = First(L); P != Nil; P = Next(P)) {
-        if (Next(P) != Nil) printf("%d,", Info(P));
+    for (addressLL P = LLFirst(L); P != Nil; P = LLNext(P)) {
+        if (LLNext(P) != Nil) printf("%d,", Info(P));
         else printf("%d", Info(P));
     }
     printf("]");
 }
 
-int NbElmt (List L) {
+int NbElmt (LL L) {
     int count = 0;
 
-    for (address P = First(L); P != Nil; P = Next(P), ++count);
+    for (addressLL P = LLFirst(L); P != Nil; P = LLNext(P), ++count);
 
     return count;
 }
 
-infotype Max (List L) {
-    address P;
+infotype Max (LL L) {
+    addressLL P;
     infotype max;
 
-    P = First(L);
+    P = LLFirst(L);
     max = Info(P);
-    P = Next(P);
-    for (; P != Nil; P = Next(P)) max = Info(P) > max ? Info(P) : max;
+    P = LLNext(P);
+    for (; P != Nil; P = LLNext(P)) max = Info(P) > max ? Info(P) : max;
 
     return max;
 }
 
-address AdrMax (List L) {
-    address P, maxP;
+addressLL AdrMax (LL L) {
+    addressLL P, maxP;
 
-    P = First(L);
+    P = LLFirst(L);
     maxP = P;
-    P = Next(P);
-    for (; P != Nil; P = Next(P)) maxP = Info(maxP) > Info(P) ? maxP : P;
+    P = LLNext(P);
+    for (; P != Nil; P = LLNext(P)) maxP = Info(maxP) > Info(P) ? maxP : P;
 
     return maxP;
 }
 
-infotype Min (List L) {
-    address P;
+infotype Min (LL L) {
+    addressLL P;
     infotype min;
 
-    P = First(L);
+    P = LLFirst(L);
     min = Info(P);
-    P = Next(P);
-    for (; P != Nil; P = Next(P))
+    P = LLNext(P);
+    for (; P != Nil; P = LLNext(P))
         min = Info(P) < min ? Info(P) : min;
 
     return min;
 }
 
-address AdrMin (List L) {
-    address P, minP;
+addressLL AdrMin (LL L) {
+    addressLL P, minP;
 
-    P = First(L);
+    P = LLFirst(L);
     minP = P;
-    P = Next(P);
-    for (; P != Nil; P = Next(P)) minP = Info(minP) < Info(P) ? minP : P;
+    P = LLNext(P);
+    for (; P != Nil; P = LLNext(P)) minP = Info(minP) < Info(P) ? minP : P;
 
     return minP;
 }
 
-float Average (List L) {
-    address P = First(L);
+float Average (LL L) {
+    addressLL P = LLFirst(L);
     float sum = 0;
     int count = 0;
 
-    for(; P != Nil; sum += Info(P), ++count, P = Next(P));
+    for(; P != Nil; sum += Info(P), ++count, P = LLNext(P));
 
     return sum/count;
 }
 
-void DelAll (List *L) {
+void DelAll (LL *L) {
     infotype _;
 
-    for (address P = First(*L); Next(P) != Nil;) {
-        address tempP;
+    for (addressLL P = LLFirst(*L); LLNext(P) != Nil;) {
+        addressLL tempP;
         DelLast(L, &tempP);
         Dealokasi(&tempP);
     }
 
     /* P ada di node terakhir */
-    DelVFirst(L, &_);
+    DelVLLFirst(L, &_);
 }
 
-void InversList (List *L) {
-    address P, tempP;
+void InversLL (LL *L) {
+    addressLL P, tempP;
     int Q;
 
     if (!IsEmpty(*L)) {
         DelLast(L, &tempP);
-        InsertFirst(L, tempP);
+        InsertLLFirst(L, tempP);
         P = tempP;
 
         Q = NbElmt(*L)-1;
@@ -272,127 +272,127 @@ void InversList (List *L) {
     }
 }
 
-List FInversList (List L) {
-    List newL;
+LL FInversLL (LL L) {
+    LL newL;
 
     CreateEmpty(&newL);
-    CpAlokList(L, &newL);
-    InversList(&newL);
+    CpAlokLL(L, &newL);
+    InversLL(&newL);
 
     return newL;
 }
 
-void CopyList (List *L1, List *L2) {
-    First(*L2) = First(*L1);
+void CopyLL (LL *L1, LL *L2) {
+    LLFirst(*L2) = LLFirst(*L1);
 }
 
-List FCopyList (List L) {
-    address P, P2, newP2;
-    List L2;
+LL FCopyLL (LL L) {
+    addressLL P, P2, newP2;
+    LL L2;
 
     /* Menyalin elemen pertama */
-    P = First(L);
+    P = LLFirst(L);
     CreateEmpty(&L2);
-    P2 = Alokasi(Info(P));
-    if (P2 == Nil) /* Alokasi gagal */ return L2;
-    First(L2) = P2;
+    P2 = AlokasiLL(Info(P));
+    if (P2 == Nil) /* AlokasiLL gagal */ return L2;
+    LLFirst(L2) = P2;
 
-    P = Next(P);
+    P = LLNext(P);
 
     /* P menunjuk ke node kedua */
 
-    for (; P != Nil; P = Next(P), P2 = Next(P2)) {
-        newP2 = Alokasi(Info(P));
-        if (newP2 == Nil) /* Alokasi gagal */ {
+    for (; P != Nil; P = LLNext(P), P2 = LLNext(P2)) {
+        newP2 = AlokasiLL(Info(P));
+        if (newP2 == Nil) /* AlokasiLL gagal */ {
             DelAll(&L2);
             return L2;
         }
-        Next(P2) = newP2;
+        LLNext(P2) = newP2;
     }
 
     return L2;
 }
 
-void CpAlokList (List Lin, List *Lout) {
-    address P, P2, newP2;
+void CpAlokLL (LL Lin, LL *Lout) {
+    addressLL P, P2, newP2;
 
     /* Menyalin elemen pertama */
-    P = First(Lin);
-    P2 = Alokasi(Info(P));
-    if (P2 == Nil) /* Alokasi gagal */ return;
-    First(*Lout) = P2;
+    P = LLFirst(Lin);
+    P2 = AlokasiLL(Info(P));
+    if (P2 == Nil) /* AlokasiLL gagal */ return;
+    LLFirst(*Lout) = P2;
 
-    P = Next(P);
+    P = LLNext(P);
 
     /* P menunjuk ke node kedua */
 
-    for (; P != Nil; P = Next(P), P2 = Next(P2)) {
-        newP2 = Alokasi(Info(P));
-        if (newP2 == Nil) /* Alokasi gagal */ {
+    for (; P != Nil; P = LLNext(P), P2 = LLNext(P2)) {
+        newP2 = AlokasiLL(Info(P));
+        if (newP2 == Nil) /* AlokasiLL gagal */ {
             DelAll(Lout);
             return;
         }
-        Next(P2) = newP2;
+        LLNext(P2) = newP2;
     }
 }
 
-void Konkat (List L1, List L2, List * L3) {
-    List L4, L5;
+void Konkat (LL L1, LL L2, LL * L3) {
+    LL L4, L5;
 
     CreateEmpty(&L4);
     CreateEmpty(&L5);
 
     if (!IsEmpty(L1)) /* L1 tidak kosong  */ {
-        CpAlokList(L1, &L4);
+        CpAlokLL(L1, &L4);
         if (IsEmpty(L2)) /* L1 tidak kosong, L2 kosong */ {
-            CpAlokList(L4, L3);
+            CpAlokLL(L4, L3);
             return;
         }
         /* L1 dan L2 tidak kosong */
-        CpAlokList(L2, &L5);
+        CpAlokLL(L2, &L5);
         Konkat1(&L4, &L5, L3);
     }
 
     if (IsEmpty(L1) && !IsEmpty(L2)) /* L1 kosong, L2 tidak kosong */ {
-        CpAlokList(L2, L3);
+        CpAlokLL(L2, L3);
         PrintInfo(*L3);
         return;
     }
 }
 
-void Konkat1 (List *L1, List *L2, List *L3) {
-    address lastL1;
+void Konkat1 (LL *L1, LL *L2, LL *L3) {
+    addressLL lastL1;
 
     if  (!IsEmpty(*L1) || !IsEmpty(*L2)) {
-        First(*L3) = First(*L1);
+        LLFirst(*L3) = LLFirst(*L1);
 
         if (!IsEmpty(*L1)) {
-            lastL1 = First(*L1);
-            for(; Next(lastL1) != Nil; lastL1 = Next(lastL1));
-            Next(lastL1) = First(*L2);
-        } else First(*L3) = First(*L2);
+            lastL1 = LLFirst(*L1);
+            for(; LLNext(lastL1) != Nil; lastL1 = LLNext(lastL1));
+            LLNext(lastL1) = LLFirst(*L2);
+        } else LLFirst(*L3) = LLFirst(*L2);
 
-        First(*L1) = Nil;
-        First(*L2) = Nil;
+        LLFirst(*L1) = Nil;
+        LLFirst(*L2) = Nil;
     }
 }
 
-void PecahList (List *L1, List *L2, List L){
+void PecahLL (LL *L1, LL *L2, LL L){
     int i, count;
-    address P;
+    addressLL P;
 
     count = NbElmt(L)/2;
     i = 0;
     CreateEmpty(L1);
-    P = First(L);
+    P = LLFirst(L);
     while(i < count){
-        InsertLast(L1, Alokasi(Info(P)));
-        P = Next(P);
+        InsertLast(L1, AlokasiLL(Info(P)));
+        P = LLNext(P);
         i++;
     }
     CreateEmpty(L2);
     while(P != Nil){
-        InsertLast(L2, Alokasi(Info(P)));
-        P = Next(P);
+        InsertLast(L2, AlokasiLL(Info(P)));
+        P = LLNext(P);
     }
 }

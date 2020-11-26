@@ -15,8 +15,8 @@ typedef struct {
     unsigned short kapasitas; /* Kapasitas wahana */
     unsigned int harga; /* Harga untuk naikin wahana */
     JAM durasi; /* Durasi naikin wahana */
-    char* nama; /* Nama wahana */
-    char* description; /* Deskripsi wahana */
+    Kata nama; /* Nama wahana */
+    Kata description; /* Deskripsi wahana */
     Resource UpgradeCost; /* Resource yg dibutuhkan untuk upgrade */
     boolean isTaken; /* Upgrade sudah diambil */
 } UpgradeType;
@@ -66,7 +66,26 @@ void MakeTree(UpgradeType Akar, WahanaTree L, WahanaTree R, WahanaTree *P);
  * cost - harga untuk mengupgrade/mengambil node yang ingin diisi
  */
 UpgradeType IsiSimpul(unsigned char id, unsigned short kapasitas, unsigned int harga,
-            JAM durasi, char* nama, char* description, Resource upCost);
+            JAM durasi, Kata nama, Kata description, Resource upCost);
+
+/**
+ * Fungsi untuk membuat Simpul kosong dengan ID yang diberikan.
+ */
+UpgradeType BuatSimpulKosong(unsigned char id);
+
+/**
+ * Fungsi untuk membuat isi simpul (akar) dari suatu node/simpul.
+ *
+ * id - id tree wahana
+ * kapasitas - kapasitas wahana di node yang ingin diisi
+ * harga - harga wahana di node yang ingin diisi
+ * durasi - durasi penggunaan wahana di node yang ingin diisi
+ * nama - nama wahan di node yang ingin diisi
+ * description - deskripsi wahana di node yang ingin diisi
+ * cost - harga untuk mengupgrade/mengambil node yang ingin diisi
+ */
+UpgradeType UbahIsiSimpul(WahanaTree P, unsigned char id, unsigned short kapasitas, unsigned int harga,
+            JAM durasi, Kata nama, Kata description, Resource upCost);
 
 /* Manajemen Memory */
 /**
@@ -161,6 +180,13 @@ void PrintTree(WahanaTree P, int h);
 /* *** Searching *** */
 /* Mengirimkan true jika ada node dari P yang bernilai X */
 boolean SearchTree(WahanaTree P, UpgradeType X);
+
+/**
+ * Fungsi untuk mencari node dengan id id.
+ *
+ * id - id wahana
+ */
+addrNode SearchUpgrade(WahanaTree P, unsigned char id);
 
 /**
  * Fungsi untuk memeriksa isi informasi dari antara 2 struct info node sama

@@ -1,7 +1,7 @@
 #include "../header/globals.h"
 
-Stack actionStack;
-Resource playerResources;
+//Stack actionStack;
+//Resource playerResources;
 
 void init() {
     CreateEmptyStack(&actionStack);

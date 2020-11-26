@@ -34,14 +34,14 @@ typedef struct {
 /* Stack dengan representasi berkait dengan pointer */
 typedef struct tElmtStack * StackAddress;
 typedef struct tElmtStack {
-    StackInfoType Info;
-    StackAddress Next;
+    StackInfoType StackInfo;
+    StackAddress StackNext;
     PropertiAksi prop;
 } ElmtStack;
 
 /* Struktur data stack dengan akses element Top()
  * Digunakan untuk menyimpan action-action pada game.
- * Info adalah integer yang menyimpan id aksi.
+ * StackInfo adalah integer yang menyimpan id aksi.
  */
 typedef struct {
     StackAddress TOP;  /* alamat TOP: elemen puncak */
@@ -50,16 +50,16 @@ typedef struct {
 
 /* Selektor */
 #define Top(S) (S).TOP
-#define InfoTop(S) (S).TOP->Info
+#define StackInfoTop(S) (S).TOP->StackInfo
 #define AksiTop(S) (S).TOP->idAksi
-#define Next(P) (P)->Next
-#define Info(P) (P)->Info
+#define StackNext(P) (P)->StackNext
+#define StackInfo(P) (P)->StackInfo
 #define Aksi(P) (P)->idAksi
 
 /* Prototype manajemen memori */
 /* I.S. Sembarang */
-/* F.S. Alamat P dialokasi, jika berhasil maka Info(P)=X dan
-        Next(P)=Nil */
+/* F.S. Alamat P dialokasi, jika berhasil maka StackInfo(P)=X dan
+        StackNext(P)=Nil */
 /*      P=Nil jika alokasi gagal */
 void AlokasiStack (StackAddress *P, StackInfoType X);
 /* I.S. P adalah hasil alokasi, P != Nil */

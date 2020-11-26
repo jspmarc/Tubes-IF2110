@@ -97,8 +97,6 @@ void ShowMap(int crrntMapID, Point playerPos, MAP map) {
 
 void MoveW (MAP map) {
   /* KAMUS */
-  int x;
-  int y;
 
   /* ALGORITMA */
   // player ke arah utara
@@ -117,8 +115,6 @@ void MoveW (MAP map) {
 
 void MoveA (MAP map) {
   /* KAMUS */
-  int x;
-  int y;
 
   /* ALGORITMA */
   // player ke arah utara
@@ -137,8 +133,6 @@ void MoveA (MAP map) {
 
 void MoveS (MAP map) {
   /* KAMUS */
-  int x;
-  int y;
 
   /* ALGORITMA */
   // player ke arah utara
@@ -157,8 +151,6 @@ void MoveS (MAP map) {
 
 void MoveD (MAP map) {
   /* KAMUS */
-  int x;
-  int y;
 
   /* ALGORITMA */
   // player ke arah utara

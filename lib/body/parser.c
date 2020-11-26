@@ -8,7 +8,6 @@
 boolean isFileParsed;
 Token CToken;
 
-static FILE *stream;
 void StartParser(FILE *f) {
     START(f);
     SkipNewLine();
@@ -18,7 +17,7 @@ void ReadToken(){
     int i;
 
     i = 0;
-    while(CC != NewlineMark || CC != ParserMark){
+    while(CC != NewlineMark || CC != ParserMark || CC != TupleStart || CC != TupleEnd || CC != TreeStart || CC != TreeEnd || CC != ArrayStart || CC != ArrayEnd){
         if(i < PanjangToken) CToken.Token[i] = CC;
         ADV();
         i++;
@@ -39,10 +38,11 @@ void SkipBlank(){
     isFileParsed = CC == ParserMark;
 }
 
-void ReadString(char *str){
+void ReadKata(Kata *K){
     for(int i = 0; i < CToken.length; i++){
-        str[i] = CToken.Token[i];
+        K->TabKata[i] = CToken.Token[i];
     }
+    K->Length = CToken.length;
 }
 
 int ReadInt(){
@@ -57,8 +57,57 @@ int ReadInt(){
     return ret;
 }
 
-UpgradeTree ReadTree(){
-    UpgradeTree UTree = Nil, Left = Nil, Right = Nil;
+void ReadUpgrade(WahanaTree *T){
+	int x, cap, pri, dur, cos, i;
+	JAM durJ;
+	Kata nam, des;
+	Resource Res;
+
+	while(!isFileParsed){
+		ReadToken();
+		ReadToken();
+		x = ReadInt();
+		ReadToken();
+		SkipBlank();
+		ReadToken();
+		cap = ReadInt();
+		ReadToken();
+		SkipBlank();
+		ReadToken();
+		pri = ReadInt();
+		ReadToken();
+		SkipBlank();
+		ReadToken();
+		dur = ReadInt();
+		ReadToken();
+		SkipBlank();
+		ReadToken();
+		ReadKata(&nam);
+		ReadToken();
+		SkipBlank();
+		ReadToken();
+		ReadKata(&des);
+		ReadToken();
+		SkipBlank();
+		ReadToken();
+		cos = ReadInt();
+		ReadToken();
+		SkipBlank();
+		i = 0;
+		while(CC != ArrayEnd && !isFileParsed){
+			ADV();
+			Res.materials[i] = ReadMaterial();
+			SkipBlank();
+			i++;
+		}
+		durJ = DetikToJAM(dur);
+		IsiSimpul(x, cap, cos, durJ, nam, des, Res);
+	}
+	SkipNewLine();
+}
+
+WahanaTree ReadTree(){
+    WahanaTree UTree = Nil, Left = Nil, Right = Nil;
     boolean notFinished;
     int i;
     UpgradeType currentInfo;
@@ -68,6 +117,8 @@ UpgradeTree ReadTree(){
     if(CC == TreeStart){
         notFinished = 1;
         ADV();
+        ReadToken();
+        i = ReadInt();
         while(notFinished && CC != ParserMark){
             // Buat Pohonnya
             // TODO: gimana cara parse pohon yang baik dan benar?
@@ -85,44 +136,30 @@ UpgradeTree ReadTree(){
                     ADV();
                 }
                 CToken.length = i;
-                currentInfo = ReadUpgrade(); // Baca id
             }
             SkipBlank();
+            currentInfo = BuatSimpulKosong(i);
         }
     }
     if(!notFinished) UTree = Tree(currentInfo, Left, Right); // Buat Pohonnya
+    SkipNewLine();
     return UTree;
-}
-
-UpgradeType ReadUpgrade(){
-    UpgradeType T;
-    boolean notFinished, parsingMaterial;
-    int tupleIdx;
-
-    if(CC == TupleStart){
-        notFinished = 1;
-        ADV();
-        while(notFinished && CC != ParserMark){
-            if(parsingMaterial){
-            }
-            if(CC == TupleEnd) notFinished = 0;
-            else if(CC == ArrayStart) parsingMaterial = 1;
-        }
-    }
-    return T;
 }
 
 Material ReadMaterial(){
     Material M;
 
+		ReadToken();
+		M.idMaterial = ReadInt();
+		SkipBlank();
     ReadToken();
-    ReadString(M.NamaMaterial);
+    ReadKata(&M.namaMaterial);
     SkipBlank();
     ReadToken();
-    M.harga = ReadInt();
+    M.biayaMaterial = ReadInt();
     SkipNewLine();
 
-    M.qty = 0xefffffff; /* INT_MAX */
+    M.jumlahMaterial = 0x7fffffff; /* INT_MAX */
 
     return M;
 }
@@ -149,62 +186,62 @@ Point ReadPoint(){
     return MakePoint(p[0], p[1]);
 }
 
-Stack ReadStack() {
-    Stack RetS;
-    CreateEmptyStack(&RetS);
-    void *StackElmt;
-    Kata K;
-    actBuy aB;
-    int i, j;
-
-    if (CC == ArrayStart) {
-        ADV();
-        while (CC != ArrayEnd) {
-            ADV();
-            if (CC == TupleStart) {
-                ADV(); /* Baca kode */
-                switch (CC) {
-                    ADV(); /* CC di ElmtSeparator */
-                    ADV(); /* CC di start element selanjutnyaa */
-                    case BUILD:
-                        /* BuildWahana */
-                        break;
-                    case UPGRD:
-                        /* UpgradeWahana */
-                        /* Isi Tuple: () */
-                        break;
-                    case BUY:
-                        /* BuyResource */
-                        /* Isi Tuple: (BUY, qty_i, nama material) */
-                        for (j = 1; j < 3; ++j) {
-                            i = 0;
-                            while (CC != ElmtSeparator && CC != TupleEnd) {
-                                if (i < PanjangToken) {
-                                    CToken.Token[i] = CC;
-                                    ++i;
-                                }
-                                ADV();
-                            }
-                            CToken.length = i;
-                            switch (j) {
-                                case 1: /* Ngebaca qty_i */
-                                    aB.qty_i = ReadInt();
-                                    break;
-                                case 2: /* Ngisi bagian K dari material */
-                                    aB.K.Length = CToken.length;
-                                    ReadString(aB.K.TabKata);
-                            }
-                        }
-                        StackElmt = (actBuy*) malloc(sizeof(actBuy));
-                        StackElmt = &aB;
-
-                        /* Ngepush variabel actBuy ke stack */
-                        Push(&RetS, StackElmt, BUY);
-                        break;
-                }
-            }
-        }
-    }
-
-    return RetS;
-}
+//Stack ReadStack() {
+//    Stack RetS;
+//    CreateEmptyStack(&RetS);
+//    void *StackElmt;
+//    Kata K;
+//    actBuy aB;
+//    int i, j;
+//
+//    if (CC == ArrayStart) {
+//        ADV();
+//        while (CC != ArrayEnd) {
+//            ADV();
+//            if (CC == TupleStart) {
+//                ADV(); /* Baca kode */
+//                switch (CC) {
+//                    ADV(); /* CC di ElmtSeparator */
+//                    ADV(); /* CC di start element selanjutnyaa */
+//                    case BUILD:
+//                        /* BuildWahana */
+//                        break;
+//                    case UPGRD:
+//                        /* UpgradeWahana */
+//                        /* Isi Tuple: () */
+//                        break;
+//                    case BUY:
+//                        /* BuyResource */
+//                        /* Isi Tuple: (BUY, qty_i, nama material) */
+//                        for (j = 1; j < 3; ++j) {
+//                            i = 0;
+//                            while (CC != ElmtSeparator && CC != TupleEnd) {
+//                                if (i < PanjangToken) {
+//                                    CToken.Token[i] = CC;
+//                                    ++i;
+//                                }
+//                                ADV();
+//                            }
+//                            CToken.length = i;
+//                            switch (j) {
+//                                case 1: /* Ngebaca qty_i */
+//                                    aB.qty_i = ReadInt();
+//                                    break;
+//                                case 2: /* Ngisi bagian K dari material */
+//                                    aB.K.Length = CToken.length;
+//                                    ReadKata(aB.K.TabKata);
+//                            }
+//                        }
+//                        StackElmt = (actBuy*) malloc(sizeof(actBuy));
+//                        StackElmt = &aB;
+//
+//                        /* Ngepush variabel actBuy ke stack */
+//                        Push(&RetS, StackElmt, BUY);
+//                        break;
+//                }
+//            }
+//        }
+//    }
+//
+//    return RetS;
+//}

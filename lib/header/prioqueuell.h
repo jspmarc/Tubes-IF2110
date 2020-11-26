@@ -15,7 +15,7 @@ typedef int QueueInfoType;
 typedef struct tElmtQueue * address;
 typedef struct tElmtQueue {
     QueueInfoType kesabaran; /* Kesabaran pengunjung */
-    address Next; /* Pengunjung di belakangnya */
+    address NextQueue; /* Pengunjung di belakangnya */
     int prio; /* prioritas pengunjung */
     unsigned int wahanaID[KAKI_PEGEL]; /* Wahana yang mau dinaikin pengunjung */
 } ElmtQueue;
@@ -31,14 +31,14 @@ typedef struct {
 #define Tail(Q)     (Q).TAIL
 #define InfoHead(Q) (Q).HEAD->Info
 #define InfoTail(Q) (Q).TAIL->Info
-#define Next(P) (P)->Next
+#define NextQueue(P) (P)->NextQueue
 #define Kesabaran(P) (P)->kesabaran
 #define Prio(P) (P)->prio
 
 /* Prototype manajemen memori */
 /* I.S. Sembarang */
 /* F.S. Alamat P dialokasi, jika berhasil maka Info(P)=X dan
-        Next(P)=Nil */
+        NextQueue(P)=Nil */
 /*      P=Nil jika alokasi gagal */
 void AlokasiQueue(address *P, QueueInfoType X, int prio);
 

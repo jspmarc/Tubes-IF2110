@@ -15,17 +15,17 @@ Resource playerResources;
 array BuyableMaterials;
 
 void InitResources() {
-    CreateArray(&BuyableMaterials, BANYAK_MATERIAL);
+    CreateArray(&BuyableMaterials, MAX_MATERIAL);
     /* Baca dari file */
 }
 
-void copyTabKata(Kata K1, Kata *K2) {
-    int i;
-    for (i = 0; i < K1.Length; ++i) K2->TabKata[i] = K1.TabKata[i];
-    K2->Length = K1.Length;
-    K2->TabKata[i] = '\0';
-}
-
+//void copyTabKata(Kata K1, Kata *K2) {
+//    int i;
+//    for (i = 0; i < K1.Length; ++i) K2->TabKata[i] = K1.TabKata[i];
+//    K2->Length = K1.Length;
+//    K2->TabKata[i] = '\0';
+//}
+//
 int ParseTabKata(Kata K1) {
     int ret = 0;
 
@@ -49,15 +49,17 @@ void BuyResource() {
 
     printf("Ingin membeli apa?\nList:\n");
     for (int i = 0; i < BuyableMaterials.NbEl; ++i) {
-        printf("- %s\n", MaterialList[BuyableMaterials.arr[i].id].NamaMaterial);
+				printf("- ");
+				TulisKataKe(((Material *)BuyableMaterials.arr)->namaMaterial, stdout);
+        printf("\n");
     }
 
     STARTKATA(stdin);
 
-    copyTabKata(CKata, &qty);
+    SalinKataKe(&qty);
     IgnoreBlank();
     ADVKATA();
-    copyTabKata(CKata, &jenis);
+    SalinKataKe(&jenis);
     IgnoreBlank();
     ADVKATA();
 
@@ -66,24 +68,54 @@ void BuyResource() {
         actBuy a;
 
         qty_i = ParseTabKata(qty); /* Pengecekan input */
-        a.qty_i = qty_i; /* Banyak pembelian */
-        a.K = jenis; /* nama dari barang yang dibeli (tipe data kata) */
+        a.qty = qty_i; /* Banyak pembelian */
+        a.id = getMaterialId(jenis); /* nama dari barang yang dibeli (tipe data kata) */
         if (qty_i != -1 && qty_i > 0) Push(&actionStack, &a, BUY);
         else if (qty_i <= 0) puts("Pembelian minimal 1");
     }
 }
 
 void ExecBuy(actBuy aB, JAM *curJam) {
-    char* asd = aB.K.TabKata;
+    Kata asd = getMaterialName(aB.id);
     int harga, i = 0;
 
     /* Akan mencari indeks di mana ditemukan material dengan nama sesuai
      * variabel `asd` pada playerResources */
-    for (; !strIsEqual(asd, playerResources.ListMaterial[i].NamaMaterial); ++i);
-    playerResources.ListMaterial[i].qty += aB.qty_i;
+    for (; !IsKataSama(asd, playerResources.materials[i].namaMaterial); ++i);
+    playerResources.materials[i].jumlahMaterial += aB.qty;
 
-    harga = playerResources.ListMaterial[i].harga;
-    playerResources.uang = harga * aB.qty_i;
+    harga = playerResources.materials[i].biayaMaterial;
+    playerResources.uang -= harga * aB.qty;
 
     *curJam = DetikToJAM(JAMToDetik(*curJam) - LAMA_BELI);
+}
+
+unsigned char getMaterialId(Kata K){
+	int i;
+	Material* M;
+	unsigned char id = 0;
+	boolean found;
+	for(i = 0; i < BuyableMaterials.NbEl && !found; i++){
+		M = (Material *)BuyableMaterials.arr;
+		if(IsKataSama(M->namaMaterial, K)){
+			id = M->idMaterial;
+			found = true;
+		}
+	}
+	return id;
+}
+
+Kata getMaterialName(unsigned char id){
+	int i;
+	Kata c;
+	Material* M;
+	boolean found;
+	for(i = 0; i < BuyableMaterials.NbEl && !found; i++){
+		M = (Material *)BuyableMaterials.arr;
+		if(M->idMaterial == id){
+			c = M->namaMaterial;
+			found = true;
+		}
+	}
+	return c;
 }

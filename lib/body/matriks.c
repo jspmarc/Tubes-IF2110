@@ -95,10 +95,10 @@ void TulisMATRIKS (MATRIKS M) {
 }
 
 /* ********** KELOMPOK OPERASI RELASIONAL TERHADAP MATRIKS ********** */
-boolean EQ (MATRIKS M1, MATRIKS M2) {
+boolean MatriksEQ (MATRIKS M1, MATRIKS M2) {
     /* KAMUS LOKAL */
     /* ALGORITMA */
-    if (NBElmt(M1) != NBElmt(M2) || !EQSize(M1, M2))
+    if (NBElmt(M1) != NBElmt(M2) || !MatriksEQSize(M1, M2))
         return false;
 
     for (indeks i = GetFirstIdxBrs(M1); i <= GetLastIdxBrs(M1); ++i)
@@ -108,10 +108,10 @@ boolean EQ (MATRIKS M1, MATRIKS M2) {
 
     return true;
 }
-boolean NEQ (MATRIKS M1, MATRIKS M2) {
-    return !EQ(M1, M2);
+boolean MatriksNE (MATRIKS M1, MATRIKS M2) {
+    return !MatriksEQ(M1, M2);
 }
-boolean EQSize (MATRIKS M1, MATRIKS M2) {
+boolean MatriksEQSize (MATRIKS M1, MATRIKS M2) {
     return (NBrsEff(M1) == NBrsEff(M2) && NKolEff(M1) == NKolEff(M2));
 }
 

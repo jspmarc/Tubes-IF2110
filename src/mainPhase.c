@@ -10,7 +10,7 @@
 #include "./../lib/header/jam.h"
 #include "./../lib/header/wahana.h"
 #include "./../lib/header/globals.h"
-#include "map.c"
+#include "map.h"
 
 void SERVE () {
     /* Memakan waktu */
@@ -48,7 +48,7 @@ void PREPARE () {
     return;
 }
 
-int main() {
+int MainPhase() {
     Queue Q;
     int i;
     char * perintah;

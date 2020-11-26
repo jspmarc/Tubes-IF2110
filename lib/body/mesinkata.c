@@ -70,3 +70,10 @@ boolean IsKataSama(Kata K1, Kata K2){
 	}
 	return sama;
 }
+
+void TulisKataKe(Kata K, FILE* f){
+	int i;
+	for(i = 0; i < K.Length; i++){
+		printf("%c", K.TabKata[i]);
+	}
+}
