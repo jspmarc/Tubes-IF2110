@@ -27,11 +27,11 @@ INC_DIRS := $(LIB_DIR)/header
 INC_FLAGS := $(addprefix -I, $(INC_DIRS))
 LDFLAGS = -lm
 
-run: ./$(TARGET)
-	./$<
-
 ./$(TARGET): $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) $(INC_FLAGS) -o $@
+
+run: ./$(TARGET)
+	./$<
 
 $(BUILD_DIR)/%.o: %.c
 	$(MKDIR_P) $(dir $@)

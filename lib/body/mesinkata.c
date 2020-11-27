@@ -39,7 +39,7 @@ void SalinKata() {
 
     i = 0;
 
-    while(i < NMax && CC != MARK && CC != BLANK && CC != CR && CC != LF) {
+    while(i < NMax && CC != MARK && CC != CR && CC != LF) {
         CKata.TabKata[i++] = CC;
         ADV();
     }

@@ -7,6 +7,7 @@
 #include "../lib/header/stacklist.h"
 #include "../lib/header/wahana.h"
 #include "../lib/header/globals.h"
+#include "commands.h"
 #include "map.h"
 
 void ShowMenu() {
@@ -18,27 +19,9 @@ void ShowMenu() {
 /* Main */
 int main () {
     /* KAMUS */
+		boolean isIngame = 0;
     init();
-
-    Kata new, load, exit;
-    new.TabKata[0] = 'n';
-    new.TabKata[1] = 'e';
-    new.TabKata[2] = 'w';
-    new.TabKata[3] = '\0';
-    new.Length = 3;
-    load.TabKata[0] = 'l';
-    load.TabKata[1] = 'o';
-    load.TabKata[2] = 'a';
-    load.TabKata[3] = 'd';
-    load.TabKata[4] = '\0';
-    load.Length = 4;
-    exit.TabKata[0] = 'e';
-    exit.TabKata[1] = 'x';
-    exit.TabKata[2] = 'i';
-    exit.TabKata[3] = 't';
-    exit.TabKata[4] = '\0';
-    exit.Length = 4;
-
+    initCommands();
     /* ALGORITMA */
     // Accept input
     printf("Willy Wangky no Fum Factory e Youkoso\n");
@@ -47,7 +30,8 @@ int main () {
     STARTKATA();
 
 		do{
-			if(IsKataSama(CKata, new)){
+			// main game loop
+			if(IsKataSama(CKata, newC) && !isIngame){
 				// ke new
 				printf("Masukkan nama: ");
 				IgnoreBlank();
@@ -56,21 +40,67 @@ int main () {
 				printf("Selamat datang, ");
 				TulisKataKe(Nama, stdout);
 				printf("!\n");
-				ShowMap(crrntMapID, playerPos, Map1);
+				isIngame = 1;
 			}
 			else if(IsKataSama(CKata, load)){
 				// ke load ?
 			}
+			else if(CKata.Length == 1){
+				// w,a,s,d
+				if(CKata.TabKata[0] == 'w') MoveW(Map1);
+				if(CKata.TabKata[0] == 'a') MoveA(Map1);
+				if(CKata.TabKata[0] == 's') MoveS(Map1);
+				if(CKata.TabKata[0] == 'd') MoveD(Map1);
+			}
+			else if(IsKataSama(CKata, build)){
+				// Build Logic
+			}
+			else if(IsKataSama(CKata, upgrade)){
+				// Upgrade Logic
+			}
+			else if(IsKataSama(CKata, buy)){
+				// Buy Logic
+			}
+			else if(IsKataSama(CKata, undo)){
+				// Undo Logic
+			}
+			else if(IsKataSama(CKata, execute)){
+				// Execute Logic
+			}
+			else if(IsKataSama(CKata, mainC)){
+				// main Logic
+			}
+			else if(IsKataSama(CKata, serve)){
+				// Serve Logic
+			}
+			else if(IsKataSama(CKata, repair)){
+				// Repair Logic
+			}
+			else if(IsKataSama(CKata, detail)){
+				// Detail Logic
+			}
+			else if(IsKataSama(CKata, office)){
+				// Office Logic
+			}
+			else if(IsKataSama(CKata, prepare)){
+				// Prepare Logic
+			}
 			else{
 				// input gak valid...
 			}
+			// perintah lain lagi: main phase, etc etc
 			// Akuisisi kata baru kalo gak kosong
-			if(!IsKataSama(CKata, exit)){
-				ShowMenu(); printf("$ ");
+			if(!IsKataSama(CKata, exitC)){
+				if(!isIngame) ShowMenu();
+				else{
+					ShowMap(crrntMapID, playerPos, Map1);
+					printf("Masukkan perintah:\n");
+				} 
+				printf("$ ");
 				IgnoreBlank();
 				ADVKATA();
 			}
-		} while(!IsKataSama(CKata, exit) && !EndKata);
+		} while(!IsKataSama(CKata, exitC) && !EndKata);
 
     printf("Jaa matane\n");
 
