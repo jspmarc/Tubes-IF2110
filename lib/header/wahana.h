@@ -107,7 +107,7 @@ UpgradeType BuatSimpulKosong(unsigned char id);
  * description - deskripsi wahana di node yang ingin diisi
  * cost - harga untuk mengupgrade/mengambil node yang ingin diisi
  */
-UpgradeType UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, unsigned int harga,
+void UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, unsigned int harga,
             JAM durasi, Kata nama, Kata description, Resource upCost);
 
 /* Manajemen Memory */

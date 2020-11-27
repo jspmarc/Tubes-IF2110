@@ -7,6 +7,7 @@
 #include "../lib/header/stacklist.h"
 #include "../lib/header/wahana.h"
 #include "../lib/header/globals.h"
+#include "../lib/header/parser.h"
 #include "commands.h"
 #include "map.h"
 
@@ -19,14 +20,25 @@ void ShowMenu() {
 /* Main */
 int main () {
     /* KAMUS */
+		FILE *f;
 		boolean isIngame = 0;
     init();
     initCommands();
+    WahanaTree t = Nil;
     /* ALGORITMA */
+    f = fopen("test.txt", "r");
+    StartParser(f);
+    t = ReadTree();
+		while(!EOP){
+			ReadUpgrade(&t);
+		}
+    PrintPreorder(t);
+    printf("\n");
     // Accept input
     printf("Willy Wangky no Fum Factory e Youkoso\n");
 
     ShowMenu(); printf("$ ");
+    START(stdin);
     STARTKATA();
 
 		do{

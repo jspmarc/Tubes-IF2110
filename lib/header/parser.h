@@ -40,7 +40,8 @@ wahana [id, posisi, upgrade tree, [(Info, prio)]].
 */
 
 #define ParserMark '.'
-#define NewlineMark '\n'
+#define CR '\r'
+#define LF '\n'
 #define ElmtSeparator ','
 #define ItemSeparator ' '
 #define blank ' '
@@ -64,6 +65,7 @@ void StartParser();
 void SkipNewLine();
 void SkipBlank();
 void ReadToken();
+void ReadLine();
 void ReadKata(Kata *str);
 int ReadInt();
 Material ReadMaterial();

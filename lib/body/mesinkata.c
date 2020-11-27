@@ -49,12 +49,16 @@ void SalinKata() {
 }
 
 void SalinKataKe(Kata *K1){
+	SalinKataDariKe(CKata, K1);
+}
+
+void SalinKataDariKe(Kata K1, Kata *K2){
 	int i;
 
-	for(i = 0; i < CKata.Length; i++){
-		K1->TabKata[i] = CKata.TabKata[i];
+	for(i = 0; i < K1.Length; i++){
+		K2->TabKata[i] = K1.TabKata[i];
 	}
-	K1->Length = CKata.Length;
+	K2->Length = K1.Length;
 }
 
 boolean IsKataSama(Kata K1, Kata K2){

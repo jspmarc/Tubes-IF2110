@@ -51,6 +51,9 @@ void SalinKata();
 /* Menyalin kata dari CKata ke K1 */
 void SalinKataKe(Kata *K1);
 
+/* Menyalin kata dari K1 ke K2 */
+void SalinKataDariKe(Kata K1, Kata *K2);
+
 /* Predikat: Mengecek apakah K1 dan K2 mengandung kata yang sama */
 boolean IsKataSama(Kata K1, Kata K2);
 

@@ -11,6 +11,7 @@ WahanaTree Tree(UpgradeType Akar, WahanaTree L, WahanaTree R) {
     WahanaTree WT;
 
     WT = (WahanaTree) malloc(sizeof(UpNode));
+    Akar(WT) = Akar;
     Left(WT) = L;
     Right(WT) = R;
 
@@ -43,20 +44,18 @@ UpgradeType IsiSimpul(unsigned char id, unsigned short kapasitas, unsigned int h
     return simpul;
 }
 
-UpgradeType UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, unsigned int harga,
+void UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, unsigned int harga,
             JAM durasi, Kata nama, Kata description, Resource upCost) {
-    UpgradeType simpul;
+    UpgradeType *simpul;
 
-		simpul = Akar(SearchUpgrade(*P, id));
-    simpul.kapasitas = kapasitas;
-    simpul.harga = harga;
-    simpul.durasi = durasi;
-    simpul.nama = nama;
-    simpul.description = description;
-    simpul.UpgradeCost = upCost;
-    simpul.isTaken = false;
-
-    return simpul;
+		simpul = &Akar(SearchUpgrade(*P, id));
+    simpul->kapasitas = kapasitas;
+    simpul->harga = harga;
+    simpul->durasi = durasi;
+    SalinKataDariKe(nama, &(simpul->nama));
+    SalinKataDariKe(description, &(simpul->description));
+    simpul->UpgradeCost = upCost;
+    simpul->isTaken = false;
 }
 
 addrNode AlokasiNodeTree(UpgradeType UT) {
