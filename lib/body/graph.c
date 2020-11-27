@@ -4,9 +4,10 @@
 
 #include "../header/graph.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void CreateGraph(int X, Graph * G) {
-  GraphFirst(*G) = Nil;
+  GraphFirst(*G) = AlokNode(X);
 }
 
 adrNode AlokNode (int X) {
@@ -74,20 +75,24 @@ jika sudah ada pada graph G, Nil jika belum */
   adrSuccNode Pt;
 
   /* ALGORITMA */
+  Pt = Nil;
+
+  // Cari node dengan ID prec di graf
   P = SearchNode(G, prec);
-  while(P != Nil && Id(P) != prec) P = GraphNext(P);
-  if(P != Nil){
-    // Ada node dengan ID prec di graf
-    // cari successor dengan id succ
+
+  // Ada node dengan ID prec di graf
+  if (P != Nil) {
+    // Cari Edge dengan Succ adalah succ
     Pt = Trail(P);
-    P = Succ(Pt);
-    while(Pt != Nil && Id(P) != succ){
-      Pt = GraphNext(Pt);
-      P = Succ(Pt);
+    while(Pt != Nil && Id(Succ(Pt)) != succ) 
+        Pt = GraphNext(Pt);
+
+    // Edge ditemukan
+    if (Pt != Nil){
+        return Pt;
     }
   }
-  // Pt pasti menyimpan info (prec, succ), atau Nil.
-  return Pt;
+    return Nil;
 }
 
 void InsertNode (Graph * G, int X, adrNode * Pn) {
@@ -109,10 +114,12 @@ void InsertEdge (Graph * G, int prec, int succ) {
   adrNode NP, NS;
   adrSuccNode Trail;
   // Tambah dulu prec dan succ kalau belum ada
+
   NP = SearchNode(*G, prec);
   if(NP == Nil) InsertNode(G, prec, &NP);
+
   NS = SearchNode(*G, succ);
-  if(NS) InsertNode(G, prec, &NS);
+  if(NS == Nil) InsertNode(G, succ, &NS);
 
   // Baru tambah edgenya, kalau belum ada
   if(SearchEdge(*G, prec, succ) == Nil){

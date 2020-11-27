@@ -44,7 +44,7 @@ typedef struct {
   Point Antrian;
 } MAP;
 
-#define Number(M) (M).Number
+#define ID(M) (M).MapID
 #define NBrs(M) (M).NBrs
 #define NKol(M) (M).NKol
 #define Gate1(M) (M).Gate1
@@ -52,20 +52,48 @@ typedef struct {
 #define Office(M) (M).Office
 #define Antrian(M) (M).Antrian
 
-extern MAP Map1;
-extern MAP Map2;
-extern MAP Map3;
-extern MAP Map4;
+extern MAP map1;
+extern MAP map2;
+extern MAP map3;
+extern MAP map4;
 
 extern Point playerPos;
 extern int crrntMapID;
 
+extern int jaringanMap;
+
   /* Return nilai tengah dari suatu bilangan */
 int MiddleOf(indeks N);
 
-void ShowMap(int crrntMapID, Point playerPos, MAP map);
-void MoveW (MAP map);
-void MoveA (MAP map);
-void MoveS (MAP map);
-void MoveD (MAP map);
+void InitiateMapGraph();
+/* Menginisiasi Graph yang menghubungkan peta-peta(nodes) */
+
+MAP WhichMap();
+/* Mengembalikan map sesuai crrntMapID */
+
+void ShowMap();
+/* Membuat matriks peta lokasi player dan menampilkannya 
+    bersama elemen-elemen yang ada */
+
+/* *** PERGERAKAN PLAYER ***  */
+void MoveW ();
+/* Pemain bergerak ke atas, ordinat pemain berkurang */
+/* if di atas pemain == tembok, then tidak berubah */
+/* if di atas pemain == gate, then pindah currentmap */
+
+void MoveA ();
+/* Pemain bergerak ke kiri, absis pemain berkurang */
+/* if di kiri pemain == tembok, then tidak berubah */
+/* if di kiri pemain == gate, then pindah currentmap */
+
+void MoveS ();
+/* Pemain bergerak ke bawah, ordinat pemain bertambah */
+/* if di bawah pemain == tembok, then tidak berubah */
+/* if di bawah pemain == gate, then pindah currentmap */
+
+void MoveD ();
+/* Pemain bergerak ke kanan, absis pemain bertambah */
+/* if di kanan pemain == tembok, then tidak berubah */
+/* if di kanan pemain == gate, then pindah currentmap */
+
 #endif
