@@ -21,7 +21,7 @@ void ShowMenu() {
 int main () {
     /* KAMUS */
 		FILE *f;
-		boolean isIngame = 0;
+		boolean isIngame = false;
     init();
     initCommands();
     WahanaTree t = Nil;
@@ -59,10 +59,10 @@ int main () {
 			}
 			else if(CKata.Length == 1){
 				// w,a,s,d
-				if(CKata.TabKata[0] == 'w') MoveW(Map1);
-				if(CKata.TabKata[0] == 'a') MoveA(Map1);
-				if(CKata.TabKata[0] == 's') MoveS(Map1);
-				if(CKata.TabKata[0] == 'd') MoveD(Map1);
+				if(CKata.TabKata[0] == 'w') MoveW();
+				if(CKata.TabKata[0] == 'a') MoveA();
+				if(CKata.TabKata[0] == 's') MoveS();
+				if(CKata.TabKata[0] == 'd') MoveD();
 			}
 			else if(IsKataSama(CKata, build)){
 				// Build Logic
@@ -105,7 +105,7 @@ int main () {
 			if(!IsKataSama(CKata, exitC)){
 				if(!isIngame) ShowMenu();
 				else{
-					ShowMap(crrntMapID, playerPos, Map1);
+					ShowMap();
 					printf("Masukkan perintah:\n");
 				} 
 				printf("$ ");

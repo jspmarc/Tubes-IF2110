@@ -3,6 +3,7 @@
 #include "jam.h"
 #include "point.h"
 #include "prioqueuell.h"
+#include "map.h"
 
 #ifndef _GAME_GLOBAL_H
 #define _GAME_GLOBAL_H
@@ -23,8 +24,6 @@
 extern Stack actionStack;
 extern Queue antrianCustomer;
 extern Resource playerResources;
-extern Point playerPos;
-extern int crrntMapID;
 extern JAM currentJam;
 extern Kata Nama;
 extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of TangibleWahana. */
@@ -33,6 +32,17 @@ extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of Tangib
 extern array DoableActions; /* Nyimpen array of struct aksi */
 extern array BuyableMaterials; /* Nyimpen array of struct material */
 extern array AvailableWahana; /* Nyimpen array of struct wahana */
+
+/* Map */
+extern MAP map1;
+extern MAP map2;
+extern MAP map3;
+extern MAP map4;
+
+extern Point playerPos;
+extern int crrntMapID;
+
+extern Graph jaringanMap;
 
 void init();
 

@@ -17,6 +17,7 @@ MAIN_DIR = ./src
 # Processing folders
 ## get .c files
 SRCS := $(shell find $(LIB_DIR) -name *.c) $(shell find $(MAIN_DIR) -name *.c)
+SRCS := $(filter-out ./src/mmap.c, $(SRCS))
 ## "foresee" .o files' paths
 OBJS := $(SRCS:%.c=$(BUILD_DIR)/%.o)
 

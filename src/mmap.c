@@ -1,7 +1,9 @@
 /* File : mmap.c */
 /* File untuk debug(?) ADT dan fungsi map di map.c */
 
-#include "map.h"
+#include "../header/map.h"
+#include "../header/globals.h"
+
 #include <stdio.h>
 #include <math.h>
 

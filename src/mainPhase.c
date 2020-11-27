@@ -16,7 +16,7 @@ void SERVE () {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
 
-    ShowMap(crrntMapID, playerPos, Map1);
+    ShowMap();
 
 }
 
