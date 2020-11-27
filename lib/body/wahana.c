@@ -48,7 +48,7 @@ void UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, un
             JAM durasi, Kata nama, Kata description, Resource upCost) {
     UpgradeType *simpul;
 
-		simpul = &Akar(SearchUpgrade(*P, id));
+	simpul = &Akar(SearchUpgrade(*P, id));
     simpul->kapasitas = kapasitas;
     simpul->harga = harga;
     simpul->durasi = durasi;

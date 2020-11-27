@@ -11,10 +11,12 @@
 #include "commands.h"
 #include "map.h"
 
+MAP Map1;
+
 void ShowMenu() {
-    printf("new : New Game\n");
-    printf("load : Load Game\n");
-    printf("exit : Exit Game\n");
+	printf("new : New Game\n");
+	printf("load : Load Game\n");
+	printf("exit : Exit Game\n");
 }
 
 /* Main */
@@ -32,14 +34,14 @@ int main () {
 		while(!EOP){
 			ReadUpgrade(&t);
 		}
-    PrintPreorder(t);
-    printf("\n");
-    // Accept input
-    printf("Willy Wangky no Fum Factory e Youkoso\n");
+	PrintPreorder(t);
+	printf("\n");
+	// Accept input
+	printf("Willy Wangky no Fum Factory e Youkoso\n");
 
-    ShowMenu(); printf("$ ");
-    START(stdin);
-    STARTKATA();
+	ShowMenu(); printf("$ ");
+	START(stdin);
+	STARTKATA();
 
 		do{
 			// main game loop
@@ -107,14 +109,14 @@ int main () {
 				else{
 					ShowMap();
 					printf("Masukkan perintah:\n");
-				} 
+				}
 				printf("$ ");
 				IgnoreBlank();
 				ADVKATA();
 			}
 		} while(!IsKataSama(CKata, exitC) && !EndKata);
 
-    printf("Jaa matane\n");
+	printf("Jaa matane\n");
 
-    return 0;
+	return 0;
 }
