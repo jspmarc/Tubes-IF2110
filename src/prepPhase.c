@@ -27,7 +27,7 @@ void Execute(){
 				// execute build;
 				ExecBuild((ATangibleWahana)t);
 				break;
-			case UPGRD:
+			case UPGRADE:
 				// execute upgrade;
 				ExecUpgrade((WahanaUpgradeStack)t);
 				break;
@@ -90,11 +90,9 @@ void ExecuteBuy(Material M){
 }
 
 UndoData Undo() {
-	PropertiAksi p;
 	UndoData data;
 
-	Pop(&actionStack, (StackInfoType) &data.infoAksi, &p);
-	data.durasiAksi = p.durasiAksi;
+	Pop(&actionStack, (StackInfoType) &data.infoAksi, &data.prop);
 
 	return data;
 }
