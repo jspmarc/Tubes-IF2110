@@ -1,0 +1,176 @@
+[
+{0{1{}{}}{2{}{}}}
+id 0
+capacity 10
+price 10
+duration 300
+nama TBFO
+description IF2124 Teori Bahasa Formal dan Otomata
+[
+id 1 jumlah 1000
+]
+id 1
+capacity 10
+price 10
+duration 300
+name Materi 1 TBFO
+description Materi 1 TBFO
+[
+id 5 jumlah 10
+id 1 jumlah 3
+]
+id 2
+cap 1
+price 1
+dur 0
+name Materi 2 TBFO
+des Materi 2 TBFO
+[
+id 5 jumlah 3
+],
+{0{1{}{}}{2{}{}}}
+id 0
+capacity 10
+price 10
+duration 300
+nama Alstrukdat
+description IF2110 Algoritma dan Struktur Data
+[
+id 1 jumlah 1000
+]
+id 1
+capacity 10
+price 10
+duration 300
+name kapan tubes selesai
+description bruh moment
+[
+id 5 jumlah 10
+id 1 jumlah 3
+]
+id 2
+cap 1
+price 1
+dur 0
+name hadeh capek
+des anjay mabar
+[
+id 5 jumlah 3
+],
+{0{1{}{}}{2{}{}}}
+id 0
+capacity 10
+price 10
+duration 300
+nama Algeo
+description IF2123 Aljabar Linier dan Geometri
+[
+id 1 jumlah 1000
+]
+id 1
+capacity 10
+price 10
+duration 300
+name Materi 1 Algeo
+description Materi 1 Algeo
+[
+id 5 jumlah 10
+id 1 jumlah 3
+]
+id 2
+cap 1
+price 1
+dur 0
+name Materi 2 Algeo
+des Materi 2 Algeo
+[
+id 5 jumlah 3
+],
+{0{1{}{}}{2{}{}}}
+id 0
+capacity 10
+price 10
+duration 300
+nama Matdis
+description IF2120 Matematika Diskrit
+[
+id 1 jumlah 1000
+]
+id 1
+capacity 10
+price 10
+duration 300
+name Materi 1 Matdis
+description bruh moment
+[
+id 5 jumlah 10
+id 1 jumlah 3
+]
+id 2
+cap 1
+price 1
+dur 0
+name Materi 2 Matdis
+des anjay mabar
+[
+id 5 jumlah 3
+],
+{0{1{}{}}{2{}{}}}
+id 0
+capacity 10
+price 10
+duration 300
+nama Orkom
+description IF2130 Organisasi dan Arsitektur Komputer
+[
+id 1 jumlah 1000
+]
+id 1
+capacity 10
+price 10
+duration 300
+name Materi 1 Orkom
+description Materi 1 Orkom
+[
+id 5 jumlah 10
+id 1 jumlah 3
+]
+id 2
+cap 1
+price 1
+dur 0
+name Materi 2 Orkom
+des Materi 2 Orkom
+[
+id 5 jumlah 3
+],
+{0{1{}{}}{2{}{}}}
+id 0
+capacity 10
+price 10
+duration 300
+name Logkom
+description IF2121 Logika Komputasional
+[
+id 1 jumlah 1000
+]
+id 1
+capacity 10
+price 10
+duration 300
+name Materi 1 Logkom
+description Materi 1 Logkom
+[
+id 5 jumlah 10
+id 1 jumlah 3
+]
+id 2
+cap 1
+price 1
+dur 0
+name Materi 2 Logkom
+des Mater 2 Logkom
+[
+id 5 jumlah 3
+],
+].

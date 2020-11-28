@@ -1,11 +1,16 @@
 #include "../header/globals.h"
 #include "../header/parser.h"
 
+/* State */
 Stack actionStack;
 Resource playerResources;
+JAM currentJam;
 Kata Nama;
 array BuiltWahana;
-array wahanaFromFile;
+
+/* Data */
+array AvailableWahana;
+JAM OpeningJam;
 
 /* Map stuffs */
 MAP map1;
@@ -25,13 +30,16 @@ void init() {
 
 	playerResources.uang = START_MONEY;
 	CreateArray(&BuiltWahana, MAX_WAHANA);
-	CreateArray(&wahanaFromFile, MAX_WAHANA);
+	CreateArray(&AvailableWahana, MAX_WAHANA);
+
+	currentJam = MakeJAM(21, 0, 0);
+	OpeningJam = MakeJAM(9, 0, 0);
 
 	InitiateMap();
 
-	f = fopen("test.txt", "r");
+	f = fopen("./data/wahana.txt", "r");
 	StartParser(f);
-	wahanaFromFile = ReadTreeArray();
+	AvailableWahana = ReadTreeArray();
 	// TestTheMap();
 }
 

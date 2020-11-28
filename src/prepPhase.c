@@ -43,14 +43,14 @@ void Execute(){
 void BuildWahana(UpgradeType Wahana, Point Loc) {
 	ATangibleWahana w;
 	PropertiAksi prop;
-	w = (ATangibleWahana)malloc(sizeof(TangibleWahana));
+	w = (ATangibleWahana) malloc(sizeof(TangibleWahana));
 	WahanaPoint(w) = Loc;
 	TreeWahana(w) = Wahana;
 	UpgradeId(w) = Wahana.id;
 
 	DurasiAksi(prop) = MakeJAM(0, 30, 0); //arbitrary choice
 	IdAksi(prop) = BUILD;
-	Push(&actionStack, (void*)w, prop);
+	Push(&actionStack, w, prop);
 }
 void ExecBuild(ATangibleWahana Wahana){
 	// Store ATangibleWahana somehow

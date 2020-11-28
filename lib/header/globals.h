@@ -33,7 +33,7 @@ extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of Tangib
 extern array DoableActions; /* Nyimpen array of struct aksi */
 extern array BuyableMaterials; /* Nyimpen array of struct material */
 extern array AvailableWahana; /* Nyimpen array of struct wahana */
-extern array wahanaFromFile;
+extern JAM OpeningJam;
 
 /* Map */
 extern MAP map1;
