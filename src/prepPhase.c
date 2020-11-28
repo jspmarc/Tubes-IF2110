@@ -50,7 +50,7 @@ void BuildWahana(UpgradeType Wahana, Point Loc) {
 
 	DurasiAksi(prop) = MakeJAM(0, 30, 0); //arbitrary choice
 	IdAksi(prop) = BUILD;
-	Push(&actionStack, w, prop);
+	Push(&actionStack, (void *) w, prop);
 }
 void ExecBuild(ATangibleWahana Wahana){
 	// Store ATangibleWahana somehow
@@ -89,9 +89,12 @@ void Buy(){
 void ExecuteBuy(Material M){
 }
 
-void Undo() {
-    void* t;
-    PropertiAksi p;
-    t = NULL;
-    Pop(&actionStack, t, &p);
+UndoData Undo() {
+	PropertiAksi p;
+	UndoData data;
+
+	Pop(&actionStack, (StackInfoType) &data.infoAksi, &p);
+	data.durasiAksi = p.durasiAksi;
+
+	return data;
 }

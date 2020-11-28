@@ -25,6 +25,9 @@
 /* Deklarasi StackInfoType */
 /* Nunjuk ke struk eksekusi aksi */
 typedef void* StackInfoType;
+//typedef union {
+//} StackInfo;
+//typedef StackInfo* StackInfoType;
 
 typedef struct {
     unsigned char idAksi;
@@ -86,5 +89,4 @@ void Push (Stack * S, StackInfoType X, PropertiAksi prop);
 /*      elemen TOP yang lama didealokasi */
 /* Pada dasarnya adalah operasi Delete First pada list linier */
 void Pop (Stack * S, StackInfoType * X, PropertiAksi *prop);
-
 #endif

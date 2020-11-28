@@ -94,18 +94,23 @@ int main () {
 	IsiBuildableWahana();
 	init();
 	initCommands();
+
+	long totalDetikAksi = 0; int totalUangAksi = 0;
+	unsigned totalAksi = 0;
+
+	JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
 	/* ALGORITMA */
 	printf("\n");
 	/* Pembacaan file wahana dilakukan di init() */
 	// Accept input
 	printf("Willy Wangky no Fum Factory e Youkoso\n");
 
-	ShowMenu(); printf("$ ");
+	ShowMenu(); printf("❯ ");
 	STARTKATA();
 
 	do{
 		// main game loop
-		if(IsKataSama(CKata, newC) && !isIngame){
+		if(IsKataSama(CKata, newC) && !isIngame) {
 			// ke new
 			printf("Masukkan nama: ");
 			IgnoreBlank();
@@ -115,92 +120,116 @@ int main () {
 			TulisKataKe(Nama, stdout);
 			printf("!\n");
 			isIngame = 1;
-		}
-		else if(IsKataSama(CKata, load)){
+		} else if(IsKataSama(CKata, load) && !isIngame) {
 			// ke load ?
-		}
-		else if(CKata.Length == 1){
-			// w,a,s,d
-			if(CKata.TabKata[0] == 'w') MoveW();
-			if(CKata.TabKata[0] == 'a') MoveA();
-			if(CKata.TabKata[0] == 's') MoveS();
-			if(CKata.TabKata[0] == 'd') MoveD();
-		}
-		else if(IsKataSama(CKata, build)){
-			Kata Wahana;
-			int idxWahana;
-			// Build Logic
-			printf("Ingin membangun apa?\nList:\n");
-			for (int i = 0; i < AvailableWahana.NbEl; ++i) {
-				printf("    - ");
-				TulisKataKe(Akar((WahanaTree) AvailableWahana.arr[i].metadata).nama, stdout);
-				puts("");
-			}
-			printf("\n$ ");
-			/* Ngebaca wahana yang mau dibangun */
-			IgnoreBlank();
-			ADVKATA();
-			SalinKataKe(&Wahana);
+		} else if (isIngame) {
+			if(CKata.Length == 1){
+				// w,a,s,d
+				if(CKata.TabKata[0] == 'w') MoveW();
+				else if(CKata.TabKata[0] == 'a') MoveA();
+				else if(CKata.TabKata[0] == 's') MoveS();
+				else if(CKata.TabKata[0] == 'd') MoveD();
+				else puts("Perintah tidak dikenali");
 
-			if (IsKataSama(Wahana, KataTBFO)) {
-				idxWahana = 0;
-			} else if (IsKataSama(Wahana, KataAlstrukdat)) {
-				idxWahana = 1;
-			} else if (IsKataSama(Wahana, KataAlgeo)) {
-				idxWahana = 2;
-			} else if (IsKataSama(Wahana, KataMatdis)) {
-				idxWahana = 3;
-			} else if (IsKataSama(Wahana, KataOrkom)) {
-				idxWahana = 4;
-			} else if (IsKataSama(Wahana, KataLogkom))  {
-				idxWahana = 5;
-			} else {
-				puts("Wahana itu tidak ada dan tidak nyata");
-				continue;
-			}
+			} else if(IsKataSama(CKata, build)){
+				Kata Wahana;
+				int idxWahana;
+				// Build Logic
+				printf("Ingin membangun apa?\nList:\n");
+				for (int i = 0; i < AvailableWahana.NbEl; ++i) {
+					printf("	- ");
+					TulisKataKe(Akar((WahanaTree) AvailableWahana.arr[i].metadata).nama, stdout);
+					puts("");
+				}
+				printf("\n❯ ");
+				/* Ngebaca wahana yang mau dibangun */
+				IgnoreBlank();
+				ADVKATA();
+				SalinKataKe(&Wahana);
 
-			BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
+				if (IsKataSama(Wahana, KataTBFO)) {
+					idxWahana = 0;
+				} else if (IsKataSama(Wahana, KataAlstrukdat)) {
+					idxWahana = 1;
+				} else if (IsKataSama(Wahana, KataAlgeo)) {
+					idxWahana = 2;
+				} else if (IsKataSama(Wahana, KataMatdis)) {
+					idxWahana = 3;
+				} else if (IsKataSama(Wahana, KataOrkom)) {
+					idxWahana = 4;
+				} else if (IsKataSama(Wahana, KataLogkom))	{
+					idxWahana = 5;
+				} else {
+					puts("Wahana itu tidak ada dan tidak nyata");
+					continue;
+				}
+
+				BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
+				totalAksi++;
+				totalDetikAksi += JAMToDetik(MakeJAM(0, 30, 0));
+				totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
+
+			} else if(IsKataSama(CKata, upgrade)){
+				// Upgrade Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else if(IsKataSama(CKata, buy)){
+				// Buy Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else if(IsKataSama(CKata, undo)){
+				// Undo Logic
+				/* Jangan lupa tambah durasi dan uang */
+				if (totalAksi == 0) {
+					puts("Tidak ada aksi yang dapat diurungkan");
+				} else {
+					UndoData data;
+
+					data = Undo();
+					totalAksi--;
+					totalDetikAksi -= JAMToDetik(data.durasiAksi);
+					/* TODO: Lanjutin */
+				}
+			} else if(IsKataSama(CKata, execute)){
+				// Execute Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else if(IsKataSama(CKata, mainC)){
+				// main Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else if(IsKataSama(CKata, serve)){
+				// Serve Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else if(IsKataSama(CKata, repair)){
+				// Repair Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else if(IsKataSama(CKata, detail)){
+				// Detail Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else if(IsKataSama(CKata, office)){
+				// Office Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else if(IsKataSama(CKata, prepare)){
+				// Prepare Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
+			} else{
+				// input gak valid...
+			}
+			// perintah lain lagi: main phase, etc etc
+		} else {
+			puts("Perintah tidak dikenali.");
 		}
-		else if(IsKataSama(CKata, upgrade)){
-			// Upgrade Logic
-		}
-		else if(IsKataSama(CKata, buy)){
-			// Buy Logic
-		}
-		else if(IsKataSama(CKata, undo)){
-			// Undo Logic
-		}
-		else if(IsKataSama(CKata, execute)){
-			// Execute Logic
-		}
-		else if(IsKataSama(CKata, mainC)){
-			// main Logic
-		}
-		else if(IsKataSama(CKata, serve)){
-			// Serve Logic
-		}
-		else if(IsKataSama(CKata, repair)){
-			// Repair Logic
-		}
-		else if(IsKataSama(CKata, detail)){
-			// Detail Logic
-		}
-		else if(IsKataSama(CKata, office)){
-			// Office Logic
-		}
-		else if(IsKataSama(CKata, prepare)){
-			// Prepare Logic
-		}
-		else{
-			// input gak valid...
-		}
-		// perintah lain lagi: main phase, etc etc
 		// Akuisisi kata baru kalo gak kosong
 		if(!IsKataSama(CKata, exitC)){
 			if(!isIngame) ShowMenu();
 			else{
-				JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
-				
+
 				ShowMap();
 				puts("Legend:");
 				puts("A = Antrian");
@@ -219,13 +248,21 @@ int main () {
 				if (durasi.HH != 0) printf(" %d hour%c", durasi.HH, durasi.HH > 1 ? 's':'\0');
 				if (durasi.MM != 0) printf(" %d minute%c", durasi.MM, durasi.MM > 1 ? 's':'\0');
 				if (durasi.SS != 0) printf(" %d second%c", durasi.SS, durasi.SS > 1 ? 's':'\0');
-				puts("");
-				printf("Total aksi yang akan dilakukan: %d", NbElmtStack(actionStack));
+				printf(" (%ld seconds)\n", JAMToDetik(durasi));
+
+				printf("Total aksi yang akan dilakukan: %d\n", totalAksi);
+				printf("Total waktu yang dibutuhkan:");
+				JAM totalJamAksi = DetikToJAM(totalDetikAksi);
+				if (totalJamAksi.HH != 0) printf(" %d hour%c", totalJamAksi.HH, totalJamAksi.HH > 1 ? 's':'\0');
+				if (totalJamAksi.MM != 0) printf(" %d minute%c", totalJamAksi.MM, totalJamAksi.MM > 1 ? 's':'\0');
+				if (totalJamAksi.SS != 0) printf(" %d second%c", totalJamAksi.SS, totalJamAksi.SS > 1 ? 's':'\0');
+				printf(" (%ld seconds)\n", totalDetikAksi);
+				printf("Total uang yang dibutuhkan: %d\n", totalUangAksi);
 
 				puts("");
 				printf("Masukkan perintah:\n");
 			}
-			printf("$ ");
+			printf("❯ ");
 			IgnoreBlank();
 			ADVKATA();
 		}
