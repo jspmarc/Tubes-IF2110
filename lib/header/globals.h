@@ -34,6 +34,7 @@ extern array DoableActions; /* Nyimpen array of struct aksi */
 extern array BuyableMaterials; /* Nyimpen array of struct material */
 extern array AvailableWahana; /* Nyimpen array of struct wahana */
 extern JAM OpeningJam;
+extern JAM ClosingJam;
 
 /* Map */
 extern MAP map1;

@@ -11,6 +11,7 @@ array BuiltWahana;
 /* Data */
 array AvailableWahana;
 JAM OpeningJam;
+JAM ClosingJam;
 
 /* Map stuffs */
 MAP map1;
