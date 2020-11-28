@@ -4,41 +4,41 @@
 #include <stdlib.h>
 
 void AlokasiStack (StackAddress *P, StackInfoType X) {
-    *P = (StackAddress) malloc(sizeof(ElmtStack));
-    if (P != Nil) {
-        StackInfo(*P) = X;
-        StackNext(*P) = Nil;
-    }
+	*P = (StackAddress) malloc(sizeof(ElmtStack));
+	if (P != Nil) {
+		StackInfo(*P) = X;
+		StackNext(*P) = Nil;
+	}
 }
 void DealokasiStack (StackAddress P) {
-    free(P);
+	free(P);
 }
 
 /* ********* PROTOTYPE REPRESENTASI LOJIK STACK ***************/
 boolean IsStackEmpty (Stack S) {
-    return Top(S) == Nil;
+	return Top(S) == Nil;
 }
 void CreateEmptyStack (Stack * S) {
-    Top(*S) = Nil;
+	Top(*S) = Nil;
 }
 void Push (Stack * S, StackInfoType X, PropertiAksi prop) {
-    StackAddress P;
+	StackAddress P;
 
-    AlokasiStack(&P, X);
+	AlokasiStack(&P, X);
 
-    if (P != Nil) {
-        StackNext(P) = Top(*S);
-        Aksi(P) = prop;
-        Top(*S) = P;
-    }
+	if (P != Nil) {
+		StackNext(P) = Top(*S);
+		Aksi(P) = prop;
+		Top(*S) = P;
+	}
 }
 void Pop (Stack * S, StackInfoType * X, PropertiAksi *prop) {
-    StackAddress P;
+	StackAddress P;
 
-    P = Top(*S);
-    *X = StackInfo(P);
-    *prop = Aksi(P);
-    Top(*S) = StackNext(P);
+	P = Top(*S);
+	*prop = Aksi(P);
+	*X = StackInfo(P);
+	Top(*S) = StackNext(P);
 
-    DealokasiStack(P);
+	DealokasiStack(P);
 }

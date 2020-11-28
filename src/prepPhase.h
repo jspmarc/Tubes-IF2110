@@ -23,5 +23,5 @@ void Upgrade();
 
 void ExecuteUpgrade();
 
-void Undo();
+void *Undo();
 #endif

@@ -94,6 +94,12 @@ int main () {
 	IsiBuildableWahana();
 	init();
 	initCommands();
+
+	long totalDetikAksi = 0;
+	int totalUangAksi = 0;
+	unsigned totalAksi = 0;
+
+	JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
 	/* ALGORITMA */
 	printf("\n");
 	/* Pembacaan file wahana dilakukan di init() */
@@ -161,26 +167,55 @@ int main () {
 				}
 
 				BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
+				totalAksi++;
+				totalDetikAksi += JAMToDetik(MakeJAM(0, 30, 0));
+				totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
+				
+				StackAddress temp = Top(actionStack);
+				while(temp != NULL) {
+					printf("actionStack addr: %p\n", temp);
+					temp = StackNext(temp);
+				}
 			} else if(IsKataSama(CKata, upgrade)){
 				// Upgrade Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, buy)){
 				// Buy Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, undo)){
 				// Undo Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi--;*/
 			} else if(IsKataSama(CKata, execute)){
 				// Execute Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, mainC)){
 				// main Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, serve)){
 				// Serve Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, repair)){
 				// Repair Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, detail)){
 				// Detail Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, office)){
 				// Office Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, prepare)){
 				// Prepare Logic
+				/* Jangan lupa tambah durasi dan uang */
+				/*totalAksi++;*/
 			} else{
 				// input gak valid...
 			}
@@ -190,8 +225,6 @@ int main () {
 		if(!IsKataSama(CKata, exitC)){
 			if(!isIngame) ShowMenu();
 			else{
-				JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
-				JAM totalWaktuAksi;
 
 				ShowMap();
 				puts("Legend:");
@@ -211,14 +244,15 @@ int main () {
 				if (durasi.HH != 0) printf(" %d hour%c", durasi.HH, durasi.HH > 1 ? 's':'\0');
 				if (durasi.MM != 0) printf(" %d minute%c", durasi.MM, durasi.MM > 1 ? 's':'\0');
 				if (durasi.SS != 0) printf(" %d second%c", durasi.SS, durasi.SS > 1 ? 's':'\0');
-				puts("");
-				printf("Total aksi yang akan dilakukan: %d\n", NbElmtStack(actionStack));
-				/*totalWaktuAksi = DurasiAksiStack(actionStack);*/
-				/*printf("Total waktu yang dibutuhkan:");*/
-				/*if (totalWaktuAksi.HH != 0) printf(" %d hour%c", totalWaktuAksi.HH, totalWaktuAksi.HH > 1 ? 's':'\0');*/
-				/*if (totalWaktuAksi.MM != 0) printf(" %d minute%c", totalWaktuAksi.MM, totalWaktuAksi.MM > 1 ? 's':'\0');*/
-				/*if (totalWaktuAksi.SS != 0) printf(" %d second%c", totalWaktuAksi.SS, totalWaktuAksi.SS > 1 ? 's':'\0');*/
-				/*puts("");*/
+				printf(" (%ld seconds)\n", JAMToDetik(durasi));
+
+				printf("Total aksi yang akan dilakukan: %d\n", totalAksi);
+				printf("Total waktu yang dibutuhkan:");
+				JAM totalJamAksi = DetikToJAM(totalDetikAksi);
+				if (totalJamAksi.HH != 0) printf(" %d hour%c", totalJamAksi.HH, totalJamAksi.HH > 1 ? 's':'\0');
+				if (totalJamAksi.MM != 0) printf(" %d minute%c", totalJamAksi.MM, totalJamAksi.MM > 1 ? 's':'\0');
+				if (totalJamAksi.SS != 0) printf(" %d second%c", totalJamAksi.SS, totalJamAksi.SS > 1 ? 's':'\0');
+				printf(" (%ld seconds)\n", totalDetikAksi);
 
 				puts("");
 				printf("Masukkan perintah:\n");
