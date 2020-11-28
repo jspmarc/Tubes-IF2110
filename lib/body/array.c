@@ -96,10 +96,10 @@ ArrayElType DelArrFirst(array *A) {
 
     return retVal;
 }
-ArrayElType DelArrLast(array *A) {
+ArrayElType DelArrLast(array *A) { /* TODO: Bug */
     ArrayElType retVal;
     if(!IsArrEmpty(*A)) {
-        retVal = A->arr[A->NbEl--];
+        retVal = A->arr[--(A->NbEl)];
     }
 
     return retVal;
@@ -129,21 +129,28 @@ void InsArrLast(array *A, ArrayElType X) {
 }
 
 void ShiftArrLeft(array *A, int n) {
-    if (n > A->NbEl) {
+    if (n < 0) {
+        n *= (-1);
+        ShiftArrRight(A, n);
+    } else if (n >= A->NbEl) {
         /* kalau jumlah pergeseran lebih besar dari jumlah elemen,
          * akan dilakukan pengosongan elemen array
          */
         A->NbEl = 0;
     } else {
-        for (int i = n-1; i < A->NbEl-1; ++i) {
-            A->arr[i-n] = A->arr[i+1];
+        int i,j;
+        for (i = 0, j = n; j < (A->NbEl); i++, j++) {
+            A->arr[i] = A->arr[j];
         }
 
         A->NbEl -= n;
     }
 }
 void ShiftArrRight(array *A, int n) {
-    if (n > A->MaxEl) {
+    if (n < 0) {
+        n *= (-1);
+        ShiftArrLeft(A, n);
+    } else if (n >= A->MaxEl) {
         for (int i = 0; i < A->MaxEl; ++i) {
             A->arr[i] = MakePadding(0);
         }
@@ -151,59 +158,54 @@ void ShiftArrRight(array *A, int n) {
         A->NbEl = A->MaxEl;
     } else {
         int i, j;
-        for (i = A->NbEl-1, j = n-1; j >= 0; ++i, --j) {
+        for (i = (A->NbEl)-1, j = n-1; j >= 0; ++i, --j) {
             A->arr[j] = A->arr[i];
         }
         for (; i > -1; A->arr[i--] = MakePadding(0));
     }
 }
 
-void SortArr(array *A, boolean asc) {
-    /* Implementasi Sort dengan Insertion Sort */
-    int i, j;
-    ArrayElType k;
+// void SortArr(array *A, boolean asc) {
+//     /* Implementasi Sort dengan Insertion Sort */
+//     int i, j;
+//     ArrayElType k;
 
-    i = 1;
-    while(i < A->NbEl){
-    k = (A->arr)[i];
-    j = i - 1;
-    while(
-        j >= 0 &&
-        (
-        ((A->arr)[j].info < k.info && asc) || // info Key lebih kecil, ingin ascending
-        ((A->arr[j].info > k.info && !asc)) // info Key lebih besar, ingin descending
-				)
-    ) {
-        // "geser" array ke arah key, jalan ke "awal" array
-        A->arr[j+1] = A->arr[j];
-        j--;
-    }
-    // taruh key di tempat yang seharusnya
-    A->arr[j] = k;
-    i++;
-    }
-}
+//     i = 1;
+//     while(i < A->NbEl){
+//     k = (A->arr)[i];
+//     j = i - 1;
+//     while(
+//         j >= 0 &&
+//         (
+//         ((A->arr)[j].info < k.info && asc) || // info Key lebih kecil, ingin ascending
+//         ((A->arr[j].info > k.info && !asc)) // info Key lebih besar, ingin descending
+// 				)
+//     ) {
+//         // "geser" array ke arah key, jalan ke "awal" array
+//         A->arr[j+1] = A->arr[j];
+//         j--;
+//     }
+//     // taruh key di tempat yang seharusnya
+//     A->arr[j] = k;
+//     i++;
+//     }
+// }
 
-array CopyArr(array A1) {
-    array A2;
+void CopyArr(array in, array * out) {
+    // Jadi void karena biar ga mem leak
     int i = 0;
-
-    CreateArray(&A2, A1.MaxEl);
-    while (A2.NbEl != A1.NbEl) {
-        InsArrLast(&A2, A1.arr[i++]);
+    if (out->MaxEl < in.NbEl) GrowArray(out, in.NbEl);
+    if (out->MaxEl > in.NbEl) ShrinkArray(out, in.NbEl);
+    while (out->NbEl != in.NbEl) {
+        InsArrLast(out, in.arr[i++]);
     }
-
-    return A2;
 }
 
 void PrintArr(array A) {
     printf("[");
     for (int i = 0; i < A.NbEl; ++i) {
-        if (i != A.NbEl-1) {
-            printf("\n\t{\n\t\tid: %d,\n\t\tinfo: %d\n\t},", A.arr[i].id, A.arr[i].info);
-        } else {
-            printf("\n\t{\n\t\tid: %d,\n\t\tinfo: %d\n\t},", A.arr[i].id, A.arr[i].info);
-        }
+        printf("\n\t{\n\t\tid: %d,\n\t\tinfo: %d\n\t}", A.arr[i].id, A.arr[i].info);
+        if (i != A.NbEl-1) printf(",");
     }
     printf("\n]");
 }
