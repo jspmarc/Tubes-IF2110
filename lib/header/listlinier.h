@@ -30,18 +30,15 @@ typedef struct {
 
 /* PROTOTYPE */
 /****************** TEST LIST KOSONG ******************/
-
 /* Mengirim true jika list kosong */
 boolean IsEmpty (LL L);
 
 /****************** PEMBUATAN LIST KOSONG ******************/
-
 /* I.S. sembarang             */
 /* F.S. Terbentuk list kosong */
 void CreateEmpty (LL *L);
 
 /****************** Manajemen Memori ******************/
-
 /* Mengirimkan addressLL hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka addressLL tidak nil, dan misalnya */
 /* menghasilkan P, maka info(P)=X, LLNext(P)=Nil */
@@ -58,9 +55,11 @@ void Dealokasi (addressLL *P);
 /* Jika ada, mengirimkan addressLL elemen tersebut. */
 /* Jika tidak ada, mengirimkan Nil */
 addressLL Search (LL L, infotype X);
+
 /* Mencari apakah ada elemen list yang beralamat P */
 /* Mengirimkan true jika ada, false jika tidak ada */
 boolean FSearch (LL L, addressLL P);
+
 /* Mengirimkan addressLL elemen sebelum elemen yang nilainya=X */
 /* Mencari apakah ada elemen list dengan Info(P)=X */
 /* Jika ada, mengirimkan addressLL Prec, dengan LLNext(Prec)=P dan Info(P)=X. */
@@ -76,6 +75,7 @@ addressLL SearchPrec (LL L, infotype X);
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen pertama dengan nilai X jika alokasi berhasil */
 void InsVFirst (LL *L, infotype X);
+
 /* I.S. L mungkin kosong */
 /* F.S. Melakukan alokasi sebuah elemen dan */
 /* menambahkan elemen list di akhir: elemen terakhir yang baru */
@@ -87,6 +87,7 @@ void InsVLast (LL *L, infotype X);
 /* F.S. Elemen pertama list dihapus: nilai info disimpan pada X */
 /*      dan alamat elemen pertama di-dealokasi */
 void DelLLVFirst (LL *L, infotype *X);
+
 /* I.S. list tidak kosong */
 /* F.S. Elemen terakhir list dihapus: nilai info disimpan pada X */
 /*      dan alamat elemen terakhir di-dealokasi */
@@ -97,10 +98,12 @@ void DelLLVLast (LL *L, infotype *X);
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. Menambahkan elemen ber-addressLL P sebagai elemen pertama */
 void InsertLLFirst (LL *L, addressLL P);
+
 /* I.S. Prec pastilah elemen list dan bukan elemen terakhir, */
 /*      P sudah dialokasi  */
 /* F.S. InsertLL P sebagai elemen sesudah elemen beralamat Prec */
 void InsertLLAfter (LL *L, addressLL P, addressLL Prec);
+
 /* I.S. Sembarang, P sudah dialokasi  */
 /* F.S. P ditambahkan sebagai elemen terakhir yang baru */
 void InsertLLLast (LL *L, addressLL P);
@@ -111,18 +114,21 @@ void InsertLLLast (LL *L, addressLL P);
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */
 /* First element yg baru adalah suksesor elemen pertama yang lama */
 void DelLLFirst (LL *L, addressLL *P);
+
 /* I.S. Sembarang */
 /* F.S. Jika ada elemen list beraddressLL P, dengan info(P)=X  */
 /* Maka P dihapus dari list dan di-dealokasi */
 /* Jika tidak ada elemen list dengan info(P)=X, maka list tetap */
 /* LL mungkin menjadi kosong karena penghapusan */
 void DelLLP (LL *L, infotype X);
+
 /* I.S. LL tidak kosong */
 /* F.S. P adalah alamat elemen terakhir list sebelum penghapusan  */
 /*      Elemen list berkurang satu (mungkin menjadi kosong) */
 /* Last element baru adalah predesesor elemen terakhir yg lama, */
 /* jika ada */
 void DelLLLast (LL *L, addressLL *P);
+
 /* I.S. LL tidak kosong. Prec adalah anggota list  */
 /* F.S. Menghapus LLNext(Prec): */
 /*      Pdel adalah alamat elemen list yang dihapus  */
@@ -135,18 +141,23 @@ void DelLLAfter (LL *L, addressLL *Pdel, addressLL Prec);
 /* Jika list kosong : menulis [] */
 /* Tidak ada tambahan karakter apa pun di awal, akhir, atau di tengah */
 void PrintInfo (LL L);
+
 /* Mengirimkan banyaknya elemen list; mengirimkan 0 jika list kosong */
 int NbElmt (LL L);
 
 /*** Prekondisi untuk Max/Min/rata-rata : LL tidak kosong ***/
 /* Mengirimkan nilai info(P) yang maksimum */
 infotype Max (LL L);
+
 /* Mengirimkan addressLL P, dengan info(P) yang bernilai maksimum */
 addressLL AdrMax (LL L);
 /* Mengirimkan nilai info(P) yang minimum */
+
 infotype Min (LL L);
 /* Mengirimkan addressLL P, dengan info(P) yang bernilai minimum */
+
 addressLL AdrMin (LL L);
+
 /* Mengirimkan nilai rata-rata info(P) */
 float Average (LL L);
 

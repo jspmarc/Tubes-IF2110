@@ -1,7 +1,7 @@
 # List Driver
-- [ ] Point
+- [x] Point
 - [x] Jam
-- [ ] List (Implementasi Array)
+- [x] List (Implementasi Array)
     - Catatan: Sekarang pake yang array integer dinamik
 - [x] Array
 - [x] Matriks
@@ -16,3 +16,4 @@
 - [ ] Wahana
 - [ ] Material
 - [ ] Pengunjung
+- [x] String

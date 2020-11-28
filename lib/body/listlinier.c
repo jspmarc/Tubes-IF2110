@@ -123,7 +123,7 @@ void DelLLFirst (LL *L, addressLL *P) {
     LLFirst(*L) = LLNext(*P);
 }
 
-void DelP (LL *L, infotype X)
+void DelLLP (LL *L, infotype X)
 {
     addressLL P, bP;
 
@@ -160,7 +160,7 @@ void DelLLLast (LL *L, addressLL *P) {
     else LLFirst(*L) = Nil;
 }
 
-void DelAfter (LL *L, addressLL *Pdel, addressLL Prec) {
+void DelLLAfter (LL *L, addressLL *Pdel, addressLL Prec) {
     /* Pdel adalah node setelah Prec, node yang mau dihapus */
     *Pdel = LLNext(Prec);
 
@@ -241,7 +241,7 @@ float Average (LL L) {
     return sum/count;
 }
 
-void DelAll (LL *L) {
+void DelLLAll (LL *L) {
     infotype _;
 
     for (addressLL P = LLFirst(*L); LLNext(P) != Nil;) {
@@ -304,7 +304,7 @@ LL FCopyLL (LL L) {
     for (; P != Nil; P = LLNext(P), P2 = LLNext(P2)) {
         newP2 = AlokasiLL(Info(P));
         if (newP2 == Nil) /* AlokasiLL gagal */ {
-            DelAll(&L2);
+            DelLLAll(&L2);
             return L2;
         }
         LLNext(P2) = newP2;
@@ -329,7 +329,7 @@ void CpAlokLL (LL Lin, LL *Lout) {
     for (; P != Nil; P = LLNext(P), P2 = LLNext(P2)) {
         newP2 = AlokasiLL(Info(P));
         if (newP2 == Nil) /* AlokasiLL gagal */ {
-            DelAll(Lout);
+            DelLLAll(Lout);
             return;
         }
         LLNext(P2) = newP2;
@@ -377,7 +377,7 @@ void Konkat1 (LL *L1, LL *L2, LL *L3) {
     }
 }
 
-void PecahLL (LL *L1, LL *L2, LL L){
+void PecahLL (LL *L1, LL *L2, LL L) {
     int i, count;
     addressLL P;
 
