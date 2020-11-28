@@ -70,6 +70,7 @@ void ReadLine();
 void ReadKata(Kata *str);
 int ReadInt();
 Material ReadMaterial();
+array ReadMaterialArray();
 void ReadUpgrade(WahanaTree *T);
 WahanaTree ReadTree();
 array ReadTreeArray();

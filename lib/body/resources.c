@@ -12,7 +12,7 @@
 
 //Stack actionStack;
 //Resource playerResources;
-array BuyableMaterials;
+/*array BuyableMaterials;*/
 
 void InitResources() {
     CreateArray(&BuyableMaterials, MAX_MATERIAL);
@@ -50,7 +50,7 @@ void BuyResource() {
     printf("Ingin membeli apa?\nList:\n");
     for (int i = 0; i < BuyableMaterials.NbEl; ++i) {
 				printf("- ");
-				TulisKataKe(((Material *)BuyableMaterials.arr)->namaMaterial, stdout);
+				TulisKataKe(((Material*) BuyableMaterials.arr)->namaMaterial, stdout);
         printf("\n");
     }
 

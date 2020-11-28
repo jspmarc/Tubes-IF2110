@@ -12,74 +12,6 @@
 #include "commands.h"
 #include "prepPhase.h"
 
-Kata BuildableWahana[6];
-
-#define KataTBFO BuildableWahana[0]
-#define KataAlstrukdat BuildableWahana[1]
-#define KataAlgeo BuildableWahana[2]
-#define KataMatdis BuildableWahana[3]
-#define KataOrkom BuildableWahana[4]
-#define KataLogkom BuildableWahana[5]
-
-void IsiBuildableWahana() {
-	/**
-	 * Index 0: TBFO (4),
-	 * Index 1: Alstrukdat (10),
-	 * Index 2: Algeo (5),
-	 * Index 3: Matdis (6),
-	 * Index 4: Orkom (5),
-	 * Index 5: Logkom(6),
-	 */
-	BuildableWahana[0].TabKata[0] = 'T';
-	BuildableWahana[0].TabKata[1] = 'B';
-	BuildableWahana[0].TabKata[2] = 'F';
-	BuildableWahana[0].TabKata[3] = 'O';
-	BuildableWahana[0].Length = 4;
-
-	BuildableWahana[1].TabKata[0] = 'A';
-	BuildableWahana[1].TabKata[1] = 'l';
-	BuildableWahana[1].TabKata[2] = 's';
-	BuildableWahana[1].TabKata[3] = 't';
-	BuildableWahana[1].TabKata[4] = 'r';
-	BuildableWahana[1].TabKata[5] = 'u';
-	BuildableWahana[1].TabKata[6] = 'k';
-	BuildableWahana[1].TabKata[7] = 'd';
-	BuildableWahana[1].TabKata[8] = 'a';
-	BuildableWahana[1].TabKata[9] = 't';
-	BuildableWahana[1].Length = 10;
-
-	BuildableWahana[2].TabKata[0] = 'A';
-	BuildableWahana[2].TabKata[1] = 'l';
-	BuildableWahana[2].TabKata[2] = 'g';
-	BuildableWahana[2].TabKata[3] = 'e';
-	BuildableWahana[2].TabKata[4] = 'o';
-	BuildableWahana[2].Length = 5;
-
-	BuildableWahana[3].TabKata[0] = 'M';
-	BuildableWahana[3].TabKata[1] = 'a';
-	BuildableWahana[3].TabKata[2] = 't';
-	BuildableWahana[3].TabKata[3] = 'd';
-	BuildableWahana[3].TabKata[4] = 'i';
-	BuildableWahana[3].TabKata[5] = 's';
-	BuildableWahana[3].Length = 6;
-
-	BuildableWahana[4].TabKata[0] = 'O';
-	BuildableWahana[4].TabKata[1] = 'r';
-	BuildableWahana[4].TabKata[2] = 'k';
-	BuildableWahana[4].TabKata[3] = 'o';
-	BuildableWahana[4].TabKata[4] = 'm';
-	BuildableWahana[4].Length = 5;
-
-	BuildableWahana[5].TabKata[0] = 'L';
-	BuildableWahana[5].TabKata[1] = 'o';
-	BuildableWahana[5].TabKata[2] = 'g';
-	BuildableWahana[5].TabKata[3] = 'k';
-	BuildableWahana[5].TabKata[4] = 'o';
-	BuildableWahana[5].TabKata[5] = 'm';
-	BuildableWahana[5].Length = 6;
-
-}
-
 void ShowMenu() {
 	printf("new : New Game\n");
 	printf("load : Load Game\n");
@@ -90,7 +22,6 @@ void ShowMenu() {
 int main () {
 	/* KAMUS */
 	boolean isIngame = false;
-	IsiBuildableWahana();
 	init();
 	initCommands();
 
@@ -180,10 +111,11 @@ int main () {
 				// Upgrade Logic
 				/* Jangan lupa tambah durasi dan uang */
 				/*totalAksi++;*/
+				BuyResource();
 			} else if(IsKataSama(CKata, buy)){
 				// Buy Logic
 				/* Jangan lupa tambah durasi dan uang */
-				/*totalAksi++;*/
+				totalAksi++;
 			} else if(IsKataSama(CKata, undo)){
 				// Undo Logic
 				/* Jangan lupa tambah durasi dan uang */

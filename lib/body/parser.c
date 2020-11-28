@@ -35,11 +35,11 @@ void ReadToken(){
 
 void ReadLine(){
   int i;
-  
+
   i = 0;
   while(CC != CR && CC != LF && CC != ParserMark && CC != TupleStart
-		  && CC != TupleEnd && CC != TreeStart && CC != TreeEnd
-		  && CC !=ArrayStart && CC != ArrayEnd && CC != ElmtSeparator && !EOP){
+		&& CC != TupleEnd && CC != TreeStart && CC != TreeEnd
+		&& CC !=ArrayStart && CC != ArrayEnd && CC != ElmtSeparator && !EOP){
 	if(i < PanjangToken) CToken.Token[i] = CC;
 	ADV();
 	i++;
@@ -71,7 +71,7 @@ void ReadKata(Kata *K){
 int ReadInt(){
 	int ret, tmp;
 
-    tmp = 0;
+	tmp = 0;
 	ret = 0;
 	for(int i = 0; i < CToken.length && ret >= 0; i++){
 		tmp = CToken.Token[i]-'0';
@@ -175,7 +175,7 @@ WahanaTree ReadTree(){
 			  if(left){
 				left = 0; /* left jadi false */
 				Left = ReadTree();
-			  } 
+			  }
 			  else Right = ReadTree();
 			}
 			SkipBlank();
@@ -226,19 +226,65 @@ array ReadTreeArray(){
 Material ReadMaterial(){
 	Material M;
 
-	ReadToken();
+	/* ID 1 nama asd biaya 10000, */
+	ReadToken(); /* Baca "ID" */
+	SkipBlank();
+	ReadToken(); /* Baca angka ID */
 	M.idMaterial = ReadInt();
+
 	SkipBlank();
-	ReadToken();
+	ReadToken(); /* Baca "nama" */
+	SkipBlank();
+	ReadToken(); /* Baca string nama */
 	ReadKata(&M.namaMaterial);
+
 	SkipBlank();
-	ReadToken();
+	ReadToken(); /* Baca "biaya" */
+	SkipBlank();
+	ReadToken(); /* Baca nominal biaya */
 	M.biayaMaterial = ReadInt();
+	ADV(); /* Baca ',' */
 	SkipNewLine();
 
 	M.jumlahMaterial = 0x7fffffff; /* INT_MAX */
 
 	return M;
+}
+
+array ReadMaterialArray() {
+	array MaterialArray;
+	ArrayElType el;
+	Material *mater;
+
+	CreateArray(&MaterialArray, MAX_MATERIAL);
+	while (CC != ArrayEnd && !EOP) {
+		if (CC == ArrayStart) {
+			ADV();
+			SkipBlank();
+			SkipNewLine();
+			SkipBlank();
+		}
+
+		mater = (Material*) malloc(sizeof(Material));
+		*mater = ReadMaterial();
+
+		/* Skip ',' (pemisah antara tree) */
+		if (CC == ElmtSeparator) {
+			ADV();
+			SkipBlank();
+			SkipNewLine();
+			SkipBlank();
+		}
+
+		el.id = mater->idMaterial;
+		el.info = mater->biayaMaterial;
+		el.metadata = mater;
+
+		InsArrLast(&MaterialArray, el);
+	}
+
+	PrintArr(MaterialArray);
+	return MaterialArray;
 }
 
 Point ReadPoint(){
@@ -257,7 +303,7 @@ Point ReadPoint(){
 			}
 			CToken.length = i;
 			p[j] = ReadInt();
-            ADV();
+			ADV();
 		}
 		SkipBlank();
 	}
@@ -324,39 +370,39 @@ Point ReadPoint(){
 //	  return RetS;
 //}
 
-MAP ParserMap(int id) {   
-    MAP map;
+MAP ParserMap(int id) {
+	MAP map;
 
-    map = WhichMap(id);
-    ReadToken();
-    
-    ReadToken();
-    ID(map) = ReadInt();
-    SkipNewLine();
-    
-    ReadToken();
-    SkipBlank();
-    MapSize(map) = ReadPoint();
-    SkipNewLine();
+	map = WhichMap(id);
+	ReadToken();
 
-    ReadToken();
-    SkipBlank();
-    Gate1(map) = ReadPoint();
-    SkipNewLine();
+	ReadToken();
+	ID(map) = ReadInt();
+	SkipNewLine();
 
-    ReadToken();
-    SkipBlank();
-    Gate2(map) = ReadPoint();
-    SkipNewLine();
+	ReadToken();
+	SkipBlank();
+	MapSize(map) = ReadPoint();
+	SkipNewLine();
 
-    ReadToken();
-    SkipBlank();
-    Office(map) = ReadPoint();
-    SkipNewLine();
+	ReadToken();
+	SkipBlank();
+	Gate1(map) = ReadPoint();
+	SkipNewLine();
 
-    ReadToken();
-    SkipBlank();
-    Antrian(map) = ReadPoint();
+	ReadToken();
+	SkipBlank();
+	Gate2(map) = ReadPoint();
+	SkipNewLine();
 
-    return map;
+	ReadToken();
+	SkipBlank();
+	Office(map) = ReadPoint();
+	SkipNewLine();
+
+	ReadToken();
+	SkipBlank();
+	Antrian(map) = ReadPoint();
+
+	return map;
 }

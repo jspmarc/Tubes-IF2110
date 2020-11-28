@@ -110,19 +110,14 @@ void InsArrFirst(array *A, ArrayElType X) { /* TODO: Bug */
             ShiftArrRight(A, 1); /* Ada yg salah */
         }
         A->arr[0] = X;
-		A->NbEl++;
+        A->NbEl++;
     } else { /* Array penuh */
         puts("Array penuh");
     }
 }
 void InsArrLast(array *A, ArrayElType X) {
     if (!IsArrFull(*A)) {
-        if (IsArrEmpty(*A)) {
-            A->arr[0] = X;
-        } else {
-            A->arr[A->NbEl] = X;
-        }
-        A->NbEl++;
+        A->arr[(A->NbEl)++] = X;
     } else { /* Array penuh */
         puts("Array penuh");
     }
@@ -179,7 +174,7 @@ void ShiftArrRight(array *A, int n) {
 //         (
 //         ((A->arr)[j].info < k.info && asc) || // info Key lebih kecil, ingin ascending
 //         ((A->arr[j].info > k.info && !asc)) // info Key lebih besar, ingin descending
-// 				)
+//              )
 //     ) {
 //         // "geser" array ke arah key, jalan ke "awal" array
 //         A->arr[j+1] = A->arr[j];
