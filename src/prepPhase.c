@@ -89,11 +89,12 @@ void Buy(){
 void ExecuteBuy(Material M){
 }
 
-void *Undo() {
-    void* t;
-    PropertiAksi p;
-    t = NULL;
-    Pop(&actionStack, t, &p);
+UndoData Undo() {
+	PropertiAksi p;
+	UndoData data;
 
-	return t;
+	Pop(&actionStack, (StackInfoType) &data.infoAksi, &p);
+	data.durasiAksi = p.durasiAksi;
+
+	return data;
 }

@@ -24,10 +24,10 @@
 
 /* Deklarasi StackInfoType */
 /* Nunjuk ke struk eksekusi aksi */
-//typedef void* StackInfoType;
-typedef union {
-} StackInfo;
-typedef StackInfo* StackInfoType;
+typedef void* StackInfoType;
+//typedef union {
+//} StackInfo;
+//typedef StackInfo* StackInfoType;
 
 typedef struct {
     unsigned char idAksi;

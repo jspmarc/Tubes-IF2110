@@ -9,6 +9,7 @@ description IF2124 Teori Bahasa Formal dan Otomata
 [
 id 1 jumlah 1000
 ]
+hargaBikin 200000
 id 1
 capacity 10
 price 10
@@ -19,6 +20,7 @@ description Materi 1 TBFO
 id 5 jumlah 10
 id 1 jumlah 3
 ]
+hargaBikin 100000
 id 2
 cap 1
 price 1
@@ -27,7 +29,8 @@ name Materi 2 TBFO
 des Materi 2 TBFO
 [
 id 5 jumlah 3
-],
+]
+hargaBikin 300000,
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -38,6 +41,7 @@ description IF2110 Algoritma dan Struktur Data
 [
 id 1 jumlah 1000
 ]
+hargaBikin 100000
 id 1
 capacity 10
 price 10
@@ -48,6 +52,7 @@ description bruh moment
 id 5 jumlah 10
 id 1 jumlah 3
 ]
+hargaBikin 100000
 id 2
 cap 1
 price 1
@@ -56,7 +61,8 @@ name hadeh capek
 des anjay mabar
 [
 id 5 jumlah 3
-],
+]
+hargaBikin 100000,
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -67,6 +73,7 @@ description IF2123 Aljabar Linier dan Geometri
 [
 id 1 jumlah 1000
 ]
+hargaBikin 100000
 id 1
 capacity 10
 price 10
@@ -77,6 +84,7 @@ description Materi 1 Algeo
 id 5 jumlah 10
 id 1 jumlah 3
 ]
+hargaBikin 100000
 id 2
 cap 1
 price 1
@@ -85,7 +93,8 @@ name Materi 2 Algeo
 des Materi 2 Algeo
 [
 id 5 jumlah 3
-],
+]
+hargaBikin 100000,
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -96,6 +105,7 @@ description IF2120 Matematika Diskrit
 [
 id 1 jumlah 1000
 ]
+hargaBikin 100000
 id 1
 capacity 10
 price 10
@@ -106,6 +116,7 @@ description bruh moment
 id 5 jumlah 10
 id 1 jumlah 3
 ]
+hargaBikin 100000
 id 2
 cap 1
 price 1
@@ -114,7 +125,8 @@ name Materi 2 Matdis
 des anjay mabar
 [
 id 5 jumlah 3
-],
+]
+hargaBikin 100000,
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -125,6 +137,7 @@ description IF2130 Organisasi dan Arsitektur Komputer
 [
 id 1 jumlah 1000
 ]
+hargaBikin 100000
 id 1
 capacity 10
 price 10
@@ -135,6 +148,7 @@ description Materi 1 Orkom
 id 5 jumlah 10
 id 1 jumlah 3
 ]
+hargaBikin 100000
 id 2
 cap 1
 price 1
@@ -143,7 +157,8 @@ name Materi 2 Orkom
 des Materi 2 Orkom
 [
 id 5 jumlah 3
-],
+]
+hargaBikin 100000,
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -154,6 +169,7 @@ description IF2121 Logika Komputasional
 [
 id 1 jumlah 1000
 ]
+hargaBikin 100000
 id 1
 capacity 10
 price 10
@@ -164,6 +180,7 @@ description Materi 1 Logkom
 id 5 jumlah 10
 id 1 jumlah 3
 ]
+hargaBikin 100000
 id 2
 cap 1
 price 1
@@ -172,5 +189,6 @@ name Materi 2 Logkom
 des Mater 2 Logkom
 [
 id 5 jumlah 3
-],
+]
+hargaBikin 100000,
 ].

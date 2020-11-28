@@ -37,7 +37,8 @@ void Pop (Stack * S, StackInfoType * X, PropertiAksi *prop) {
 
 	P = Top(*S);
 	*prop = Aksi(P);
-	*X = StackInfo(P);
+	printf("%p\n", StackInfo(P));
+	*X = StackInfo(P); /* Bug ketika pop */
 	Top(*S) = StackNext(P);
 
 	DealokasiStack(P);

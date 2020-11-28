@@ -7,6 +7,12 @@
 #ifndef PREPPHASE_H
 #define PREPPHASE_H
 
+/* Strutkur data untuk mmebantu pemindahan data dari undo ke program utama */
+typedef struct {
+    JAM durasiAksi; /* Durasi untuk melakukan aksi yang di-undo */
+    StackInfoType infoAksi; /* Info dari aksi yg diundo (pointer ke struct) */
+} UndoData;
+
 extern Stack actionStack;
 
 void Execute();
@@ -23,5 +29,5 @@ void Upgrade();
 
 void ExecuteUpgrade();
 
-void *Undo();
+UndoData Undo();
 #endif

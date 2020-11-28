@@ -119,7 +119,7 @@ void ReadUpgrade(WahanaTree *T){
   SkipNewLine();
   i = 0;
   ADV();
-  while(CC != ArrayEnd){
+  while(CC != ArrayEnd) {
 	if(isFileParsed) break;
 	SkipBlank();
 	SkipNewLine();
@@ -141,6 +141,12 @@ void ReadUpgrade(WahanaTree *T){
 	SkipNewLine();
   }
   ADV();
+  ReadToken();
+  SkipNewLine();
+  ReadToken();
+  SkipBlank();
+  ReadToken();
+  Res.uang = ReadInt();
   durJ = DetikToJAM(dur);
   UbahIsiSimpul(T, x, cap, pri, durJ, nam, des, Res);
 }
