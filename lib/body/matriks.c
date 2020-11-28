@@ -83,13 +83,11 @@ void BacaMATRIKS (MATRIKS * M, int NB, int NK) {
 void TulisMATRIKS (MATRIKS M) {
     /* KAMUS LOKAL */
     /* ALGORITMA */
-    for (indeks i = GetFirstIdxBrs(M); i < M.NBrsEff; ++i) {
-        for (indeks j = GetFirstIdxKol(M); j < M.NKolEff; ++j) {
-            if (j != NKolEff(M)-1) printf("%c ", Elmt(M, i, j));
-            else if (j == GetLastIdxKol(M) && i != GetLastIdxBrs(M))
-                printf("%c\n", Elmt(M, i, j));
-            else /* j == Last Idx Kol and i == Last idx brs */
-                printf("%c", Elmt(M, i, j));
+    for (indeks i = GetFirstIdxBrs(M); i < GetLastIdxBrs(M)+1; i++) {
+        for (indeks j = GetFirstIdxKol(M); j < GetLastIdxKol(M)+1; j++) {
+            if (j != GetLastIdxKol(M)) printf("%c ", Elmt(M, i, j));
+            else if (i != GetLastIdxBrs(M)) printf("%c\n", Elmt(M, i, j));
+            else printf("%c", Elmt(M, i, j));
         }
     }
 }

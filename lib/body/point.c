@@ -39,7 +39,7 @@ boolean PointEQ (Point P1, Point P2) {
     /*ALGORITMA*/
     return Absis(P1) == Absis(P2) && Ordinat(P1) == Ordinat(P2);
 }
-boolean PointNE (Point P1, Point P2) {
+boolean PointNEQ (Point P1, Point P2) {
     /*ALGORITMA*/
     return !( PointEQ(P1, P2) );
 }
