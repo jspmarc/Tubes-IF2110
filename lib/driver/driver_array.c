@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../header/array.h"
-#include "../header/boolean.h"
+#include "boolean.h"
 
 #define nl printf("\n")
 
@@ -20,7 +20,7 @@ int main() {
     // Algoritma
     CreateArray(&A,3);
     CreateArray(&B,3);
-    printf("PRINTING ISI ARRAY\n");
+    printf("CREATE ARRAY, PRINTING ISI ARRAY\n");
     PrintArr(A); nl;
     PrintArr(B); nl;
     printf("press enter ");
@@ -77,16 +77,15 @@ int main() {
     PrintArr(A);nl;
     PrintArr(B);nl;
 
-    // udah bener lah ya
-    // printf("press enter ");
-    // scanf("%c", &ctemp);nl;
-    // printf("\nGROW SHRINK\n");
-    // GrowArray(&B,3); // newsize
-    // printf("Grow jadi %d\n", A.MaxEl);
-    // PrintArr(B); nl;
-    // ShrinkArray(&B,3); // newsize
-    // printf("Shrink jadi %d\n", A.MaxEl);
-    // PrintArr(B); nl;
+    printf("press enter ");
+    scanf("%c", &ctemp);nl;
+    printf("\nGROW SHRINK\n");
+    GrowArray(&B,3); // newsize
+    printf("Grow jadi %d\n", A.MaxEl);
+    PrintArr(B); nl;
+    ShrinkArray(&B,3); // newsize
+    printf("Shrink jadi %d\n", A.MaxEl);
+    PrintArr(B); nl;
     
     printf("press enter ");
     scanf("%c", &ctemp);nl;
