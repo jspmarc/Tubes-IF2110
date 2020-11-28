@@ -11,41 +11,44 @@ boolean EndKata;
 Kata CKata;
 
 void IgnoreBlank() {
-    while (CC == BLANK || CC == CR || CC == LF) ADV();
+	while (CC == BLANK || CC == CR || CC == LF) ADV();
 }
 
 void STARTKATA() {
-    START(stdin);
-    IgnoreBlank();
+	START(stdin);
+	IgnoreBlank();
 
-    if (CC == MARK) {
-        EndKata = true;
-    } else {
-        EndKata = false;
-        SalinKata();
-    }
+	EndKata = false;
+	EOP = false;
+
+	if (CC == MARK) {
+		EndKata = true;
+	} else {
+		EndKata = false;
+		SalinKata();
+	}
 }
 
 void ADVKATA() {
-    if (CC == MARK) {
-        EndKata = true;
-    } else {
-        SalinKata();
-    }
+	if (CC == MARK) {
+		EndKata = true;
+	} else {
+		SalinKata();
+	}
 }
 
 void SalinKata() {
-    int i;
+	int i;
 
-    i = 0;
+	i = 0;
 
-    while(i < NMax && CC != MARK && CC != CR && CC != LF) {
-        CKata.TabKata[i++] = CC;
-        ADV();
-    }
+	while(i < NMax && CC != MARK && CC != CR && CC != LF) {
+		CKata.TabKata[i++] = CC;
+		ADV();
+	}
 
-    CKata.TabKata[i] = '\0';
-    CKata.Length = i;
+	CKata.TabKata[i] = '\0';
+	CKata.Length = i;
 }
 
 void SalinKataKe(Kata *K1){

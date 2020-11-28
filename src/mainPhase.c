@@ -10,7 +10,7 @@
 #include "./../lib/header/jam.h"
 #include "./../lib/header/wahana.h"
 #include "./../lib/header/globals.h"
-#include "map.h"
+#include "./../lib/header/map.h"
 
 void SERVE () {
     /* Memakan waktu */
@@ -51,7 +51,8 @@ void PREPARE () {
 int MainPhase() {
     Queue Q;
     int i;
-    char * perintah;
+    /*char * perintah;*/
+    char perintah[50];
     boolean open = true;
     JAM cur, close;
 
@@ -67,7 +68,8 @@ int MainPhase() {
     }
     
     while (open && JNEQ(cur, close)) {
-        scanf("%c", perintah);
+        scanf("%s", perintah);
+        printf("%s\n", perintah);
 
         if (strIsEqual(perintah, "serve")) {
             SERVE();

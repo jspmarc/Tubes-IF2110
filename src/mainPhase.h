@@ -10,7 +10,7 @@
 #include "./../lib/header/jam.h"
 #include "./../lib/header/wahana.h"
 #include "./../lib/header/globals.h"
-#include "map.h"
+#include "./../lib/header/map.h"
 
 #ifndef MAINPHASE_H
 #define MAINPHASE_H

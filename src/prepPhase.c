@@ -28,12 +28,12 @@ void Execute(){
 				ExecBuild((ATangibleWahana)t);
 				break;
 			case UPGRD:
-				ExecUpgrade((WahanaUpgradeStack)t);
 				// execute upgrade;
+				ExecUpgrade((WahanaUpgradeStack)t);
 				break;
 			case BUY:
-				ExecBuy(*(actBuy *)t, &DurasiAksi(prop));
 				// execute buy;
+				ExecBuy(*(actBuy *)t, &DurasiAksi(prop));
 				break;
 		}
 		// The time is already taken account of, don't need to check

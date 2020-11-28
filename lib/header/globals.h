@@ -8,7 +8,8 @@
 #ifndef _GAME_GLOBAL_H
 #define _GAME_GLOBAL_H
 
-#define START_MONEY 100000;
+#define START_MONEY 100000
+#define MAX_WAHANA 10 // 10 wahana should be enough, can be extended
 
 /* List ID aksi: (Prep phase)
  * ID   -   Aksi
@@ -32,6 +33,7 @@ extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of Tangib
 extern array DoableActions; /* Nyimpen array of struct aksi */
 extern array BuyableMaterials; /* Nyimpen array of struct material */
 extern array AvailableWahana; /* Nyimpen array of struct wahana */
+extern array wahanaFromFile;
 
 /* Map */
 extern MAP map1;

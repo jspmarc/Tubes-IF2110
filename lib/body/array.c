@@ -42,7 +42,7 @@ void CreateArray(array *A, unsigned size) {
     }
 
     A->MaxEl = size;
-    A->NbEl = -1;
+    A->NbEl = 0;
 }
 
 void DeleteArray(array *A) {
@@ -104,19 +104,20 @@ ArrayElType DelArrLast(array *A) {
 
     return retVal;
 }
-void InsArrFirst(array *A, ArrayElType X) {
+void InsArrFirst(array *A, ArrayElType X) { /* TODO: Bug */
     if (!IsArrFull(*A)) {
         if (!IsArrEmpty(*A)) {
-            ShiftArrRight(A, 1);
+            ShiftArrRight(A, 1); /* Ada yg salah */
         }
         A->arr[0] = X;
+		A->NbEl++;
     } else { /* Array penuh */
         puts("Array penuh");
     }
 }
 void InsArrLast(array *A, ArrayElType X) {
     if (!IsArrFull(*A)) {
-        if (!IsArrEmpty(*A)) {
+        if (IsArrEmpty(*A)) {
             A->arr[0] = X;
         } else {
             A->arr[A->NbEl] = X;

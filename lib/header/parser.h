@@ -71,6 +71,7 @@ int ReadInt();
 Material ReadMaterial();
 void ReadUpgrade(WahanaTree *T);
 WahanaTree ReadTree();
+array ReadTreeArray();
 JAM ReadJAM();
 Point ReadPoint();
 Stack ReadStack();
