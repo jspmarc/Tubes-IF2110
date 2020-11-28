@@ -105,7 +105,7 @@ int main () {
 
 	do{
 		// main game loop
-		if(IsKataSama(CKata, newC) && !isIngame){
+		if(IsKataSama(CKata, newC) && !isIngame) {
 			// ke new
 			printf("Masukkan nama: ");
 			IgnoreBlank();
@@ -115,92 +115,84 @@ int main () {
 			TulisKataKe(Nama, stdout);
 			printf("!\n");
 			isIngame = 1;
-		}
-		else if(IsKataSama(CKata, load)){
+		} else if(IsKataSama(CKata, load) && !isIngame) {
 			// ke load ?
+		} else {
+			puts("Perintah tidak dikenali.");
 		}
-		else if(CKata.Length == 1){
-			// w,a,s,d
-			if(CKata.TabKata[0] == 'w') MoveW();
-			if(CKata.TabKata[0] == 'a') MoveA();
-			if(CKata.TabKata[0] == 's') MoveS();
-			if(CKata.TabKata[0] == 'd') MoveD();
-		}
-		else if(IsKataSama(CKata, build)){
-			Kata Wahana;
-			int idxWahana;
-			// Build Logic
-			printf("Ingin membangun apa?\nList:\n");
-			for (int i = 0; i < AvailableWahana.NbEl; ++i) {
-				printf("    - ");
-				TulisKataKe(Akar((WahanaTree) AvailableWahana.arr[i].metadata).nama, stdout);
-				puts("");
-			}
-			printf("\n$ ");
-			/* Ngebaca wahana yang mau dibangun */
-			IgnoreBlank();
-			ADVKATA();
-			SalinKataKe(&Wahana);
+		if (isIngame) {
+			if(CKata.Length == 1){
+				// w,a,s,d
+				if(CKata.TabKata[0] == 'w') MoveW();
+				if(CKata.TabKata[0] == 'a') MoveA();
+				if(CKata.TabKata[0] == 's') MoveS();
+				if(CKata.TabKata[0] == 'd') MoveD();
+			} else if(IsKataSama(CKata, build)){
+				Kata Wahana;
+				int idxWahana;
+				// Build Logic
+				printf("Ingin membangun apa?\nList:\n");
+				for (int i = 0; i < AvailableWahana.NbEl; ++i) {
+					printf("	- ");
+					TulisKataKe(Akar((WahanaTree) AvailableWahana.arr[i].metadata).nama, stdout);
+					puts("");
+				}
+				printf("\n$ ");
+				/* Ngebaca wahana yang mau dibangun */
+				IgnoreBlank();
+				ADVKATA();
+				SalinKataKe(&Wahana);
 
-			if (IsKataSama(Wahana, KataTBFO)) {
-				idxWahana = 0;
-			} else if (IsKataSama(Wahana, KataAlstrukdat)) {
-				idxWahana = 1;
-			} else if (IsKataSama(Wahana, KataAlgeo)) {
-				idxWahana = 2;
-			} else if (IsKataSama(Wahana, KataMatdis)) {
-				idxWahana = 3;
-			} else if (IsKataSama(Wahana, KataOrkom)) {
-				idxWahana = 4;
-			} else if (IsKataSama(Wahana, KataLogkom))  {
-				idxWahana = 5;
-			} else {
-				puts("Wahana itu tidak ada dan tidak nyata");
-				continue;
-			}
+				if (IsKataSama(Wahana, KataTBFO)) {
+					idxWahana = 0;
+				} else if (IsKataSama(Wahana, KataAlstrukdat)) {
+					idxWahana = 1;
+				} else if (IsKataSama(Wahana, KataAlgeo)) {
+					idxWahana = 2;
+				} else if (IsKataSama(Wahana, KataMatdis)) {
+					idxWahana = 3;
+				} else if (IsKataSama(Wahana, KataOrkom)) {
+					idxWahana = 4;
+				} else if (IsKataSama(Wahana, KataLogkom))	{
+					idxWahana = 5;
+				} else {
+					puts("Wahana itu tidak ada dan tidak nyata");
+					continue;
+				}
 
-			BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
+				BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
+			} else if(IsKataSama(CKata, upgrade)){
+				// Upgrade Logic
+			} else if(IsKataSama(CKata, buy)){
+				// Buy Logic
+			} else if(IsKataSama(CKata, undo)){
+				// Undo Logic
+			} else if(IsKataSama(CKata, execute)){
+				// Execute Logic
+			} else if(IsKataSama(CKata, mainC)){
+				// main Logic
+			} else if(IsKataSama(CKata, serve)){
+				// Serve Logic
+			} else if(IsKataSama(CKata, repair)){
+				// Repair Logic
+			} else if(IsKataSama(CKata, detail)){
+				// Detail Logic
+			} else if(IsKataSama(CKata, office)){
+				// Office Logic
+			} else if(IsKataSama(CKata, prepare)){
+				// Prepare Logic
+			} else{
+				// input gak valid...
+			}
+			// perintah lain lagi: main phase, etc etc
 		}
-		else if(IsKataSama(CKata, upgrade)){
-			// Upgrade Logic
-		}
-		else if(IsKataSama(CKata, buy)){
-			// Buy Logic
-		}
-		else if(IsKataSama(CKata, undo)){
-			// Undo Logic
-		}
-		else if(IsKataSama(CKata, execute)){
-			// Execute Logic
-		}
-		else if(IsKataSama(CKata, mainC)){
-			// main Logic
-		}
-		else if(IsKataSama(CKata, serve)){
-			// Serve Logic
-		}
-		else if(IsKataSama(CKata, repair)){
-			// Repair Logic
-		}
-		else if(IsKataSama(CKata, detail)){
-			// Detail Logic
-		}
-		else if(IsKataSama(CKata, office)){
-			// Office Logic
-		}
-		else if(IsKataSama(CKata, prepare)){
-			// Prepare Logic
-		}
-		else{
-			// input gak valid...
-		}
-		// perintah lain lagi: main phase, etc etc
 		// Akuisisi kata baru kalo gak kosong
 		if(!IsKataSama(CKata, exitC)){
 			if(!isIngame) ShowMenu();
 			else{
 				JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
-				
+				JAM totalWaktuAksi;
+
 				ShowMap();
 				puts("Legend:");
 				puts("A = Antrian");
@@ -220,7 +212,13 @@ int main () {
 				if (durasi.MM != 0) printf(" %d minute%c", durasi.MM, durasi.MM > 1 ? 's':'\0');
 				if (durasi.SS != 0) printf(" %d second%c", durasi.SS, durasi.SS > 1 ? 's':'\0');
 				puts("");
-				printf("Total aksi yang akan dilakukan: %d", NbElmtStack(actionStack));
+				printf("Total aksi yang akan dilakukan: %d\n", NbElmtStack(actionStack));
+				/*totalWaktuAksi = DurasiAksiStack(actionStack);*/
+				/*printf("Total waktu yang dibutuhkan:");*/
+				/*if (totalWaktuAksi.HH != 0) printf(" %d hour%c", totalWaktuAksi.HH, totalWaktuAksi.HH > 1 ? 's':'\0');*/
+				/*if (totalWaktuAksi.MM != 0) printf(" %d minute%c", totalWaktuAksi.MM, totalWaktuAksi.MM > 1 ? 's':'\0');*/
+				/*if (totalWaktuAksi.SS != 0) printf(" %d second%c", totalWaktuAksi.SS, totalWaktuAksi.SS > 1 ? 's':'\0');*/
+				/*puts("");*/
 
 				puts("");
 				printf("Masukkan perintah:\n");
