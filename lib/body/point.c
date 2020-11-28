@@ -53,6 +53,15 @@ Point NextY (Point P) {
     /*ALGORITMA*/
     return MakePoint(Absis(P), Ordinat(P)+1);
 }
+Point BeforeX (Point P) {
+    /*ALGORITMA*/
+    return MakePoint(Absis(P)-1, Ordinat(P));
+}
+Point BeforeY (Point P) {
+    /*ALGORITMA*/
+    return MakePoint(Absis(P), Ordinat(P)-1);
+}
+
 void Geser (Point *P, int deltaX, int deltaY) {
     /* ALGORITMA */
     Absis(*P) += deltaX;

@@ -35,8 +35,7 @@
 /* Gate2 : yang di sumbu x */
 typedef struct {
   int MapID;
-  int NBrs;
-  int NKol;
+  Point MapSize;
   Point Gate1;
   Point Gate2;
   Point Office;
@@ -44,8 +43,9 @@ typedef struct {
 } MAP;
 
 #define ID(M) (M).MapID
-#define NBrs(M) (M).NBrs
-#define NKol(M) (M).NKol
+#define MapSize(M) (M).MapSize
+#define NBrs(M) Ordinat(MapSize(M))
+#define NKol(M) Absis(MapSize(M))
 #define Gate1(M) (M).Gate1
 #define Gate2(M) (M).Gate2
 #define Office(M) (M).Office
@@ -67,8 +67,8 @@ int MiddleOf(indeks N);
 void InitiateMapGraph();
 /* Menginisiasi Graph yang menghubungkan peta-peta(nodes) */
 
-MAP WhichMap();
-/* Mengembalikan map sesuai crrntMapID */
+MAP WhichMap(int id);
+/* Mengembalikan map sesuai id */
 
 void ShowMap();
 /* Membuat matriks peta lokasi player dan menampilkannya 
@@ -77,7 +77,7 @@ void ShowMap();
 /* *** PERGERAKAN PLAYER ***  */
 void MoveW ();
 /* Pemain bergerak ke atas, ordinat pemain berkurang */
-/* if di atas pemain == tembok, then tidak berubah */
+/* if di atas pemain == tembok, then tidak{Psho} berubah */
 /* if di atas pemain == gate, then pindah currentmap */
 
 void MoveA ();
@@ -98,7 +98,10 @@ void MoveD ();
 void InitiateMap();
 /* Menyiapkan peta */
 
-void TestTheMap();
-/* Memeriksa apakah map berfungsi dengan benar */
+boolean InteractOffice();
+/* true jika player ada di atas/bawah/kanan/kiri office */
+
+boolean InteractWahana();
+/* true jika player ada di atas/bawah/kanan/kiri office */
 
 #endif
