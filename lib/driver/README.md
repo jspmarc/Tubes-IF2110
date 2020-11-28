@@ -1,0 +1,18 @@
+# List Driver
+- [ ] Point
+- [x] Jam
+- [ ] List (Implementasi Array)
+    - Catatan: Sekarang pake yang array integer dinamik
+- [x] Array
+- [x] Matriks
+- [ ] Mesin Kata
+- [ ] Mesin Karakter
+    - [ ] Mesin Token
+- [ ] Priority Queue
+- [ ] Stack
+- [ ] Linked list
+- [ ] Tree
+- [ ] Graph (Multilist)
+- [ ] Wahana
+- [ ] Material
+- [ ] Pengunjung
