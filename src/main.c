@@ -12,7 +12,6 @@
 #include "commands.h"
 #include "prepPhase.h"
 
-MAP Map1;
 Kata BuildableWahana[6];
 
 #define KataTBFO BuildableWahana[0]
@@ -99,6 +98,7 @@ int main () {
 	unsigned totalAksi = 0;
 
 	JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
+
 	/* ALGORITMA */
 	printf("\n");
 	/* Pembacaan file wahana dilakukan di init() */
@@ -147,28 +147,35 @@ int main () {
 				ADVKATA();
 				SalinKataKe(&Wahana);
 
-				if (IsKataSama(Wahana, KataTBFO)) {
-					idxWahana = 0;
-				} else if (IsKataSama(Wahana, KataAlstrukdat)) {
-					idxWahana = 1;
-				} else if (IsKataSama(Wahana, KataAlgeo)) {
-					idxWahana = 2;
-				} else if (IsKataSama(Wahana, KataMatdis)) {
-					idxWahana = 3;
-				} else if (IsKataSama(Wahana, KataOrkom)) {
-					idxWahana = 4;
-				} else if (IsKataSama(Wahana, KataLogkom))	{
-					idxWahana = 5;
-				} else {
+				for (idxWahana = 0;
+					idxWahana < AvailableWahana.NbEl && !IsKataSama(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).nama, Wahana);
+					++idxWahana);
+
+				if (idxWahana >= AvailableWahana.NbEl) {
 					puts("Wahana itu tidak ada dan tidak nyata");
-					continue;
+				} else {
+					/* *** RENDER WAHANA DI PETA *** */
+					/* Yg skrg boleh diapus aja */
+					MAP currentMap;
+
+					currentMap = WhichMap(crrntMapID);
+					if (Ordinat(BeforeY(playerPos)) != 0) {
+						/* Render tulisan W */
+						Ordinat(playerPos)--;
+					} else if (Absis(BeforeX(playerPos)) != 0) {
+						/* Render tulisan W */
+						Absis(playerPos)--;
+					} else if (Ordinat(NextY(playerPos)) == Ordinat(currentMap.MapSize)+1) {
+						/* Render tulisan W */
+						Ordinat(playerPos)++;
+					} else {}
+					/* *** END RENDER WAHANA DI PETA *** */
+
+					BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
+					totalAksi++;
+					totalDetikAksi += JAMToDetik(MakeJAM(0, 30, 0));
+					totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
 				}
-
-				BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
-				totalAksi++;
-				totalDetikAksi += JAMToDetik(MakeJAM(0, 30, 0));
-				totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
-
 			} else if(IsKataSama(CKata, upgrade)){
 				// Upgrade Logic
 				/* Jangan lupa tambah durasi dan uang */
@@ -187,8 +194,18 @@ int main () {
 
 					data = Undo();
 					totalAksi--;
-					totalDetikAksi -= JAMToDetik(data.durasiAksi);
-					/* TODO: Lanjutin */
+					totalDetikAksi -= JAMToDetik(data.prop.durasiAksi);
+					TulisJAM(DetikToJAM(totalDetikAksi));
+
+					switch (data.prop.idAksi) {
+						case BUILD:
+							totalUangAksi -= TreeWahana((ATangibleWahana) data.infoAksi).UpgradeCost.uang;
+							break;
+						case UPGRADE:
+							break;
+						case BUY:
+							break;
+					}
 				}
 			} else if(IsKataSama(CKata, execute)){
 				// Execute Logic

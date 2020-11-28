@@ -19,7 +19,7 @@
  * 6    -   Main (play)
  */
 #define BUILD 1
-#define UPGRD 2
+#define UPGRADE 2
 #define BUY 3
 
 /* Deklarasi StackInfoType */

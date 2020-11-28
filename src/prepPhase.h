@@ -9,7 +9,7 @@
 
 /* Strutkur data untuk mmebantu pemindahan data dari undo ke program utama */
 typedef struct {
-    JAM durasiAksi; /* Durasi untuk melakukan aksi yang di-undo */
+    PropertiAksi prop; /* Durasi untuk melakukan aksi yang di-undo */
     StackInfoType infoAksi; /* Info dari aksi yg diundo (pointer ke struct) */
 } UndoData;
 
