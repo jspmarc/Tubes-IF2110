@@ -41,6 +41,5 @@ void init() {
 	f = fopen("./data/wahana.txt", "r");
 	StartParser(f);
 	AvailableWahana = ReadTreeArray();
-	// TestTheMap();
 }
 

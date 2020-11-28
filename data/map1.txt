@@ -1,0 +1,7 @@
+id 1
+size (5,5)
+gate1 (0,2)
+gate2 (3,6)
+office (3,3)
+antrian (1,1)
+.

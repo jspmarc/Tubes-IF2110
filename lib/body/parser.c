@@ -71,10 +71,11 @@ void ReadKata(Kata *K){
 int ReadInt(){
 	int ret, tmp;
 
+    tmp = 0;
 	ret = 0;
 	for(int i = 0; i < CToken.length && ret >= 0; i++){
 		tmp = CToken.Token[i]-'0';
-		if(0 <= tmp && tmp < 9) ret = ret * 10 + tmp;
+		if(0 <= tmp && tmp <= 9) ret = (ret * 10)+ tmp;
 		else ret = -1;
 	}
 	return ret;
@@ -241,7 +242,7 @@ Point ReadPoint(){
 		ADV();
 		for(j = 0; j < 2; j++){
 			i = 0;
-			while(CC != ElmtSeparator || CC != TupleEnd){
+			while(CC != ElmtSeparator && CC != TupleEnd){
 				if(i < PanjangToken){
 					CToken.Token[i] = CC;
 					i++;
@@ -250,6 +251,7 @@ Point ReadPoint(){
 			}
 			CToken.length = i;
 			p[j] = ReadInt();
+            ADV();
 		}
 		SkipBlank();
 	}
@@ -315,3 +317,40 @@ Point ReadPoint(){
 //
 //	  return RetS;
 //}
+
+MAP ParserMap(int id) {   
+    MAP map;
+
+    map = WhichMap(id);
+    ReadToken();
+    
+    ReadToken();
+    ID(map) = ReadInt();
+    SkipNewLine();
+    
+    ReadToken();
+    SkipBlank();
+    MapSize(map) = ReadPoint();
+    SkipNewLine();
+
+    ReadToken();
+    SkipBlank();
+    Gate1(map) = ReadPoint();
+    SkipNewLine();
+
+    ReadToken();
+    SkipBlank();
+    Gate2(map) = ReadPoint();
+    SkipNewLine();
+
+    ReadToken();
+    SkipBlank();
+    Office(map) = ReadPoint();
+    SkipNewLine();
+
+    ReadToken();
+    SkipBlank();
+    Antrian(map) = ReadPoint();
+
+    return map;
+}

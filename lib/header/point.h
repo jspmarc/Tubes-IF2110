@@ -54,6 +54,12 @@ Point NextX (Point P);
 Point NextY (Point P);
 /* I.S. P terdefinisi */
 /* F.S. P digeser, absisnya sebesar deltaX dan ordinatnya sebesar deltaY */
+Point BeforeX (Point P);
+/* Mengirim salinan P dengan ordinat ditambah satu */
+Point BeforeY (Point P);
+
+/* I.S. P terdefinisi */
+/* F.S. P digeser, absisnya sebesar deltaX dan ordinatnya sebesar deltaY */
 void Geser (Point *P, int deltaX, int deltaY);
 
 #endif

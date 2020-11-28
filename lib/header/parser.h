@@ -4,6 +4,7 @@
 #include "jam.h"
 #include "wahana.h"
 #include "boolean.h"
+#include "map.h"
 
 #ifndef PARSER_H
 #define PARSER_H
@@ -76,5 +77,6 @@ JAM ReadJAM();
 Point ReadPoint();
 Stack ReadStack();
 Queue ReadQueue();
+MAP ParserMap(int id);
 
 #endif
