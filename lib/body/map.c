@@ -107,6 +107,12 @@ void ShowMap() {
   Elmt(peta, Ordinat(Antrian(map)), Absis(Antrian(map))) = 'A';
 
 	/* Render wahana yang sudah dibuat */
+	for (int i = 0; i < toBeBuiltWahana.NbEl; i++) {
+		if (IDMap((ATangibleWahana) toBeBuiltWahana.arr[i].metadata) == crrntMapID) {
+			Elmt(peta, Ordinat(WahanaPoint((ATangibleWahana) toBeBuiltWahana.arr[i].metadata)), Absis(WahanaPoint((ATangibleWahana) toBeBuiltWahana.arr[i].metadata))) = 'W';
+		}
+	}
+
 	for (int i = 0; i < BuiltWahana.NbEl; i++) {
 		if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID) {
 			Elmt(peta, Ordinat(WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)), Absis(WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata))) = 'W';
