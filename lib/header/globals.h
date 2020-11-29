@@ -11,6 +11,8 @@
 #define START_MONEY 300000
 #define MAX_WAHANA 6
 #define MAX_MATERIAL 5
+#define MAX_ANTRIAN  10
+#define MAX_QESABARAN 11
 #define JUMLAH_MATERIAL_DAPAT_DIBELI 0x7fffffff
 
 #define BANYAK_AKSI 10

@@ -234,6 +234,7 @@ int main () {
 					printf(" (%ld seconds)\n\n", JAMToDetik(durasi));
 
 					/* Print antrian */
+					printf("Antrian [%d/%d]:\n", NbElmtQueue(antrianCustomer), MAX_WAHANA);
 				}
 
 				puts("");

@@ -52,7 +52,7 @@ void BuildWahana(WahanaTree Wahana, Point Loc) {
 	WahanaPoint(w) = Loc;
 	TreeWahana(w) = Wahana;
 	UpgradeId(w) = Wahana->upgradeInfo.id;
-	w->status = 1;
+	w->status = true;
 	w->used = 0;
 	w->usedTotal = 0;
 

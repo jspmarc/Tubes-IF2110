@@ -27,11 +27,11 @@ void RandomPengunjung() {
     srand(time(NULL));
 
     /* Random banyaknya penunjung */
-    nPengunjung = rand()%12;
+    nPengunjung = rand()%MAX_ANTRIAN;
     /* sebanyak pengunjung */
     if (BuiltWahana.NbEl != 0) {
         for (int i = 0; i < nPengunjung; i++) {
-            qesabaran = rand()%11; /* random kesabaran pengunjung */
+            qesabaran = rand()%MAX_QESABARAN; /* random kesabaran pengunjung */
             prioriti = rand()%5; /* random prioritas pengunjung */
             AlokasiElQueue(&pengunjung, qesabaran, prioriti); 
             panjangLis = rand()%5; /* random panjang list yang ingin dinaiki */
@@ -52,6 +52,14 @@ void SERVE() {
 
     // jika tidak ada wahana yang ingin dikunjungi, keluar antrian
     Dequeue(&antrianCustomer, &pengunjung);
+	int lohkokadaangka = HAHAWAHANANYARUSAKLOLOLOLOLL();
+	if (lohkokadaangka == 0) {
+		pengunjung->prio++;
+	} else if (lohkokadaangka == 2) {
+		return;
+	}
+
+	/* lohkokadaangka == 1 */
 
     // Serve berlaku untuk pengunjung pertama antrian tiap command
     // Jika masih ada wahana yang ingin dikunjungi
@@ -71,7 +79,8 @@ void SERVE() {
     }
 
     // ID Wahana yang diinginkan pengunjung ketemu
-    if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))) {
+    if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))
+		&& ((ATangibleWahana) BuiltWahana.arr[i].metadata)->status == true) {
         playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
         (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
         (((ATangibleWahana) BuiltWahana.arr[i].metadata)->usedTotal) += 1;
@@ -138,6 +147,7 @@ void REPAIR () {
 			SalinKataDariKe(upgradeBersangkutan->upgradeInfo.nama, &namaWahana);
 			printf("  -");
 			TulisKataKe(namaWahana, stdout);
+			puts("");
 		}
 		printf("\n❯ ");
 		/* Ngebaca wahana yang mau diupgrade */
@@ -187,11 +197,16 @@ void DETAIL () {
             printf("// Lokasi       : "); TulisPoint(atWahana->posisi); nl;
             printf("// Upgrades(s)  : "); printUpgrade(atWahana->baseTree); nl;
             printf("// History      : "); printHistory(atWahana->baseTree, namaWahana); nl;
-                if (atWahana->status == '1') status = "Berfungsi";
+                if (atWahana->status == 1) status = "Berfungsi";
                 else status = "Rusak";
             printf("// Status       : %s\n\n", status);
-            idxWahana++;
         }
+
+		Kata _;
+		puts("Masukkan apapun untuk melanjutkan...");
+		IgnoreBlank();
+		ADVKATA();
+		SalinKataKe(&_);
     } else {
         printf("Tidak ada wahana di sekitarmu.\n\n");
     }
@@ -261,7 +276,7 @@ void OFFICE () {
                 printf("// Lokasi       : "); TulisPoint(wahana->posisi); nl;
                 printf("// Upgrades(s)  : "); printUpgrade(wahana->baseTree); nl;
                 printf("// History      : "); printHistory(wahana->baseTree, namaWahana); nl;
-                if (wahana->status == '1') status = "Berfungsi";
+                if (wahana->status == 1) status = "Berfungsi";
                 else status = "Rusak";
                 printf("// Status       : %s\n\n", status);
             } else {
@@ -299,4 +314,18 @@ void printUpgrade(WahanaTree WT) {
 void printHistory(WahanaTree wahana, Kata nama) {
     // gimana cara backtrack
     PrintPathTo(wahana, nama);
+}
+
+int HAHAWAHANANYARUSAKLOLOLOLOLL() {
+	if (BuiltWahana.NbEl == 0)
+		return 2; /* ga ada wahana */
+
+	int index = random() % BuiltWahana.NbEl;
+	int apakahRusak = random() % 100;
+	if (apakahRusak <= 30) {
+		((ATangibleWahana) BuiltWahana.arr[index].metadata)->status = false;
+		return 0; /* haha wahananyaa rusak lololo */
+	}
+
+	return 1; /* wahana is fine */
 }

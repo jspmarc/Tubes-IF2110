@@ -33,4 +33,6 @@ void DETAIL();
 /* Tidak memakan waktu */
 /* OFFICE {input: office} */
 void OFFICE();
+
+int HAHAWAHANANYARUSAKLOLOLOLOLL();
 #endif

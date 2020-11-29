@@ -274,6 +274,7 @@ ATangibleWahana InteraksiWahanaSekitarPosisi(Point position) {
 			SalinKataDariKe(upgradeBersangkutan->upgradeInfo.nama, &namaWahana);
 			printf("  -");
 			TulisKataKe(namaWahana, stdout);
+			puts("");
 		}
 		printf("\n❯ ");
 		/* Ngebaca wahana yang mau diupgrade */
