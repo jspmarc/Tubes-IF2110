@@ -33,6 +33,7 @@ extern Resource playerResources;
 extern JAM currentJam;
 extern Kata Nama;
 extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of TangibleWahana. */
+extern array toBeBuiltWahana;
 
 /* Data */
 extern array DoableActions; /* Nyimpen array of struct aksi */

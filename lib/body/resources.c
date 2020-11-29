@@ -50,7 +50,7 @@ void BuyResource(int qty, char unsigned materialID, int harga) {
 	a->harga = harga;
 	a->id = materialID; /* nama dari barang yang dibeli (tipe data kata) */
 	PropertiAksi prop;
-	prop.durasiAksi = MakeJAM(0, 15, 0); /* TODO: Harusnya dependant ke array DoableActions */
+	prop.durasiAksi = DetikToJAM(DoableActions.arr[BUY].info);
 	prop.idAksi = BUY;
 	Push(&actionStack, a, prop);
 }

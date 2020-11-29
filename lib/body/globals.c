@@ -8,6 +8,7 @@ Resource playerResources;
 JAM currentJam;
 Kata Nama;
 array BuiltWahana;
+array toBeBuiltWahana;
 
 /* Data */
 array DoableActions;
@@ -52,6 +53,7 @@ void init() {
 	__isiDoableActions();
 
 	CreateArray(&BuiltWahana, MAX_WAHANA);
+	CreateArray(&toBeBuiltWahana, MAX_WAHANA);
 	CreateArray(&AvailableWahana, MAX_WAHANA);
 	CreateArray(&BuyableMaterials, MAX_MATERIAL);
 

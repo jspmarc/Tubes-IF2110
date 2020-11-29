@@ -43,12 +43,19 @@ void Execute(){
 void BuildWahana(UpgradeType Wahana, Point Loc) {
 	ATangibleWahana w;
 	PropertiAksi prop;
+	ArrayElType el;
 	w = (ATangibleWahana) malloc(sizeof(TangibleWahana));
 	WahanaPoint(w) = Loc;
 	TreeWahana(w) = Wahana;
 	UpgradeId(w) = Wahana.id;
 
-	DurasiAksi(prop) = MakeJAM(0, 30, 0); /* TODO: Harusnya dependant ke array DoableActions */
+	el.id = Wahana.id;
+	el.info = 0;
+	el.metadata = w;
+
+	InsArrLast(&toBeBuiltWahana, el);
+
+	DurasiAksi(prop) = DetikToJAM(DoableActions.arr[BUILD].info);
 	IdAksi(prop) = BUILD;
 	Push(&actionStack, (void *) w, prop);
 }
@@ -56,8 +63,7 @@ void ExecBuild(ATangibleWahana Wahana){
 	// Store ATangibleWahana somehow
 	// Do not free ATangibleWahana, because we need it.
 	ArrayElType el;
-	el.id = TreeWahana(Wahana).id;
-	el.metadata = Wahana;
+	el = DelArrLast(&toBeBuiltWahana);
 	InsArrLast(&BuiltWahana, el);
 }
 
@@ -120,7 +126,7 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 		/* Kalo bisa bangun */
 		BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
 		(*totalAksi)++;
-		*totalDetikAksi += JAMToDetik(MakeJAM(0, 30, 0)); /* TODO: Harusnya dependant sama DoableActions */
+		*totalDetikAksi += DoableActions.arr[BUILD].info;
 		*totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
 	}
 }
@@ -194,12 +200,13 @@ void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 	int materialID = boughtMaterial.idMaterial;
 	if (qty != -1 && found) {
 		materialID = getMaterialId(namaMaterial);
-		/* Ngecek bisa bangun atau nggak */
+
+		/* Ngecek bisa beli atau nggak */
 
 		/* Kalo bisa */
 		BuyResource(qty, materialID, boughtMaterial.biayaMaterial);
 		(*totalAksi)++;
-		*totalDetikAksi += JAMToDetik(MakeJAM(0, 15, 0)); /* TODO: Harusnya dependant sama DoableActions */
+		*totalDetikAksi += DoableActions.arr[BUY].info; /* TODO: Harusnya dependant sama DoableActions */
 		*totalUangAksi += qty * boughtMaterial.biayaMaterial;
 	} else {
 		puts("Gagal membeli material karena jumlah pembelian tidak valid atau karena material tidak ada.");
