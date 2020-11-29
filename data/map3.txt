@@ -1,6 +1,6 @@
 id 3
-size (5,5)
-gate1 (6,5)
+size (4,9)
+gate1 (5,5)
 gate2 (2,0)
 office (3,4)
 antrian (3,3)

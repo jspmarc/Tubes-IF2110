@@ -1,7 +1,7 @@
 id 2
-size (5,5)
-gate1 (6,2)
-gate2 (2,6)
+size (7,6)
+gate1 (8,2)
+gate2 (2,7)
 office (3,3)
 antrian (2,2)
 .

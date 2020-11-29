@@ -45,6 +45,7 @@ void BuildWahana(WahanaTree Wahana, Point Loc) {
 	PropertiAksi prop;
 	ArrayElType el;
 	w = (ATangibleWahana) malloc(sizeof(TangibleWahana));
+    IDMap(w) = crrntMapID; // Menyimpan id-map player saat ini
 	WahanaPoint(w) = Loc;
 	TreeWahana(w) = Wahana;
 	UpgradeId(w) = Wahana->upgradeInfo.id;
