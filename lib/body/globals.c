@@ -58,7 +58,7 @@ void __isiPlayerResources() {
 
 		mater->biayaMaterial = ((Material *) BuyableMaterials.arr[i].metadata)->biayaMaterial;
 		mater->idMaterial = ((Material *) BuyableMaterials.arr[i].metadata)->idMaterial;
-		mater->jumlahMaterial = 100;
+		mater->jumlahMaterial = 1000000;
 		SalinKataDariKe(((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial, &(mater->namaMaterial));
 
 		el.id = mater->idMaterial;

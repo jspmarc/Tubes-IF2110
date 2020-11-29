@@ -8,7 +8,7 @@
 #ifndef _GAME_GLOBAL_H
 #define _GAME_GLOBAL_H
 
-#define START_MONEY 100000
+#define START_MONEY 300000
 #define MAX_WAHANA 6
 #define MAX_MATERIAL 5
 #define JUMLAH_MATERIAL_DAPAT_DIBELI 0x7fffffff

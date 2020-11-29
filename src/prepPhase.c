@@ -165,12 +165,22 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resour
 		puts("Wahana itu tidak ada dan tidak nyata");
 	} else {
 		/* Cek bisa bangun wahana atau nggak */
-		/* Secara resource */
 
+		/* Secara resource */
 		Resource *resourceSetelahBerubah;
 		resourceSetelahBerubah = (Resource *) malloc(sizeof(Resource));
 		TambahDuaResource(*totalResourceAksi, ((WahanaTree) AvailableWahana.arr[idxWahana].metadata)->upgradeInfo.UpgradeCost, resourceSetelahBerubah);
 		bisaBangun = IsResourcesEnough(playerResources, *resourceSetelahBerubah);
+
+		/* Bangunan udah dibangun */
+		boolean udahDibangun = false;
+		for (int i = 0; i < BuiltWahana.NbEl; ++i) {
+			udahDibangun = IsKataSama((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo.nama, Wahana);
+		}
+		for (int i = 0; i < toBeBuiltWahana.NbEl; ++i) {
+			udahDibangun = IsKataSama((((ATangibleWahana) toBeBuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo.nama, Wahana);
+		}
+		bisaBangun = bisaBangun && !udahDibangun;
 
 		if (bisaBangun) {
 			/* Kalo bisa bangun */
@@ -179,6 +189,8 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resour
 			*totalDetikAksi += DoableActions.arr[BUILD].info;
 			*totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
 			*totalResourceAksi = *resourceSetelahBerubah;
+		} else if (udahDibangun) {
+			puts("Wahana sudah pernah dibangun.");
 		} else {
 			puts("Tidak dapat membangun karena material atau uang mu kurang.");
 		}
