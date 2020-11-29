@@ -3,6 +3,7 @@
 #ifndef _PRIOQUEUELL_H
 #define _PRIOQUEUELL_H
 #include "boolean.h"
+#include "../header/listlinier.h"
 #include <stdlib.h>
 
 #define KAKI_PEGEL 100
@@ -17,7 +18,7 @@ typedef struct tElmtQueue {
     QueueInfoType kesabaran; /* Kesabaran pengunjung */
     address NextQueue; /* Pengunjung di belakangnya */
     int prio; /* prioritas pengunjung */
-    unsigned int wahanaID[KAKI_PEGEL]; /* Wahana yang mau dinaikin pengunjung */
+    LL wahanaID; /* Wahana yang mau dinaikin pengunjung */
 } ElmtQueue;
 
 /* Type queue dengan ciri HEAD dan TAIL : */
@@ -34,6 +35,7 @@ typedef struct {
 #define NextQueue(P) (P)->NextQueue
 #define Kesabaran(P) (P)->kesabaran
 #define Prio(P)      (P)->prio
+#define wahanaID(P)  (P)->wahanaID
 
 /* Prototype manajemen memori */
 /* I.S. Sembarang */

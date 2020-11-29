@@ -14,7 +14,6 @@
 //	 Point MapSize;
 //   Point Gate1;
 //   Point Gate2;
-//   LL Buildings;
 //   Point Office;
 //   Point Antrian;
 // } MAP;
@@ -78,8 +77,6 @@ void ShowMap() {
 
 	map = WhichMap(crrntMapID);
 
-
-
   MakeMATRIKS(NBrs(map)+2, NKol(map)+2, &peta);
   for (int i = 0; i <= GetLastIdxBrs(peta); i++) {
     for (int j = 0; j <= GetLastIdxKol(peta); j++) {
@@ -126,6 +123,7 @@ void ShowMap() {
 void MoveW () {
   /* KAMUS */
 	MAP map;
+	boolean nabrakWahana;
 
   /* ALGORITMA */
 	map = WhichMap(crrntMapID);
@@ -152,11 +150,23 @@ void MoveW () {
       Ordinat(playerPos)++;
     }
   } else {
-		for (int i = 0; i < BuiltWahana.NbEl; i++) {
-			if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
-			(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
-				Ordinat(playerPos)++;
-				break;
+		/* Supaya ga nabrak antrian */
+		if (PointEQ(playerPos, Antrian(map))) Ordinat(playerPos)++;
+		else {
+			nabrakWahana = false;
+			for (int i = 0; i < BuiltWahana.NbEl && !nabrakWahana; i++) {
+				if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
+				(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
+					Ordinat(playerPos)++;
+					nabrakWahana = true;
+				}
+			}
+			for (int i = 0; i < toBeBuiltWahana.NbEl && !nabrakWahana; i++) {
+				if (IDMap((ATangibleWahana) toBeBuiltWahana.arr[i].metadata) == crrntMapID && 
+				(PointEQ(playerPos, WahanaPoint((ATangibleWahana) toBeBuiltWahana.arr[i].metadata)))) {
+					Ordinat(playerPos)++;
+					nabrakWahana = true;
+				}
 			}
 		}
   }
@@ -165,6 +175,7 @@ void MoveW () {
 void MoveA () {
   /* KAMUS */
 	MAP map;
+	boolean nabrakWahana;
 
   /* ALGORITMA */
 	map = WhichMap(crrntMapID);
@@ -191,11 +202,23 @@ void MoveA () {
       Absis(playerPos)++;
     }
   } else {
-		for (int i = 0; i < BuiltWahana.NbEl; i++) {
-			if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
-			(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
-				Absis(playerPos)++;
-				break;
+		/* Supaya ga nabrak antrian */
+		if (PointEQ(playerPos, Antrian(map))) Absis(playerPos)++;
+		else {
+			nabrakWahana = false;
+			for (int i = 0; i < BuiltWahana.NbEl && !nabrakWahana; i++) {
+				if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
+				(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
+					Absis(playerPos)++;
+					nabrakWahana = true;
+				}
+			}
+			for (int i = 0; i < toBeBuiltWahana.NbEl && !nabrakWahana; i++) {
+				if (IDMap((ATangibleWahana) toBeBuiltWahana.arr[i].metadata) == crrntMapID && 
+				(PointEQ(playerPos, WahanaPoint((ATangibleWahana) toBeBuiltWahana.arr[i].metadata)))) {
+					Absis(playerPos)++;
+					nabrakWahana = true;
+				}
 			}
 		}
   }
@@ -204,6 +227,7 @@ void MoveA () {
 void MoveS () {
   /* KAMUS */
 	MAP map;
+	boolean nabrakWahana;
 
   /* ALGORITMA */
 	map = WhichMap(crrntMapID);
@@ -230,11 +254,22 @@ void MoveS () {
       Ordinat(playerPos)--;
     }
   } else {
-		for (int i = 0; i < BuiltWahana.NbEl; i++) {
-			if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
-			(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
-				Ordinat(playerPos)--;
-				break;
+		if (PointEQ(playerPos, Antrian(map))) Ordinat(playerPos)--;
+		else {
+			nabrakWahana = false;
+			for (int i = 0; i < BuiltWahana.NbEl && !nabrakWahana; i++) {
+				if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
+				(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
+					Ordinat(playerPos)--;
+					nabrakWahana = true;
+				}
+			}
+			for (int i = 0; i < toBeBuiltWahana.NbEl && !nabrakWahana; i++) {
+				if (IDMap((ATangibleWahana) toBeBuiltWahana.arr[i].metadata) == crrntMapID && 
+				(PointEQ(playerPos, WahanaPoint((ATangibleWahana) toBeBuiltWahana.arr[i].metadata)))) {
+					Ordinat(playerPos)--;
+					nabrakWahana = true;
+				}
 			}
 		}
   }
@@ -243,6 +278,7 @@ void MoveS () {
 void MoveD () {
   /* KAMUS */
 	MAP map;
+	boolean nabrakWahana;
 
   /* ALGORITMA */
 	map = WhichMap(crrntMapID);
@@ -270,21 +306,32 @@ void MoveD () {
       Absis(playerPos)--;
     }
   } else {
-		for (int i = 0; i < BuiltWahana.NbEl; i++) {
-			if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
-			(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
-				Absis(playerPos)--;
-				break;
+		if (PointEQ(playerPos, Antrian(map))) Absis(playerPos)--;
+		else {
+			nabrakWahana = false;
+			for (int i = 0; i < BuiltWahana.NbEl && !nabrakWahana; i++) {
+				if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
+				(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
+					Absis(playerPos)--;
+					nabrakWahana = true;
+				}
+			}
+			for (int i = 0; i < toBeBuiltWahana.NbEl && !nabrakWahana; i++) {
+				if (IDMap((ATangibleWahana) toBeBuiltWahana.arr[i].metadata) == crrntMapID && 
+				(PointEQ(playerPos, WahanaPoint((ATangibleWahana) toBeBuiltWahana.arr[i].metadata)))) {
+					Absis(playerPos)--;
+					nabrakWahana = true;
+				}
 			}
 		}
   }
 }
 
 void InitiateMap() {
-    crrntMapID = 1;
-    playerPos = MakePoint(3, 3);
+	crrntMapID = 1;
+	playerPos = MakePoint(3, 3);
 
-    InitiateMapGraph();
+	InitiateMapGraph();
 }
 
 array WahanaSekitarPosisi(Point position) {

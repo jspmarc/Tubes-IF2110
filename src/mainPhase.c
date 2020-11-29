@@ -12,9 +12,31 @@
 
 #define nl printf("\n")
 
-void SERVE () {
+void serve() {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
+    QueueInfoType pengunjung;
+
+    // Serve berlaku untuk pengunjung pertama antrian tiap command
+    // Jika masih ada wahana yang ingin dikunjungi
+    if (!IsEmpty(wahanaID(Head(antrianCustomer)))) {
+        // Masuk kembali ke antrian, prioritas bertambah
+        if (Prio(Head(antrianCustomer)) == 5) Prio(Head(antrianCustomer)) = 4; // Jika prioritas sudah 5, tak bisa bertambah
+        Enqueue(&antrianCustomer, Kesabaran(Head(antrianCustomer)), Prio(Head(antrianCustomer)) + 1);
+    }
+    // jika tidak ada wahana yang ingin dikunjungi, keluar antrian
+    Dequeue(&antrianCustomer, &pengunjung);
+
+    /* Uang bertambah */
+    int i = 0;
+    while ((i < BuiltWahana.NbEl) && ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer)))))) {
+        i++;
+    }
+
+    // ID Wahana yang diinginkan pengunjung ketemu
+    if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))) {
+        playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
+    }
 
     ShowMap();
 
@@ -181,9 +203,9 @@ int MainPhase() {
         scanf("%s",perintah);
         // printf("%s\n",perintah);
 
-        if (strIsEqual(perintah,"serve")) {
-            SERVE();
-        } else if (strIsEqual(perintah,"repair")) {
+        if (strIsEqual(perintah, "serve")) {
+            // serve(&Q);
+        } else if (strIsEqual(perintah, "repair")) {
             REPAIR();
         } else if (strIsEqual(perintah,"detail")) {
             DETAIL();

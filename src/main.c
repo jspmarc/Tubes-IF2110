@@ -105,6 +105,7 @@ int main () {
 			if(IsKataSama(CKata, serve)){
 				// Serve Logic
 				/* Jangan lupa tambah durasi dan uang */
+                serve();
 				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, repair)){
 				// Repair Logic

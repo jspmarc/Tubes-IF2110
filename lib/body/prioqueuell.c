@@ -10,6 +10,9 @@ void AlokasiElQueue (address *P, QueueInfoType X, int prio){
         Kesabaran(*P) = X;
         Prio(*P) = prio;
         NextQueue(*P) = NULL;
+        LL wahanaIDList;
+        CreateEmpty(&wahanaIDList);
+        wahanaID(*P) = wahanaIDList;
     }
 }
 
