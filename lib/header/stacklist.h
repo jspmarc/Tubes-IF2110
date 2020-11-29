@@ -9,19 +9,6 @@
 /* Konstanta */
 #define Nil NULL
 
-/* List ID aksi: (Prep phase)
- * ID   -   Aksi
- * 1    -   Build
- * 2    -   Upgrade
- * 3    -   Buy
- * 4    -   Undo
- * 5    -   Execute
- * 6    -   Main (play)
- */
-#define BUILD 1
-#define UPGRADE 2
-#define BUY 3
-
 /* Deklarasi StackInfoType */
 /* Nunjuk ke struk eksekusi aksi */
 typedef void* StackInfoType;

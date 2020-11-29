@@ -28,16 +28,32 @@ int crrntMapID;
 Graph jaringanMap;
 /* end of map stuffs */
 
+void __isiDoableActions() {
+	DoableActions.arr[0].id = 0x7fffffff;
+	DoableActions.arr[0].info = 0x7fffffff;
+
+	DoableActions.arr[BUILD].id = BUILD;
+	DoableActions.arr[BUILD].info = JAMToDetik(MakeJAM(1, 0, 0));
+
+	DoableActions.arr[UPGRADE].id = UPGRADE;
+	DoableActions.arr[UPGRADE].info = JAMToDetik(MakeJAM(0, 30, 0));
+
+	DoableActions.arr[BUY].id = BUY;
+	DoableActions.arr[BUY].info = JAMToDetik(MakeJAM(0, 15, 0));
+}
+
 void init() {
 	FILE *f;
 	CreateEmptyStack(&actionStack);
 
 	playerResources.uang = START_MONEY;
 
-	CreateArray(&DoableActions, 15);
+	CreateArray(&DoableActions, BANYAK_AKSI);
+	__isiDoableActions();
+
 	CreateArray(&BuiltWahana, MAX_WAHANA);
 	CreateArray(&AvailableWahana, MAX_WAHANA);
-    CreateArray(&BuyableMaterials, MAX_MATERIAL);
+	CreateArray(&BuyableMaterials, MAX_MATERIAL);
 
 	currentJam = MakeJAM(21, 0, 0);
 	OpeningJam = MakeJAM(9, 0, 0);

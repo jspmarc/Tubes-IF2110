@@ -11,6 +11,8 @@
 #define START_MONEY 100000
 #define MAX_WAHANA 10 // 10 wahana should be enough, can be extended
 
+#define BANYAK_AKSI 15
+
 /* List ID aksi: (Prep phase)
  * ID   -   Aksi
  * 1    -   Build
@@ -19,7 +21,10 @@
  * 4    -   Undo
  * 5    -   Execute
  * 6    -   Main (play)
-*/
+ */
+#define BUILD 1
+#define UPGRADE 2
+#define BUY 3
 
 /* State */
 extern Stack actionStack;

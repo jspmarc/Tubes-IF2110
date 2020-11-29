@@ -1,5 +1,5 @@
 [
-id 1 nama asd biaya 1000,
-id 2 nama qwe biaya 200,
-id 3 nama zxc biaya 30,
+id 1 nama logam biaya 100,
+id 2 nama nonlogam biaya 90,
+id 3 nama metaloid biaya 95,
 ].
