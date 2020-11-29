@@ -76,12 +76,20 @@ int main () {
 			} else if(IsKataSama(CKata, execute)){
 				// Execute Logic
 				/* Jangan lupa tambah durasi dan uang */
-				/*totalAksi++;*/
+				isPrepPhase = false;
+				isMainPhase = true;
+				currentJam = MakeJAM(9, 0, 0);
 			} else if(IsKataSama(CKata, mainC)){
 				// main Logic
 				/* Jangan lupa tambah durasi dan uang */
-				/*totalAksi++;*/
-			} else if(IsKataSama(CKata, serve)){
+				isPrepPhase = false;
+				isMainPhase = true;
+				currentJam = MakeJAM(9, 0, 0);
+			} else {
+				puts("Perintah tidak dikenali.");
+			}
+		} else if (isMainPhase && isIngame) {
+			if(IsKataSama(CKata, serve)){
 				// Serve Logic
 				/* Jangan lupa tambah durasi dan uang */
 				/*totalAksi++;*/
@@ -99,12 +107,12 @@ int main () {
 				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, prepare)){
 				// Prepare Logic
-				/* Jangan lupa tambah durasi dan uang */
-				/*totalAksi++;*/
+				isMainPhase = false;
+				isPrepPhase = true;
+				currentJam = MakeJAM(21, 0, 0);
 			} else {
 				puts("Perintah tidak dikenali.");
 			}
-		} else if (isMainPhase && isIngame) {
 		} else {
 			puts("Perintah tidak dikenali.");
 		}
@@ -124,23 +132,36 @@ int main () {
 				puts("");
 				printf("Name: ");
 				TulisKataKe(Nama, stdout);
-				printf("\nMoney: %d\n", playerResources.uang);
-				printf("Current Time: %02d.%02d\n", currentJam.HH, currentJam.MM);
-				printf("Opening Time: %02d.%02d\n", OpeningJam.HH, OpeningJam.MM);
-				printf("Time Remaining:");
-				if (durasi.HH != 0) printf(" %d hour%c", durasi.HH, durasi.HH > 1 ? 's':'\0');
-				if (durasi.MM != 0) printf(" %d minute%c", durasi.MM, durasi.MM > 1 ? 's':'\0');
-				if (durasi.SS != 0) printf(" %d second%c", durasi.SS, durasi.SS > 1 ? 's':'\0');
-				printf(" (%ld seconds)\n", JAMToDetik(durasi));
+				printf("\nMoney: %d\n\n", playerResources.uang);
 
-				printf("Total aksi yang akan dilakukan: %d\n", totalAksi);
-				printf("Total waktu yang dibutuhkan:");
-				JAM totalJamAksi = DetikToJAM(totalDetikAksi);
-				if (totalJamAksi.HH != 0) printf(" %d hour%c", totalJamAksi.HH, totalJamAksi.HH > 1 ? 's':'\0');
-				if (totalJamAksi.MM != 0) printf(" %d minute%c", totalJamAksi.MM, totalJamAksi.MM > 1 ? 's':'\0');
-				if (totalJamAksi.SS != 0) printf(" %d second%c", totalJamAksi.SS, totalJamAksi.SS > 1 ? 's':'\0');
-				printf(" (%ld seconds)\n", totalDetikAksi);
-				printf("Total uang yang dibutuhkan: %d\n", totalUangAksi);
+				if (isPrepPhase) {
+					printf("Current Time: %02d.%02d\n", currentJam.HH, currentJam.MM);
+					printf("Opening Time: %02d.%02d\n", OpeningJam.HH, OpeningJam.MM);
+					printf("Time Remaining:");
+					if (durasi.HH != 0) printf(" %d hour%c", durasi.HH, durasi.HH > 1 ? 's':'\0');
+					if (durasi.MM != 0) printf(" %d minute%c", durasi.MM, durasi.MM > 1 ? 's':'\0');
+					if (durasi.SS != 0) printf(" %d second%c", durasi.SS, durasi.SS > 1 ? 's':'\0');
+					printf(" (%ld seconds)\n\n", JAMToDetik(durasi));
+
+					printf("Total aksi yang akan dilakukan: %d\n", totalAksi);
+					printf("Total waktu yang dibutuhkan:");
+					JAM totalJamAksi = DetikToJAM(totalDetikAksi);
+					if (totalJamAksi.HH != 0) printf(" %d hour%c", totalJamAksi.HH, totalJamAksi.HH > 1 ? 's':'\0');
+					if (totalJamAksi.MM != 0) printf(" %d minute%c", totalJamAksi.MM, totalJamAksi.MM > 1 ? 's':'\0');
+					if (totalJamAksi.SS != 0) printf(" %d second%c", totalJamAksi.SS, totalJamAksi.SS > 1 ? 's':'\0');
+					printf(" (%ld seconds)\n", totalDetikAksi);
+					printf("Total uang yang dibutuhkan: %d\n", totalUangAksi);
+				} else if (isMainPhase) {
+					printf("Current Time: %02d.%02d\n", currentJam.HH, currentJam.MM);
+					printf("Closing Time: %02d.%02d\n", ClosingJam.HH, ClosingJam.MM);
+					printf("Time Remaining:");
+					if (durasi.HH != 0) printf(" %d hour%c", durasi.HH, durasi.HH > 1 ? 's':'\0');
+					if (durasi.MM != 0) printf(" %d minute%c", durasi.MM, durasi.MM > 1 ? 's':'\0');
+					if (durasi.SS != 0) printf(" %d second%c", durasi.SS, durasi.SS > 1 ? 's':'\0');
+					printf(" (%ld seconds)\n\n", JAMToDetik(durasi));
+
+					/* Print antrian */
+				}
 
 				puts("");
 				printf("Masukkan perintah:\n");
