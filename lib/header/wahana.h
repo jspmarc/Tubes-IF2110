@@ -39,6 +39,7 @@ typedef struct TangibleWahana {
 	unsigned int currentUpgradeID;
     int status; /* 0 - rusak; 1 - berfungsi */
     int used;
+    int useTotal; /* berapa kali kepake */
 } TangibleWahana;
 typedef struct TangibleWahana* ATangibleWahana;
 

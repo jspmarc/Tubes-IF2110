@@ -141,20 +141,18 @@ int main () {
 			if(IsKataSama(CKata, serve)){
 				// Serve Logic
 				/* Jangan lupa tambah durasi dan uang */
-                serve();
-				/*totalAksi++;*/
+                Serve();
+                // Sekali serp 15 menit (gatau kenapa, pengen aja)
+                currentJam = NextNDetik(currentJam, 900);
 			} else if(IsKataSama(CKata, repair)){
 				// Repair Logic
 				/* Jangan lupa tambah durasi dan uang */
-				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, detail)){
 				// Detail Logic
 				/* Jangan lupa tambah durasi dan uang */
-				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, office)){
 				// Office Logic
 				/* Jangan lupa tambah durasi dan uang */
-				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, prepare)){
 				// Prepare Logic
 				isMainPhase = false;

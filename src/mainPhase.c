@@ -12,20 +12,23 @@
 
 #define nl printf("\n")
 
-void serve() {
+void Serve() {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
-    QueueInfoType pengunjung;
+    address pengunjung;
+    infotype idWahanaYangSudahDikunjungi;
+
+    // jika tidak ada wahana yang ingin dikunjungi, keluar antrian
+    Dequeue(&antrianCustomer, &pengunjung);
 
     // Serve berlaku untuk pengunjung pertama antrian tiap command
     // Jika masih ada wahana yang ingin dikunjungi
-    if (!IsEmpty(wahanaID(Head(antrianCustomer)))) {
+    if (!IsEmpty(wahanaID(pengunjung))) {
         // Masuk kembali ke antrian, prioritas bertambah
-        if (Prio(Head(antrianCustomer)) == 5) Prio(Head(antrianCustomer)) = 4; // Jika prioritas sudah 5, tak bisa bertambah
-        Enqueue(&antrianCustomer, Kesabaran(Head(antrianCustomer)), Prio(Head(antrianCustomer)) + 1);
+        DelLLVFirst(&wahanaID(pengunjung), &idWahanaYangSudahDikunjungi);
+        if (Prio(pengunjung) == 5) Prio(pengunjung) = 4; // Jika prioritas sudah 5, tak bisa bertambah
+        Enqueue(&antrianCustomer, &pengunjung);
     }
-    // jika tidak ada wahana yang ingin dikunjungi, keluar antrian
-    Dequeue(&antrianCustomer, &pengunjung);
 
     /* Uang bertambah */
     int i = 0;
@@ -36,6 +39,8 @@ void serve() {
     // ID Wahana yang diinginkan pengunjung ketemu
     if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))) {
         playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
+        (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
+        (((ATangibleWahana) BuiltWahana.arr[i].metadata)->useTotal) += 1;
     }
 
     ShowMap();
@@ -194,9 +199,9 @@ int MainPhase() {
 
     CreateEmptyQueue(&Q);
     for (i = 0; i < 5; i++) {
-        Enqueue(&Q, i, 3);
-        Enqueue(&Q, i+1, 1);
-        Enqueue(&Q, i+2, 2);
+        // Enqueue(&Q, i, 3);
+        // Enqueue(&Q, i+1, 1);
+        // Enqueue(&Q, i+2, 2);
     }
     
     while (open && JNEQ(cur, close)) {

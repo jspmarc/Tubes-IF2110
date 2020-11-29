@@ -41,9 +41,6 @@ void __isiDoableActions() {
 
 	DoableActions.arr[BUY].id = BUY;
 	DoableActions.arr[BUY].info = JAMToDetik(MakeJAM(0, 15, 0));
-
-    DoableActions.arr[SERVE].id = SERVE;
-	DoableActions.arr[SERVE].info = JAMToDetik(MakeJAM(0, 15, 0));
 }
 
 void __isiPlayerResources() {

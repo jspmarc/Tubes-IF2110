@@ -35,48 +35,44 @@ void CreateEmptyQueue(Queue * Q) {
     Tail(*Q) = NULL;
 }
 /*** Primitif Enqueue/Dequeue ***/
-void Enqueue(Queue * Q, QueueInfoType X, int prio) {
-    address P, Piterator;
-    AlokasiElQueue(&P, X, prio);
-    if (P != NULL) {
-        if (IsQueueEmpty(*Q)) {
-            Head(*Q) = P;
-            Tail(*Q) = P;
-        } else {
-            for (Piterator = Head(*Q);
-                    NextQueue(Piterator) != Tail(*Q) && Prio(NextQueue(Piterator)) <= prio;
-                    Piterator = NextQueue(Piterator));
+void Enqueue(Queue * Q, address * A) {
+    address Piterator;
 
-            /* node setelah Piterator adalah tail atau prio dari node
-             * setelah Piterator lebih besar dari prio */
+    Piterator = Head(*Q);
+    if (IsQueueEmpty(*Q)) {
+        Head(*Q) = *A;
+        Tail(*Q) = *A;
+    } else {
+        for (Piterator = Head(*Q);
+                NextQueue(Piterator) != Tail(*Q) && Prio(NextQueue(Piterator)) <= Prio(*A);
+                Piterator = NextQueue(Piterator));
 
-            /* node setelah Piterator adalah tail dan prionya lebih kecil atau
-             * sama dengan variabel prio */
-            if (NextQueue(Piterator) == Tail(*Q) && Prio(Tail(*Q)) <= prio) {
-                /* prionya ga ada yg lbh kecil, P dimasukin jadi tail */
-                NextQueue(P) = NextQueue(Tail(*Q));
-                NextQueue(Tail(*Q)) = P;
-                Tail(*Q) = P;
-            }
+        /* node setelah Piterator adalah tail atau prio dari node
+            * setelah Piterator lebih besar dari prio */
 
-            /* prio dari node setelah Piterator memiliki prio yang lebih besar
-             * dari variabel prio */
-            NextQueue(P) = NextQueue(Piterator);
-            NextQueue(Piterator) = P;
+        /* node setelah Piterator adalah tail dan prionya lebih kecil atau
+            * sama dengan variabel prio */
+        if (NextQueue(Piterator) == Tail(*Q) && Prio(Tail(*Q)) <= Prio(*A)) {
+            /* prionya ga ada yg lbh kecil, P dimasukin jadi tail */
+            NextQueue(Piterator) = NextQueue(Tail(*Q));
+            NextQueue(Tail(*Q)) = Piterator;
+            Tail(*Q) = Piterator;
         }
+
+        /* prio dari node setelah Piterator memiliki prio yang lebih besar
+            * dari variabel prio */
+        NextQueue(Piterator) = NextQueue(Piterator);
+        NextQueue(Piterator) = Piterator;
     }
 }
-void Dequeue(Queue * Q, QueueInfoType * X) {
-    address P = Head(*Q);
+void Dequeue(Queue * Q, address * X) {
 
-    *X = Kesabaran(P);
+    *X = Head(*Q);
 
     if (Tail(*Q) == Head(*Q)) { /* Cuman ada satu elemen */
         Tail(*Q) = NULL;
         Head(*Q) = NULL;
     } else {
-        Head(*Q) = NextQueue(P);
+        Head(*Q) = NextQueue(Head(*Q));
     }
-
-    DealokasiElQueue(P);
 }

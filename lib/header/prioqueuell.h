@@ -65,14 +65,14 @@ void CreateEmptyQueue(Queue * Q);
 /* Pada dasarnya adalah proses insert last */
 /* I.S. Q mungkin kosong */
 /* F.S. X menjadi TAIL, TAIL "maju" */
-void Enqueue(Queue * Q, QueueInfoType X, int prio);
+void Enqueue(Queue * Q, address * A);
 
 /* Proses: Menghapus X pada bagian HEAD dari Q dan mendealokasi
    elemen HEAD */
 /* Pada dasarnya operasi delete first */
 /* I.S. Q tidak mungkin kosong */
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "mundur" */
-void Dequeue(Queue * Q, QueueInfoType * X);
+void Dequeue(Queue * Q, address * X);
 
 void PelangganMarah(Queue *Q);
 
