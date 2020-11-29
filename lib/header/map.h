@@ -41,7 +41,6 @@ typedef struct {
   Point MapSize;
   Point Gate1;
   Point Gate2;
-  LL Buildings;
   Point Office;
   Point Antrian;
 } MAP;
@@ -52,7 +51,6 @@ typedef struct {
 #define NKol(M) Absis(MapSize(M))
 #define Gate1(M) (M).Gate1
 #define Gate2(M) (M).Gate2
-#define Buildings(M) (M).Buildings
 #define Office(M) (M).Office
 #define Antrian(M) (M).Antrian
 

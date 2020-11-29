@@ -1,6 +1,4 @@
 /* FILE: mainPhase.c */
-/* Author: 13519012 Kahfi Soobhan Zulkifli
-           13519116 Jeane Mikha Erwansyah */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,9 +10,33 @@
 #include "./../lib/header/globals.h"
 #include "./../lib/header/map.h"
 
-void SERVE () {
+#define nl printf("\n")
+
+void serve() {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
+    QueueInfoType pengunjung;
+
+    // Serve berlaku untuk pengunjung pertama antrian tiap command
+    // Jika masih ada wahana yang ingin dikunjungi
+    if (!IsEmpty(wahanaID(Head(antrianCustomer)))) {
+        // Masuk kembali ke antrian, prioritas bertambah
+        if (Prio(Head(antrianCustomer)) == 5) Prio(Head(antrianCustomer)) = 4; // Jika prioritas sudah 5, tak bisa bertambah
+        Enqueue(&antrianCustomer, Kesabaran(Head(antrianCustomer)), Prio(Head(antrianCustomer)) + 1);
+    }
+    // jika tidak ada wahana yang ingin dikunjungi, keluar antrian
+    Dequeue(&antrianCustomer, &pengunjung);
+
+    /* Uang bertambah */
+    int i = 0;
+    while ((i < BuiltWahana.NbEl) && ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer)))))) {
+        i++;
+    }
+
+    // ID Wahana yang diinginkan pengunjung ketemu
+    if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))) {
+        playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
+    }
 
     ShowMap();
 
@@ -31,35 +53,69 @@ void DETAIL () {
     // Kamus Lokal
     char *status;
     array wahana;
-    int count;
-    ArrayElType el;
+    int idxWahana;
+    Kata namaWahana;
+    ATangibleWahana atWahana;
 
     wahana = WahanaSekitarPosisi(playerPos);
     if(wahana.NbEl != 0) {
-        /*
-        while (count <= wahana.NbEl) {
-            
-            status = "Berfungsi";
-            printf("// Melihat detail wahana //\n");
-            printf("// Nama         : \n");
-            printf("// Lokasi       : \n");
-            printf("// Upgrades(s)  : \n");
-            printf("// History      : \n");
+        printf("// Melihat detail wahana //\n");
+        for (idxWahana = 0; idxWahana < wahana.NbEl; idxWahana++) {
+            atWahana = wahana.arr[idxWahana].metadata;
+            namaWahana = atWahana->baseTree->upgradeInfo.nama;
+            printf("// Nama         : "); TulisKataKe(namaWahana,stdout); nl;
+            printf("// Lokasi       : "); TulisPoint(atWahana->posisi); nl;
+            printf("// Upgrades(s)  : "); /* ini or pohon */ nl;
+            printf("// History      : "); /* ini naon */ nl;
+            if (atWahana->status == '1') status = "Berfungsi";
+            else status = "Rusak";
             printf("// Status       : %s\n\n", status);
-            count++;
+            idxWahana++;
         }
-        */
     } else {
         printf("Tidak ada wahana di sekitarmu.\n\n");
     }
     return;
 }
 
+ATangibleWahana bacaInputWahana() {
+    // Kamus Lokal
+    Kata perintah;
+    int i;
+    Kata nama;
+    boolean found;
+    ATangibleWahana wahana;
+
+    // Algoritma
+    do {
+        found = false;
+        printf("Daftar wahana: \n");
+        for (i = 0; i < BuiltWahana.NbEl; i++) {
+            nama = ((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree->upgradeInfo.nama;
+            printf("- "); TulisKataKe(nama,stdout);nl;
+        }
+        nl;
+        printf("\nMasukkan nama wahana: \n");
+        IgnoreBlank();
+        ADVKATA();
+        SalinKataKe(&perintah);
+        for (i = 0; i < BuiltWahana.NbEl && !found; i++) {
+            wahana = BuiltWahana.arr[i].metadata;
+            nama = wahana->baseTree->upgradeInfo.nama;
+            if (IsKataSama(perintah, nama)) found = true;
+        }
+    } while(!found);
+
+    return wahana;
+}
+
 void OFFICE () {
     /* Tidak memakan waktu */
     // Kamus Lokal
     char perintah[50];
-    int A,B,C,D;
+    ATangibleWahana wahana;
+    int idxWahana;
+    char * status;
 
     // Algoritma
     printf("// Memasukin office mode //\n");
@@ -72,44 +128,44 @@ void OFFICE () {
                 !strIsEqual(perintah,"Exit"));
 
         if(strIsEqual(perintah,"Details")) {
-            //<Masukkan Tampilan Details>
-            // Tampilkan list wahana,lalu pilih wahana untuk ditampilkan detailnya //
+            if(BuiltWahana.NbEl != 0) {
+                wahana = bacaInputWahana();
+                printf("// Nama         : "); TulisKataKe(wahana->baseTree->upgradeInfo.nama,stdout); nl;
+                printf("// Lokasi       : "); TulisPoint(wahana->posisi); nl;
+                printf("// Upgrades(s)  : "); /* ini or pohon */ nl;
+                printf("// History      : "); /* ini naon */ nl;
+                if (wahana->status == '1') status = "Berfungsi";
+                else status = "Rusak";
+                printf("// Status       : %s\n\n", status);
+            } else {
+                printf("Belum ada wahana yang telah dibangun.\n");
+            }
+
         } else if(strIsEqual(perintah,"Report")) {
-            do {
-                printf("Daftar wahana: \n");
-                printf("- TBFO\n");
-                printf("- Alstrukdat\n");
-                printf("- Algeo\n");
-                printf("- Matdis\n");
-                printf("- Orkom\n");
-                printf("- Logkom\n");
-                printf("\nMasukkan nama wahana: \n");
-                scanf("%s",perintah);
-            } while(!strIsEqual(perintah,"TBFO") ||
-                    !strIsEqual(perintah,"Alstrukdat") ||
-                    !strIsEqual(perintah,"Algeo") ||
-                    !strIsEqual(perintah,"Matdis") ||
-                    !strIsEqual(perintah,"Orkom") ||
-                    !strIsEqual(perintah,"Logkom"));
-            
-            // mungkin pake switch case?
-            /*if(strIsEqual(perintah,"TBFO")) {*/
-                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
-            /*} else if(strIsEqual(perintah,"Alstrukdat")) {*/
-                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
-            /*} else if(strIsEqual(perintah,"Algeo")) {*/
-                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
-            /*} else if(strIsEqual(perintah,"Matdis")) {*/
-                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
-            /*} else if(strIsEqual(perintah,"Orkom")) {*/
-                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
-            /*} else { // if(strIsEqual(perintah,"Logkom"))*/
-                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
-            /*}*/
-            printf("Banyak kali wahana dinaiki           : %d kali\n",A);
-            printf("Penghasilan wahana                   : %d\n",B);
-            printf("Banyak kali wahana dinaiki hari ini  : %d kali\n",C);
-            printf("Penghasilan wahana hari ini          : %d\n\n",D);
+            if(BuiltWahana.NbEl != 0) {
+                wahana = bacaInputWahana();
+                int A,B,C,D;
+                
+                // if(strIsEqual(inputWahana,"TBFO")) {
+                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
+                // } else if(strIsEqual(inputWahana,"Alstrukdat")) {
+                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
+                // } else if(strIsEqual(inputWahana,"Algeo")) {
+                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
+                // } else if(strIsEqual(inputWahana,"Matdis")) {
+                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
+                // } else if(strIsEqual(inputWahana,"Orkom")) {
+                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
+                // } else { // if(strIsEqual(perintah,"Logkom"))
+                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
+                // }
+                printf("Banyak kali wahana dinaiki           : %d kali\n",A);
+                printf("Penghasilan wahana                   : %d\n",B);
+                printf("Banyak kali wahana dinaiki hari ini  : %d kali\n",C);
+                printf("Penghasilan wahana hari ini          : %d\n\n",D);
+            } else {
+                printf("Belum ada wahana yang telah dibangun.\n");
+            }
         } else if(strIsEqual(perintah,"Exit")) {
             printf("// Keluar dari office mode //\n");
             return;
@@ -147,9 +203,9 @@ int MainPhase() {
         scanf("%s",perintah);
         // printf("%s\n",perintah);
 
-        if (strIsEqual(perintah,"serve")) {
-            SERVE();
-        } else if (strIsEqual(perintah,"repair")) {
+        if (strIsEqual(perintah, "serve")) {
+            // serve(&Q);
+        } else if (strIsEqual(perintah, "repair")) {
             REPAIR();
         } else if (strIsEqual(perintah,"detail")) {
             DETAIL();

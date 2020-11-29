@@ -23,20 +23,15 @@ void IsiTotalResourceAksi(Resource *totalResourceAksi) {
 	CreateArray(&totalResourceAksi->materials, MAX_MATERIAL);
 	for (int i = 0; i < BuyableMaterials.NbEl; ++i) {
 		ArrayElType el;
-		Material *mater = (Material *) malloc(sizeof(Material));
 
+		printf("i = %d\tAdasdasda = %d\n", i, totalResourceAksi->materials.MaxEl);
+		puts("dfhsdhfusdhfusdh");
 		el.id = ((Material *) BuyableMaterials.arr[i].metadata)->idMaterial;
 		el.info = ((Material *) BuyableMaterials.arr[i].metadata)->biayaMaterial;
 
-		mater->biayaMaterial = el.info;
-		mater->idMaterial = el.id;
-		mater->jumlahMaterial = 0;
-		SalinKataDariKe(((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial, &mater->namaMaterial);
-
-		el.metadata = mater;
-
-		InsArrLast(&totalResourceAksi->materials, el);
+		((Material *) el.metadata)->biayaMaterial = el.info;
 	}
+	totalResourceAksi->materials.NbEl = playerResources.materials.NbEl;
 }
 
 void EfektifkanPerubahanResourcePemain(Resource resourcePengubah) {
@@ -141,7 +136,6 @@ int main () {
 			if(IsKataSama(CKata, serve)){
 				// Serve Logic
 				/* Jangan lupa tambah durasi dan uang */
-                serve();
 				/*totalAksi++;*/
 			} else if(IsKataSama(CKata, repair)){
 				// Repair Logic

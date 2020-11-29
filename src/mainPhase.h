@@ -16,7 +16,7 @@
 #define MAINPHASE_H
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
-void SERVE ();
+void serve ();
     /* Memakan waktu */
     /* REPAIR {input: wahana} */
 void REPAIR ();

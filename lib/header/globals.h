@@ -27,6 +27,7 @@
 #define BUILD 1
 #define UPGRADE 2
 #define BUY 3
+#define SERVE 4
 
 /* State */
 extern Stack actionStack;
