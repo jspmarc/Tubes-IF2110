@@ -139,13 +139,19 @@ int main () {
 				/* Jangan lupa tambah durasi dan uang */
 				isPrepPhase = false;
 				isMainPhase = true;
-				RandomPengunjung();
+				/*RandomPengunjung();*/
+				totalAksi = 0;
+				totalDetikAksi = 0;
+				IsiTotalResourceAksi(&totalResourceAksi);
 				Execute(&totalResourceAksi);
 			} else if(IsKataSama(CKata, mainC)){
 				// main Logic
 				/* Jangan lupa tambah durasi dan uang */
 				isPrepPhase = false;
 				isMainPhase = true;
+				totalAksi = 0;
+				totalDetikAksi = 0;
+				IsiTotalResourceAksi(&totalResourceAksi);
 				ToMainPhase();
 			} else {
 				puts("Perintah tidak dikenali.");

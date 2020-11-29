@@ -245,8 +245,8 @@ void OFFICE () {
             IgnoreBlank();
             ADVKATA();
             SalinKataKe(&perintah);
-        } while(!IsKataSama(perintah,Details) ||
-                !IsKataSama(perintah,Report) ||
+        } while(!IsKataSama(perintah,Details) &&
+                !IsKataSama(perintah,Report) &&
                 !IsKataSama(perintah,Exit));
 
         if(IsKataSama(perintah,Details)) {

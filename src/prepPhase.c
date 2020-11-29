@@ -71,9 +71,6 @@ void ExecBuild(ATangibleWahana Wahana, Resource *totalResourceAksi){
 	el = DelArrLast(&toBeBuiltWahana);
 	InsArrLast(&BuiltWahana, el);
 
-	/* Kurangi resource totalResourceAksi */
-	KurangDuaResource(*totalResourceAksi, ((ATangibleWahana) el.metadata)->baseTree->upgradeInfo.UpgradeCost, tempResource);
-	*totalResourceAksi = *tempResource;
 	/* Kurangi resource player */
 	KurangDuaResource(playerResources, ((ATangibleWahana) el.metadata)->baseTree->upgradeInfo.UpgradeCost, tempResource);
 	playerResources = *tempResource;
@@ -96,7 +93,7 @@ void UpgradeWahana(ATangibleWahana T, unsigned int id){
 void ExecUpgrade(WahanaUpgradeStack Upgrade, Resource *totalResourceAksi){
 	// do stuff
 	// free WahanaUpgradeStack: avoid memory leak!
-	unsigned char id = UpgradeID(Upgrade);
+	int id = UpgradeID(Upgrade);
 	ATangibleWahana TW = TangibleWahana(Upgrade);
 	Resource cost = Akar(SearchUpgrade(TW->baseTree, id)).UpgradeCost;
 	TW->currentUpgradeID = id;
@@ -135,14 +132,15 @@ void ExecBuy(actBuy aB, Resource *totalResourceAksi) {
 	
 	Resource *tampung = (Resource *) malloc(sizeof(Resource)),
 			 *temp = (Resource *) malloc(sizeof(Resource));
-	tampung->uang = -(harga * aB.qty);
+	tampung->uang = harga * aB.qty;
 	CreateArray(&tampung->materials, MAX_MATERIAL);
 	tampung->materials.arr[0].metadata = (Material *) malloc(sizeof(Material));
 	*((Material *) tampung->materials.arr[0].metadata) = *mater;
 
 	((Material *) tampung->materials.arr[0].metadata)->jumlahMaterial = aB.qty;
-	KurangDuaResource(*totalResourceAksi, *tampung, temp);
-	/*PrintResource(*temp);*/
+	KurangDuaResource(playerResources, *tampung, temp);
+
+    playerResources = *temp;
 }
 
 void ToMainPhase(){
@@ -289,7 +287,7 @@ void Upgrade(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceA
 		bisaBangun = IsResourcesEnough(playerResources, *resourceSetelahBerubah);
 
 		if (bisaBangun) {
-			/*UpgradeWahana(wahanaTerdekat, L->upgradeInfo.id);*/
+            UpgradeWahana(wahanaTerdekat, L->upgradeInfo.id);
 			(*totalAksi)++;
 			*totalDetikAksi += DoableActions.arr[UPGRADE].info;
 			Resource *temp = (Resource *) malloc(sizeof(Resource));

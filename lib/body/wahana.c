@@ -309,7 +309,7 @@ boolean hasUpgradeName(WahanaTree wahana, Kata nama){
 
 void PrintPathTo(WahanaTree wahana, Kata nama){
 	if(wahana == NULL) return;
-	TulisKataKe(nama, stdout);
+	TulisKataKe(Akar(wahana).nama, stdout);
 	if(!IsKataSama(Akar(wahana).nama, nama)){
 		printf("->");
 		if(hasUpgradeName(Left(wahana), nama))
