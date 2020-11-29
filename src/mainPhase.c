@@ -145,19 +145,22 @@ void DETAIL () {
     int idxWahana;
     Kata namaWahana;
     ATangibleWahana atWahana;
+    addrNode addrwahana;
+    unsigned int ID;
 
     wahana = WahanaSekitarPosisi(playerPos);
     if(wahana.NbEl != 0) {
         printf("// Melihat detail wahana //\n");
         for (idxWahana = 0; idxWahana < wahana.NbEl; idxWahana++) {
             atWahana = wahana.arr[idxWahana].metadata;
-            namaWahana = atWahana->baseTree->upgradeInfo.nama;
+            namaWahana = cariUpgrade(atWahana->baseTree, atWahana->currentUpgradeID)->upgradeInfo.nama;
+            
             printf("// Nama         : "); TulisKataKe(namaWahana,stdout); nl;
             printf("// Lokasi       : "); TulisPoint(atWahana->posisi); nl;
-            printf("// Upgrades(s)  : "); /* ini or pohon */ nl;
-            printf("// History      : "); /* ini naon */ nl;
-            if (atWahana->status == '1') status = "Berfungsi";
-            else status = "Rusak";
+            printf("// Upgrades(s)  : "); printUpgrade(atWahana->baseTree); nl;
+            printf("// History      : "); printHistory(atWahana->baseTree); nl;
+                if (atWahana->status == '1') status = "Berfungsi";
+                else status = "Rusak";
             printf("// Status       : %s\n\n", status);
             idxWahana++;
         }
@@ -172,30 +175,32 @@ ATangibleWahana bacaInputWahana() {
     Kata perintah;
     int i;
     Kata nama;
-    boolean found;
-    ATangibleWahana wahana;
 
     // Algoritma
     do {
-        found = false;
         printf("Daftar wahana: \n");
-        for (i = 0; i < BuiltWahana.NbEl; i++) {
-            nama = ((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree->upgradeInfo.nama;
-            printf("- "); TulisKataKe(nama,stdout);nl;
+        for (int i = 0; i < BuiltWahana.NbEl; ++i) {
+            printf("  - ");
+            nama = cariUpgrade(((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree,
+                               ((ATangibleWahana) BuiltWahana.arr[i].metadata)->currentUpgradeID)
+                               ->upgradeInfo.nama;
+            TulisKataKe(nama, stdout);
+            puts("");
         }
         nl;
         printf("\nMasukkan nama wahana: \n");
+        printf("❯ ");
         IgnoreBlank();
         ADVKATA();
         SalinKataKe(&perintah);
-        for (i = 0; i < BuiltWahana.NbEl && !found; i++) {
-            wahana = BuiltWahana.arr[i].metadata;
-            nama = wahana->baseTree->upgradeInfo.nama;
-            if (IsKataSama(perintah, nama)) found = true;
+        for (i = 0; i < BuiltWahana.NbEl; i++) {
+            nama = cariUpgrade(((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree,
+                               ((ATangibleWahana) BuiltWahana.arr[i].metadata)->currentUpgradeID)
+                               ->upgradeInfo.nama;
+            if (IsKataSama(perintah, nama))
+                return ((ATangibleWahana) BuiltWahana.arr[i].metadata);
         }
-    } while(!found);
-
-    return wahana;
+    } while(true);
 }
 
 void OFFICE () {
@@ -204,6 +209,7 @@ void OFFICE () {
     char perintah[50];
     ATangibleWahana wahana;
     char * status;
+    Kata namaWahana;
 
     // Algoritma
     printf("// Memasukin office mode //\n");
@@ -218,27 +224,29 @@ void OFFICE () {
         if(strIsEqual(perintah,"Details")) {
             if(BuiltWahana.NbEl != 0) {
                 wahana = bacaInputWahana();
-                printf("// Nama         : "); TulisKataKe(wahana->baseTree->upgradeInfo.nama,stdout); nl;
+                namaWahana = cariUpgrade(wahana->baseTree,wahana->currentUpgradeID)->upgradeInfo.nama;
+
+                printf("// Nama         : "); TulisKataKe(namaWahana,stdout); nl;
                 printf("// Lokasi       : "); TulisPoint(wahana->posisi); nl;
-                printf("// Upgrades(s)  : "); /* ini or pohon */ nl;
-                printf("// History      : "); /* ini naon */ nl;
+                printf("// Upgrades(s)  : "); printUpgrade(wahana->baseTree); nl;
+                printf("// History      : "); printHistory(wahana->baseTree); nl;
                 if (wahana->status == '1') status = "Berfungsi";
                 else status = "Rusak";
                 printf("// Status       : %s\n\n", status);
             } else {
                 printf("Belum ada wahana yang telah dibangun.\n");
             }
-
         } else if(strIsEqual(perintah,"Report")) {
             if(BuiltWahana.NbEl != 0) {
                 wahana = bacaInputWahana();
-                int money;
-                int moneeeeeeeey;
-                int harga;
+                unsigned int money;
+                unsigned int moneeeeeeeey;
+                unsigned int harga;
 
-                harga = wahana->baseTree->upgradeInfo.harga;
+                harga = cariUpgrade(wahana->baseTree, wahana->currentUpgradeID)->upgradeInfo.harga;
                 money = wahana->used * harga;
-                moneeeeeeeey = wahana->used * harga;
+                moneeeeeeeey = wahana->usedTotal * harga;
+
                 printf("Banyak kali wahana dinaiki           : %d kali\n",wahana->usedTotal);
                 printf("Penghasilan wahana                   : %d\n",moneeeeeeeey);
                 printf("Banyak kali wahana dinaiki hari ini  : %d kali\n",wahana->used);
@@ -251,4 +259,12 @@ void OFFICE () {
             return;
         }
     } while (true);
+}
+
+void printUpgrade(WahanaTree WT) {
+    PrintInorder(WT);
+}
+
+void printHistory() {
+    // gimana cara backtrack
 }
