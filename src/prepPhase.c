@@ -95,7 +95,7 @@ void BuyResource(int qty, char unsigned materialID, int harga) {
 
 void ExecBuy(actBuy aB) {
 	/*Kata asd = getMaterialName(aB.id);*/
-	Material *mater = getMaterialByID(aB.id);
+	Material *mater = getMaterialByID(BuyableMaterials, aB.id);
 	int harga, i = 0;
 
 	/* Akan mencari indeks di mana ditemukan material dengan nama sesuai
@@ -121,7 +121,7 @@ void Save(){
 	// Save state, something something hard to do
 }
 
-void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi){
+void Build(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi){
 	Kata Wahana;
 	int idxWahana;
 	boolean bisaBangun = true;
@@ -169,6 +169,10 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resour
 		/* Secara resource */
 		Resource *resourceSetelahBerubah;
 		resourceSetelahBerubah = (Resource *) malloc(sizeof(Resource));
+		if (resourceSetelahBerubah == NULL) {
+			puts("Bruh moment");
+			exit(69);
+		}
 		TambahDuaResource(*totalResourceAksi, ((WahanaTree) AvailableWahana.arr[idxWahana].metadata)->upgradeInfo.UpgradeCost, resourceSetelahBerubah);
 		bisaBangun = IsResourcesEnough(playerResources, *resourceSetelahBerubah);
 
@@ -187,7 +191,7 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resour
 			BuildWahana((WahanaTree) AvailableWahana.arr[idxWahana].metadata, playerPos);
 			(*totalAksi)++;
 			*totalDetikAksi += DoableActions.arr[BUILD].info;
-			*totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
+			/**totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;*/
 			*totalResourceAksi = *resourceSetelahBerubah;
 		} else if (udahDibangun) {
 			puts("Wahana sudah pernah dibangun.");
@@ -199,7 +203,7 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resour
 	}
 }
 
-void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi){
+void Upgrade(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi){
 	ATangibleWahana wahanaTerdekat;
 	WahanaTree upgradeBersangkutan;
 	Kata Wahana;
@@ -237,21 +241,57 @@ void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Reso
 	SalinKataKe(&Wahana);
 
 	if (IsKataSama(L->upgradeInfo.nama, Wahana)) {
-		(*totalAksi)++;
-		*totalDetikAksi += DoableActions.arr[UPGRADE].info;
-		*totalUangAksi += L->upgradeInfo.UpgradeCost.uang;
-		/*UpgradeWahana(wahanaTerdekat, L->upgradeInfo.id);*/
+		boolean bisaBangun = true;
+		/* Cek resource cukup atau nggak */
+
+		/* Secara resource */
+		Resource *resourceSetelahBerubah;
+		resourceSetelahBerubah = (Resource *) malloc(sizeof(Resource));
+		TambahDuaResource(*totalResourceAksi, L->upgradeInfo.UpgradeCost, resourceSetelahBerubah);
+		bisaBangun = IsResourcesEnough(playerResources, *resourceSetelahBerubah);
+
+		if (bisaBangun) {
+			/*UpgradeWahana(wahanaTerdekat, L->upgradeInfo.id);*/
+			(*totalAksi)++;
+			*totalDetikAksi += DoableActions.arr[UPGRADE].info;
+			Resource *temp = (Resource *) malloc(sizeof(Resource));
+			TambahDuaResource(*totalResourceAksi, L->upgradeInfo.UpgradeCost, temp);
+			*totalResourceAksi = *temp;
+			free(temp);
+		} else {
+			puts("Resource tidak cukup untuk upgrade.");
+		}
+
+		free(resourceSetelahBerubah);
 	} else if (IsKataSama(R->upgradeInfo.nama, Wahana)) {
-		(*totalAksi)++;
-		*totalDetikAksi += DoableActions.arr[UPGRADE].info;
-		*totalUangAksi += R->upgradeInfo.UpgradeCost.uang;
-		/*UpgradeWahana(wahanaTerdekat, L->upgradeInfo.id);*/
+		boolean bisaBangun = true;
+		/* Cek resource cukup atau nggak */
+
+		/* Secara resource */
+		Resource *resourceSetelahBerubah;
+		resourceSetelahBerubah = (Resource *) malloc(sizeof(Resource));
+		TambahDuaResource(*totalResourceAksi, L->upgradeInfo.UpgradeCost, resourceSetelahBerubah);
+		bisaBangun = IsResourcesEnough(playerResources, *resourceSetelahBerubah);
+
+		if (bisaBangun) {
+			/*UpgradeWahana(wahanaTerdekat, R->upgradeInfo.id);*/
+			(*totalAksi)++;
+			*totalDetikAksi += DoableActions.arr[UPGRADE].info;
+			Resource *temp = (Resource *) malloc(sizeof(Resource));
+			TambahDuaResource(*totalResourceAksi, L->upgradeInfo.UpgradeCost, temp);
+			*totalResourceAksi = *temp;
+			free(temp);
+		} else {
+			puts("Resource tidak cukup untuk upgrade.");
+		}
+
+		free(resourceSetelahBerubah);
 	} else {
 		puts("Masukkan tidak valid.");
 	}
 }
 
-void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi){
+void Buy(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi){
 	// Buy Logic
 	/* Jangan lupa tambah durasi dan uang */
 	/*BuyResource();*/
@@ -292,7 +332,7 @@ void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource
 	 * buyable materials */
 	namaMaterial = splitInput[1];
 	boolean found = false;
-	boughtMaterial = getMaterialByName(namaMaterial);
+	boughtMaterial = getMaterialByName(BuyableMaterials, namaMaterial);
 
 	found = boughtMaterial != NULL;
 	if (!found) {
@@ -323,7 +363,7 @@ void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource
 		BuyResource(qty, materialID, boughtMaterial->biayaMaterial);
 		(*totalAksi)++;
 		*totalDetikAksi += DoableActions.arr[BUY].info;
-		*totalUangAksi += qty * boughtMaterial->biayaMaterial;
+		totalResourceAksi->uang += qty * boughtMaterial->biayaMaterial;
 	} else {
 		puts("Gagal membeli material karena jumlah pembelian tidak valid atau karena material tidak ada.");
 	}
@@ -332,7 +372,7 @@ void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource
 void ExecuteBuy(Material M){
 }
 
-void Undo(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi) {
+void Undo(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi) {
 	// Undo Logic
 	UndoData data;
 
@@ -350,14 +390,20 @@ void Undo(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resourc
 		switch (data.prop.idAksi) {
 			case BUILD:
 				infoTangibleWahana = (ATangibleWahana) data.infoAksi;
-				*totalUangAksi -= TreeWahana(infoTangibleWahana)->upgradeInfo.UpgradeCost.uang;
+
+				Resource *temp = (Resource *) malloc(sizeof(Resource));
+				KurangDuaResource(*totalResourceAksi, ((ATangibleWahana) data.infoAksi)->baseTree->upgradeInfo.UpgradeCost, temp);
+				*totalResourceAksi = *temp;
+
 				DelArrLast(&toBeBuiltWahana);
+
+				free(temp);
 				break;
 			case UPGRADE:
 				break;
 			case BUY:
 				infoBuyMaterial = (actBuy *) data.infoAksi;
-				*totalUangAksi -= infoBuyMaterial->qty * infoBuyMaterial->harga;
+				totalResourceAksi->uang -= infoBuyMaterial->qty * infoBuyMaterial->harga;
 				break;
 		}
 	}

@@ -56,7 +56,7 @@ int main () {
 	init();
 	initCommands();
 
-	long totalDetikAksi = 0; int totalUangAksi = 0;
+	long totalDetikAksi = 0;
 	unsigned totalAksi = 0;
 	Resource totalResourceAksi;
 
@@ -79,6 +79,7 @@ int main () {
 
 	/*InsArrLast(&BuiltWahana, el);*/
 	/* Helper buat debug ***  */
+
 	/* Pembacaan file wahana dilakukan di init() */
 
 	// Accept input
@@ -103,6 +104,9 @@ int main () {
 			// ke load ?
 		} else if (IsKataSama(CKata, exitC)) {
 			KeluarDariGame();
+		} else if (IsKataSama(CKata, inventory) && isIngame) {
+			PrintResource(playerResources);
+			puts("");
 		} else if (isIngame && isPrepPhase) {
 			if(CKata.Length == 1){
 				// w,a,s,d
@@ -113,16 +117,16 @@ int main () {
 				else puts("Perintah tidak dikenali.");
 
 			} else if(IsKataSama(CKata, build)){
-				Build(&totalAksi, &totalUangAksi, &totalDetikAksi, &totalResourceAksi);
+				Build(&totalAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, upgrade)){
 				// Upgrade Logic
 				/* Jangan lupa tambah durasi dan uang */
 				/*totalAksi++;*/
-				Upgrade(&totalAksi, &totalUangAksi, &totalDetikAksi, &totalResourceAksi);
+				Upgrade(&totalAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, buy)){
-				Buy(&totalAksi, &totalUangAksi, &totalDetikAksi, &totalResourceAksi);
+				Buy(&totalAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, undo)){
-				Undo(&totalAksi, &totalUangAksi, &totalDetikAksi, &totalResourceAksi);
+				Undo(&totalAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, execute)){
 				// Execute Logic
 				/* Jangan lupa tambah durasi dan uang */
@@ -142,9 +146,9 @@ int main () {
 			if(IsKataSama(CKata, serve)){
 				// Serve Logic
 				/* Jangan lupa tambah durasi dan uang */
-                SERVE();
-                // Sekali serp 15 menit (gatau kenapa, pengen aja)
-                currentJam = NextNDetik(currentJam, 900);
+				SERVE();
+				// Sekali serp 15 menit (gatau kenapa, pengen aja)
+				currentJam = NextNDetik(currentJam, 900);
 			} else if(IsKataSama(CKata, repair)){
 				// Repair Logic
 				/* Jangan lupa tambah durasi dan uang */
@@ -202,7 +206,11 @@ int main () {
 					if (totalJamAksi.MM != 0) printf(" %d minute%c", totalJamAksi.MM, totalJamAksi.MM > 1 ? 's':'\0');
 					if (totalJamAksi.SS != 0) printf(" %d second%c", totalJamAksi.SS, totalJamAksi.SS > 1 ? 's':'\0');
 					printf(" (%ld seconds)\n", totalDetikAksi);
-					printf("Total uang yang dibutuhkan: %d\n", totalUangAksi);
+					printf("Total uang yang dibutuhkan: %d\n", totalResourceAksi.uang);
+
+					puts("");
+					PrintResource(totalResourceAksi);
+					puts("");
 				} else if (isMainPhase) {
 					printf("Current Time: %02d.%02d\n", currentJam.HH, currentJam.MM);
 					printf("Closing Time: %02d.%02d\n", ClosingJam.HH, ClosingJam.MM);

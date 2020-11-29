@@ -58,13 +58,13 @@ int ParseTabKata(Kata K1) {
 
 /*unsigned short getMaterialPrice(char id);*/
 
-Material *getMaterialByID(char id) {
+Material *getMaterialByID(array source, char id) {
 	Material *pmat = NULL;
 	int i = 0;
 	boolean found = false;
-	for(; i < BuyableMaterials.NbEl && !found; ++i) {
-		if (((Material *) BuyableMaterials.arr[i].metadata)->idMaterial == id) {
-			pmat = ((Material *) BuyableMaterials.arr[i].metadata);
+	for(; i < source.NbEl && !found; ++i) {
+		if (((Material *) source.arr[i].metadata)->idMaterial == id) {
+			pmat = ((Material *) source.arr[i].metadata);
 			found = true;
 		}
 	}
@@ -72,13 +72,13 @@ Material *getMaterialByID(char id) {
 	return pmat;
 }
 
-Material *getMaterialByName(Kata Nama) {
+Material *getMaterialByName(array source, Kata Nama) {
 	Material *pmat = NULL;
 	int i = 0;
 	boolean found = false;
-	for(; i < BuyableMaterials.NbEl && !found; ++i) {
-		if (IsKataSama(Nama, ((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial)) {
-			pmat = ((Material *) BuyableMaterials.arr[i].metadata);
+	for(; i < source.NbEl && !found; ++i) {
+		if (IsKataSama(Nama, ((Material *) source.arr[i].metadata)->namaMaterial)) {
+			pmat = ((Material *) source.arr[i].metadata);
 			found = true;
 		}
 	}
@@ -97,7 +97,7 @@ boolean IsMaterialsEnough(array matYangMauDikurangi, array matPengurang) {
 
 	for (int i = 0; i < matPengurang.NbEl && bisa; ++i) {
 		Material matPengurangSekarang = *((Material *) matPengurang.arr[i].metadata),
-				 matYangMauDikurangiSekarang = *getMaterialByID(matPengurangSekarang.idMaterial);
+				 matYangMauDikurangiSekarang = *getMaterialByID(matPengurang, matPengurangSekarang.idMaterial);
 		bisa = bisa && matPengurangSekarang.jumlahMaterial <= matYangMauDikurangiSekarang.jumlahMaterial;
 	}
 
@@ -114,26 +114,12 @@ void TambahDuaResource(Resource res1, Resource res2, Resource *result) {
 
 	CreateArray(&result->materials, MAX_MATERIAL);
 
-	// Cari max length dari array resource
-	unsigned max = res1.materials.NbEl > res2.materials.NbEl ? res1.materials.NbEl : res2.materials.NbEl;
-
-	Material * temp;
-	for(int i = 0; i < max; i++){
-		// alokasi memori untuk resource resultnya
-		// kalo ga, segfault karena null pointer semua :D
-		temp = (Material *)malloc(sizeof(Material));
-		// set defaultnya
-		// ato ngga, terserah
-		// yang pasti nanti harus di free
-		result->materials.arr[i].metadata = temp;
-
-	}
-
 	if (res1.materials.NbEl >= res2.materials.NbEl) {
 		for (int i = 0; i < res1.materials.NbEl; ++i) {
 			Material *matRes1 = (Material *) res1.materials.arr[i].metadata;
+			result->materials.arr[i].metadata = (Material *) malloc(sizeof(Material));
 			if (i < res2.materials.NbEl) {
-				Material *matRes2 = getMaterialByID(matRes1->idMaterial);
+				Material *matRes2 = getMaterialByName(res2.materials, matRes1->namaMaterial);
 
 				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
 					= matRes1->jumlahMaterial + matRes2->jumlahMaterial;
@@ -141,47 +127,90 @@ void TambahDuaResource(Resource res1, Resource res2, Resource *result) {
 				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
 					= matRes1->jumlahMaterial;
 			}
+			Kata namaMaterial = ((Material *) res1.materials.arr[i].metadata)->namaMaterial;
+			int id = ((Material *) res1.materials.arr[i].metadata)->idMaterial;
+			((Material *) result->materials.arr[i].metadata)->namaMaterial = namaMaterial;
+			((Material *) result->materials.arr[i].metadata)->idMaterial = id;
 		}
+
+		result->materials.NbEl = res1.materials.NbEl;
 	} else {
 		for (int i = 0; i < res2.materials.NbEl; ++i) {
+			Material *matres2 = (Material *) res2.materials.arr[i].metadata;
+			result->materials.arr[i].metadata = (Material *) malloc(sizeof(Material));
 			if (i < res1.materials.NbEl) {
-				Material *matRes2 = (Material *) res1.materials.arr[i].metadata;
-				Material *matRes1 = getMaterialByID(matRes2->idMaterial);
+				Material *matres1 = getMaterialByName(res1.materials, matres2->namaMaterial);
 
 				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
-					= matRes1->jumlahMaterial + matRes2->jumlahMaterial;
+					= matres2->jumlahMaterial + matres1->jumlahMaterial;
 			} else {
 				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
-					= ((Material *) res2.materials.arr[i].metadata)->jumlahMaterial;
+					= matres2->jumlahMaterial;
 			}
+			Kata namaMaterial = ((Material *) res2.materials.arr[i].metadata)->namaMaterial;
+			int id = ((Material *) res2.materials.arr[i].metadata)->idMaterial;
+			((Material *) result->materials.arr[i].metadata)->namaMaterial = namaMaterial;
+			((Material *) result->materials.arr[i].metadata)->idMaterial = id;
 		}
+
+		result->materials.NbEl = res2.materials.NbEl;
 	}
 }
 
 void KurangDuaResource(Resource res1, Resource res2, Resource *result) {
-	Resource ret;
+	result->uang = res1.uang - res2.uang;
 
-	ret.uang = res1.uang - res2.uang;
+	CreateArray(&result->materials, MAX_MATERIAL);
 
-	unsigned bigger = res1.materials.NbEl >= res2.materials.NbEl ?
-						res1.materials.MaxEl : res2.materials.NbEl;
+	if (res1.materials.NbEl >= res2.materials.NbEl) {
+		for (int i = 0; i < res1.materials.NbEl; ++i) {
+			Material *matRes1 = (Material *) res1.materials.arr[i].metadata;
+			result->materials.arr[i].metadata = (Material *) malloc(sizeof(Material));
+			if (i < res2.materials.NbEl) {
+				Material *matRes2 = getMaterialByName(res2.materials, matRes1->namaMaterial);
 
-	CreateArray(&ret.materials, bigger);
-
-	for(int i = 0; i < bigger; i++){
-		result->materials.arr[i].metadata = (Material *)malloc(sizeof(Material));
-	}
-
-	for (int i = 0; i < bigger; ++i) {
-		if (i < res2.materials.NbEl) {
-			Material *matRes1 = (Material *) res1.materials.arr[i].metadata,
-					 *matRes2 = getMaterialByID(matRes1->idMaterial);
-
-			((Material *) ret.materials.arr[i].metadata)->jumlahMaterial
-				= matRes1->jumlahMaterial - matRes2->jumlahMaterial;
-		} else {
-			((Material *) ret.materials.arr[i].metadata)->jumlahMaterial
-				= ((Material *) res1.materials.arr[i].metadata)->jumlahMaterial;
+				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
+					= matRes1->jumlahMaterial - matRes2->jumlahMaterial;
+			} else {
+				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
+					= matRes1->jumlahMaterial;
+			}
+			Kata namaMaterial = ((Material *) res1.materials.arr[i].metadata)->namaMaterial;
+			int id = ((Material *) res1.materials.arr[i].metadata)->idMaterial;
+			((Material *) result->materials.arr[i].metadata)->namaMaterial = namaMaterial;
+			((Material *) result->materials.arr[i].metadata)->idMaterial = id;
 		}
+
+		result->materials.NbEl = res1.materials.NbEl;
+	} else {
+		for (int i = 0; i < res2.materials.NbEl; ++i) {
+			Material *matres2 = (Material *) res2.materials.arr[i].metadata;
+			result->materials.arr[i].metadata = (Material *) malloc(sizeof(Material));
+			if (i < res1.materials.NbEl) {
+				Material *matres1 = getMaterialByName(res1.materials, matres2->namaMaterial);
+
+				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
+					= matres2->jumlahMaterial - matres1->jumlahMaterial;
+			} else {
+				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
+					= matres2->jumlahMaterial;
+			}
+			Kata namaMaterial = ((Material *) res2.materials.arr[i].metadata)->namaMaterial;
+			int id = ((Material *) res2.materials.arr[i].metadata)->idMaterial;
+			((Material *) result->materials.arr[i].metadata)->namaMaterial = namaMaterial;
+			((Material *) result->materials.arr[i].metadata)->idMaterial = id;
+		}
+
+		result->materials.NbEl = res2.materials.NbEl;
+	}
+}
+
+void PrintResource(Resource R) {
+	printf("Uang: %d\n", R.uang);
+	puts("Materials:");
+	for (int i = 0; i < R.materials.NbEl; ++i) {
+		printf("  - ");
+		TulisKataKe(((Material *) R.materials.arr[i].metadata)->namaMaterial, stdout);
+		printf(": %d\n", ((Material *) R.materials.arr[i].metadata)->jumlahMaterial);
 	}
 }

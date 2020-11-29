@@ -48,13 +48,13 @@ void ToMainPhase();
 
 void Save();
 
-void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi);
+void Build(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi);
 
-void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAks, Resource *totalResourceAksii);
+void Upgrade(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksii);
 
-void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAks, Resource *totalResourceAksii);
+void Buy(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksii);
 
 void ExecuteUpgrade();
 
-void Undo(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAks, Resource *totalResourceAksii);
+void Undo(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksii);
 #endif

@@ -3,7 +3,7 @@
 Kata newC, load, exitC, build,
 			 upgrade, buy, undo, execute,
 			 mainC, serve, repair, detail,
-			 office, prepare;
+			 office, prepare, inventory;
 
 
 void initCommands(){
@@ -22,6 +22,7 @@ void initCommands(){
 	copyToKata("detail", &detail);
 	copyToKata("office", &office);
 	copyToKata("prepare", &prepare);
+	copyToKata("inventory", &inventory);
 }
 
 void copyToKata(char *str, Kata *K){
