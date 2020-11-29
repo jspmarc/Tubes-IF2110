@@ -156,7 +156,7 @@ void DETAIL () {
             printf("// Nama         : "); TulisKataKe(namaWahana,stdout); nl;
             printf("// Lokasi       : "); TulisPoint(atWahana->posisi); nl;
             printf("// Upgrades(s)  : "); printUpgrade(atWahana->baseTree); nl;
-            printf("// History      : "); printHistory(atWahana->baseTree); nl;
+            printf("// History      : "); printHistory(atWahana->baseTree, namaWahana); nl;
                 if (atWahana->status == '1') status = "Berfungsi";
                 else status = "Rusak";
             printf("// Status       : %s\n\n", status);
@@ -230,7 +230,7 @@ void OFFICE () {
                 printf("// Nama         : "); TulisKataKe(namaWahana,stdout); nl;
                 printf("// Lokasi       : "); TulisPoint(wahana->posisi); nl;
                 printf("// Upgrades(s)  : "); printUpgrade(wahana->baseTree); nl;
-                printf("// History      : "); printHistory(wahana->baseTree); nl;
+                printf("// History      : "); printHistory(wahana->baseTree, namaWahana); nl;
                 if (wahana->status == '1') status = "Berfungsi";
                 else status = "Rusak";
                 printf("// Status       : %s\n\n", status);
@@ -266,6 +266,7 @@ void printUpgrade(WahanaTree WT) {
     PrintInorder(WT);
 }
 
-void printHistory() {
+void printHistory(WahanaTree wahana, Kata nama) {
     // gimana cara backtrack
+    PrintPathTo(wahana, nama);
 }
