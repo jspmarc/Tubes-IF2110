@@ -147,12 +147,15 @@ int main () {
 			} else if(IsKataSama(CKata, repair)){
 				// Repair Logic
 				/* Jangan lupa tambah durasi dan uang */
+				repair();
 			} else if(IsKataSama(CKata, detail)){
 				// Detail Logic
 				/* Jangan lupa tambah durasi dan uang */
+				detail();
 			} else if(IsKataSama(CKata, office)){
 				// Office Logic
 				/* Jangan lupa tambah durasi dan uang */
+				office();
 			} else if(IsKataSama(CKata, prepare)){
 				// Prepare Logic
 				isMainPhase = false;

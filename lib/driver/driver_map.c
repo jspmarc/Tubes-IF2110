@@ -5,10 +5,8 @@
 int main() {
     // Kamus
 
-
     // Algoritma
     InitiateMapGraph();
-    
 
     printf("END OF PROGRAM\n");
     return 0;

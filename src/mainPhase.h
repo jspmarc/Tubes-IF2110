@@ -1,6 +1,4 @@
 /* FILE: mainPhase.c */
-/* Author: 13519012 Kahfi Soobhan Zulkifli
-           13519116 Jeane Mikha Erwansyah */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,19 +12,16 @@
 
 #ifndef MAINPHASE_H
 #define MAINPHASE_H
-    /* Memakan waktu */
-    /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
-void serve ();
-    /* Memakan waktu */
-    /* REPAIR {input: wahana} */
-void REPAIR ();
-    /* Tidak memakan waktu */
-    /* DETAIL {input: wahana} */
-void DETAIL ();
-    /* Tidak memakan waktu */
-    /* OFFICE {input: office} */
-void OFFICE ();
-    /* Tidak memakan waktu */
-    /* PREPARE {kosongkan antrian, --> prep phase} */
-void PREPARE ();
+/* Memakan waktu */
+/* SERVE {input: type pengunjung, wahana, wahana.antrian} */
+void Serve();
+/* Memakan waktu */
+/* REPAIR {input: wahana} */
+void repair();
+/* Tidak memakan waktu */
+/* DETAIL {input: wahana} */
+void detail();
+/* Tidak memakan waktu */
+/* OFFICE {input: office} */
+void office();
 #endif

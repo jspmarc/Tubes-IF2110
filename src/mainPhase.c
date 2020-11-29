@@ -40,20 +40,19 @@ void Serve() {
     if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))) {
         playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
         (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
-        (((ATangibleWahana) BuiltWahana.arr[i].metadata)->useTotal) += 1;
+        (((ATangibleWahana) BuiltWahana.arr[i].metadata)->usedTotal) += 1;
     }
 
     ShowMap();
-
 }
 
-void REPAIR () {
+void repair () {
     /* Memakan waktu */
-
+    // berarti abis benerin atangiblewahana->status jadi 1
     return;
 }
 
-void DETAIL () {
+void detail () {
     /* Tidak memakan waktu */
     // Kamus Lokal
     char *status;
@@ -114,7 +113,7 @@ ATangibleWahana bacaInputWahana() {
     return wahana;
 }
 
-void OFFICE () {
+void office () {
     /* Tidak memakan waktu */
     // Kamus Lokal
     char perintah[50];
@@ -149,25 +148,17 @@ void OFFICE () {
         } else if(strIsEqual(perintah,"Report")) {
             if(BuiltWahana.NbEl != 0) {
                 wahana = bacaInputWahana();
-                int A,B,C,D;
-                
-                // if(strIsEqual(inputWahana,"TBFO")) {
-                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-                // } else if(strIsEqual(inputWahana,"Alstrukdat")) {
-                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-                // } else if(strIsEqual(inputWahana,"Algeo")) {
-                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-                // } else if(strIsEqual(inputWahana,"Matdis")) {
-                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-                // } else if(strIsEqual(inputWahana,"Orkom")) {
-                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-                // } else { // if(strIsEqual(perintah,"Logkom"))
-                //     // A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-                // }
-                printf("Banyak kali wahana dinaiki           : %d kali\n",A);
-                printf("Penghasilan wahana                   : %d\n",B);
-                printf("Banyak kali wahana dinaiki hari ini  : %d kali\n",C);
-                printf("Penghasilan wahana hari ini          : %d\n\n",D);
+                int money;
+                int moneeeeeeeey;
+                int harga;
+
+                harga = wahana->baseTree->upgradeInfo.harga;
+                money = wahana->used * harga;
+                moneeeeeeeey = wahana->used * harga;
+                printf("Banyak kali wahana dinaiki           : %d kali\n",wahana->usedTotal);
+                printf("Penghasilan wahana                   : %d\n",moneeeeeeeey);
+                printf("Banyak kali wahana dinaiki hari ini  : %d kali\n",wahana->used);
+                printf("Penghasilan wahana hari ini          : %d\n\n",money);
             } else {
                 printf("Belum ada wahana yang telah dibangun.\n");
             }
@@ -176,52 +167,4 @@ void OFFICE () {
             return;
         }
     } while (true);
-}
-
-void PREPARE () {
-    /* Tidak memakan waktu */
-    /* PREPARE {kosongkan antrian,--> prep phase} */
-
-    return;
-}
-
-int MainPhase() {
-    Queue Q;
-    int i;
-    /*char * perintah;*/
-    char perintah[50];
-    boolean open = true;
-    JAM cur, close;
-
-    printf("Selamat datang, pengunjung sekalian di Willy Wangky\n");
-    printf("Jangan lupa untuk mengantri dan tetap menjaga jarak antar pengunjung\n");
-    printf("Terima kasih\n");
-
-    CreateEmptyQueue(&Q);
-    for (i = 0; i < 5; i++) {
-        // Enqueue(&Q, i, 3);
-        // Enqueue(&Q, i+1, 1);
-        // Enqueue(&Q, i+2, 2);
-    }
-    
-    while (open && JNEQ(cur, close)) {
-        scanf("%s",perintah);
-        // printf("%s\n",perintah);
-
-        if (strIsEqual(perintah, "serve")) {
-            // serve(&Q);
-        } else if (strIsEqual(perintah, "repair")) {
-            REPAIR();
-        } else if (strIsEqual(perintah,"detail")) {
-            DETAIL();
-        } else if (strIsEqual(perintah,"office")) {
-            OFFICE();
-        } else if (strIsEqual(perintah,"prepare")) {
-            PREPARE();
-        } else {
-            printf("Masukan Anda salah. Silakan ulangi lagi!");
-        }
-    }
-
-    return 0;
 }
