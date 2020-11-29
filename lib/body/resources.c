@@ -44,14 +44,15 @@ int ParseTabKata(Kata K1) {
 }
 
 void BuyResource(int qty, char unsigned materialID, int harga) {
-	actBuy a;
-	a.qty = qty; /* Banyak pembelian */
-	a.harga = harga;
-	a.id = materialID; /* nama dari barang yang dibeli (tipe data kata) */
+	actBuy *a;
+	a = (actBuy *) malloc(sizeof(actBuy));
+	a->qty = qty; /* Banyak pembelian */
+	a->harga = harga;
+	a->id = materialID; /* nama dari barang yang dibeli (tipe data kata) */
 	PropertiAksi prop;
 	prop.durasiAksi = MakeJAM(0, 15, 0); /* TODO: Harusnya dependant ke array DoableActions */
 	prop.idAksi = BUY;
-	Push(&actionStack, &a, prop);
+	Push(&actionStack, a, prop);
 }
 
 void ExecBuy(actBuy aB, JAM *curJam) {
@@ -71,7 +72,6 @@ void ExecBuy(actBuy aB, JAM *curJam) {
 
 unsigned char getMaterialId(Kata K){
 	int i;
-	Material* M;
 	char id = -1;
 	boolean found = false;
 	for(i = 0; i < BuyableMaterials.NbEl && !found; i++){
@@ -86,11 +86,10 @@ unsigned char getMaterialId(Kata K){
 Kata getMaterialName(char id){
 	int i;
 	Kata c;
-	Material* M;
 	boolean found;
 	for(i = 0; i < BuyableMaterials.NbEl && !found; i++){
 		if (((Material *) BuyableMaterials.arr[i].metadata)->idMaterial == id) {
-			c = M->namaMaterial;
+			c = ((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial;
 			found = true;
 		}
 	}

@@ -68,7 +68,7 @@ int main () {
 				// Build Logic
 				printf("Ingin membangun apa?\nList:\n");
 				for (int i = 0; i < AvailableWahana.NbEl; ++i) {
-					printf("	- ");
+					printf("  - ");
 					TulisKataKe(Akar((WahanaTree) AvailableWahana.arr[i].metadata).nama, stdout);
 					puts("");
 				}
@@ -126,7 +126,7 @@ int main () {
 
 				printf("Ingin membeli apa?\nList:\n");
 				for (int i = 0; i < BuyableMaterials.NbEl; ++i) {
-							printf("- ");
+							printf("  - ");
 							TulisKataKe(((Material*) BuyableMaterials.arr[i].metadata)->namaMaterial, stdout);
 					printf("\n");
 				}
@@ -199,19 +199,23 @@ int main () {
 					puts("Tidak ada aksi yang dapat diurungkan");
 				} else {
 					UndoData data;
+					ATangibleWahana infoTangibleWahana;
+					actBuy *infoBuyMaterial;
 
 					data = Undo();
 					totalAksi--;
 					totalDetikAksi -= JAMToDetik(data.prop.durasiAksi);
-					TulisJAM(DetikToJAM(totalDetikAksi));
 
 					switch (data.prop.idAksi) {
 						case BUILD:
-							totalUangAksi -= TreeWahana((ATangibleWahana) data.infoAksi).UpgradeCost.uang;
+							infoTangibleWahana = (ATangibleWahana) data.infoAksi;
+							totalUangAksi -= TreeWahana(infoTangibleWahana).UpgradeCost.uang;
 							break;
 						case UPGRADE:
 							break;
 						case BUY:
+							infoBuyMaterial = (actBuy *) data.infoAksi;
+							totalUangAksi -= infoBuyMaterial->qty * infoBuyMaterial->harga;
 							break;
 					}
 				}
