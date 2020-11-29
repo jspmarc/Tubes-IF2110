@@ -6,7 +6,7 @@ extern Kata newC, load, exitC, build,
 			 upgrade, buy, undo, execute,
 			 mainC, serve, repair, detail,
 			 office, prepare, Details, Report,
-			 Exit;
+			 Exit, inventory;
 
 void initCommands();
 

@@ -27,8 +27,8 @@ typedef struct {
 //unsigned char getMaterialId(Kata K);
 //Kata getMaterialName(char id);
 //unsigned short getMaterialPrice(char id);
-Material *getMaterialByID(char id);
-Material *getMaterialByName(Kata Nama);
+Material *getMaterialByID(array source, char id);
+Material *getMaterialByName(array source, Kata Nama);
 
 /**
  * Fungsi untuk memeriksa apakah array of materials pada matYangMauDikurangi mencukupi
@@ -51,4 +51,9 @@ void TambahDuaResource(Resource res1, Resource res2, Resource *result);
  * FUngsi untuk mengurangi res1 oleh res2
  */
 void KurangDuaResource(Resource res1, Resource res2, Resource *result);
+
+/**
+ * Fungsi untuk menuliskan isi resource ke layar
+ */
+void PrintResource(Resource R);
 #endif

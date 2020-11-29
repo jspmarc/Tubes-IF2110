@@ -28,9 +28,9 @@ dur 0
 name Materi 2 TBFO
 des Materi 2 TBFO
 [
-id 3 jumlah 3
+id 3 jumlah 3000
 ]
-hargaBikin 300000,
+hargaBikin 3000000,
 
 {21100{211010{}{}}{211011{}{}}}
 id 21100

@@ -142,7 +142,7 @@ void ReadUpgrade(WahanaTree *T){
 	SkipNewLine();
 	ReadToken();
 	mater->jumlahMaterial = ReadInt();
-	Material *pMat = getMaterialByID(el.id);
+	Material *pMat = getMaterialByID(BuyableMaterials, el.id);
 	if (pMat == NULL) {
 		printf("id = %d\n", el.id);
 		printf("bruh moment");
