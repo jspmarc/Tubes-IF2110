@@ -389,7 +389,6 @@ void Buy(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi)
 			BuyResource(qty, materialID, boughtMaterial->biayaMaterial);
 			(*totalAksi)++;
 			*totalDetikAksi += DoableActions.arr[BUY].info;
-			totalResourceAksi->uang += qty * boughtMaterial->biayaMaterial;
 
 			Resource Res, *pRes = (Resource *) malloc(sizeof(Resource));
 			Res.uang = -(qty*boughtMaterial->biayaMaterial);
