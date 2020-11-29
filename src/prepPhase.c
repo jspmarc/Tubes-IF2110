@@ -359,11 +359,15 @@ void Buy(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi)
 	if (qty != -1 && found) {
 		/* Ngecek bisa beli atau nggak */
 
-		/* Kalo bisa */
-		BuyResource(qty, materialID, boughtMaterial->biayaMaterial);
-		(*totalAksi)++;
-		*totalDetikAksi += DoableActions.arr[BUY].info;
-		totalResourceAksi->uang += qty * boughtMaterial->biayaMaterial;
+		if (playerResources.uang < totalResourceAksi->uang + boughtMaterial->biayaMaterial * qty) {
+			puts("Gagal membeli karena uang tidak cukup.");
+		} else {
+			/* Kalo bisa */
+			BuyResource(qty, materialID, boughtMaterial->biayaMaterial);
+			(*totalAksi)++;
+			*totalDetikAksi += DoableActions.arr[BUY].info;
+			totalResourceAksi->uang += qty * boughtMaterial->biayaMaterial;
+		}
 	} else {
 		puts("Gagal membeli material karena jumlah pembelian tidak valid atau karena material tidak ada.");
 	}
