@@ -85,6 +85,12 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 	Kata Wahana;
 	int idxWahana;
 	// Build Logic
+
+	if (BuiltWahana.NbEl == AvailableWahana.NbEl) {
+		puts("Kamu sudah membangun semua wahana yang mungkin pada permainan ini.");
+		return;
+	}
+
 	printf("Ingin membangun apa?\nList:\n");
 	for (int i = 0; i < AvailableWahana.NbEl; ++i) {
 		printf("  - ");
@@ -97,10 +103,12 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 	ADVKATA();
 	SalinKataKe(&Wahana);
 
+	/* Nyari elemen dari array AvailableWahana */
 	for (idxWahana = 0;
 		idxWahana < AvailableWahana.NbEl && !IsKataSama(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).nama, Wahana);
 		++idxWahana);
 
+	/* The ugly parts */
 	if (idxWahana >= AvailableWahana.NbEl) {
 		puts("Wahana itu tidak ada dan tidak nyata");
 	} else {
@@ -133,20 +141,22 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 
 void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 	ATangibleWahana wahanaTerdekat;
+	Kata Wahana;
 	/* ATangibleWahana */
 	array wahanaSekitarPlayer;
+	addrNode upgradeBersangkutan;
 
 	/* Nyariin wahana sekitar pemain */
 	wahanaSekitarPlayer = WahanaSekitarPosisi(playerPos);
 
 	/* Kalau wahana sekitar pemain ada lebih dari 1 */
 	if (wahanaSekitarPlayer.NbEl > 1) {
+		int idxWahana;
 		puts("Mau berinteraksi dengan wahana apa?");
 		/* Ngeprint nama wahana */
 		for (int i = 0; i < wahanaSekitarPlayer.NbEl; ++i) {
 			Kata namaWahana;
 			int wahanaUpgradeId = ((ATangibleWahana) wahanaSekitarPlayer.arr[i].metadata)->currentUpgradeID;
-			addrNode upgradeBersangkutan;
 
 			/* Dicari yang cocok upgradenya */
 			upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[i].metadata)->baseTree, wahanaUpgradeId);
@@ -155,7 +165,47 @@ void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 			printf("  -");
 			TulisKataKe(namaWahana, stdout);
 		}
+		printf("\n❯ ");
+		/* Ngebaca wahana yang mau diupgrade */
+		IgnoreBlank();
+		ADVKATA();
+		SalinKataKe(&Wahana);
+
+		for (idxWahana = 0; idxWahana < wahanaSekitarPlayer.NbEl; ++idxWahana) {
+			upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->baseTree, ((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->currentUpgradeID);
+
+			if (IsKataSama(upgradeBersangkutan->upgradeInfo.nama, Wahana)) break;
+		}
+
+		if (idxWahana == wahanaSekitarPlayer.NbEl) puts("Tidak ada wahana dengan nama itu di sekitarmu.");
+	} else if (wahanaSekitarPlayer.NbEl < 1) {
+		puts("Tidak ada wahana di sekitarmu yang bisa diupgrade.");
+	} else { /* wahanaSekitarPlayer.NbEl == 1 */
+		upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[0].metadata)->baseTree, ((ATangibleWahana) wahanaSekitarPlayer.arr[0].metadata)->currentUpgradeID);
 	}
+
+	/* List Upgrade */
+	addrNode L = Left(upgradeBersangkutan),
+			 R = Right(upgradeBersangkutan);
+
+	printf("Ingin melakukan upgrade apa?\n");
+
+	if (L != NULL) {
+		printf(" - ");
+		TulisKataKe(L->upgradeInfo.nama, stdout);
+		puts("");
+	}
+	if (R != NULL) {
+		printf(" - ");
+		TulisKataKe(R->upgradeInfo.nama, stdout);
+		puts("");
+	}
+
+	printf("\n❯ ");
+	/* Ngebaca wahana yang mau diupgrade */
+	IgnoreBlank();
+	ADVKATA();
+	SalinKataKe(&Wahana);
 }
 
 void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){

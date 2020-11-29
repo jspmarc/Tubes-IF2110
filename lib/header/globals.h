@@ -32,13 +32,13 @@ extern Queue antrianCustomer;
 extern Resource playerResources;
 extern JAM currentJam;
 extern Kata Nama;
-extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of TangibleWahana. */
-extern array toBeBuiltWahana;
+extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of ATangibleWahana. */
+extern array toBeBuiltWahana; /* array of ATangibleWahana */
 
 /* Data */
-extern array DoableActions; /* Nyimpen array of struct aksi */
-extern array BuyableMaterials; /* Nyimpen array of struct material */
-extern array AvailableWahana; /* Nyimpen array of struct wahana */
+extern array DoableActions; /* Nyimpen array of aksi */
+extern array BuyableMaterials; /* Nyimpen array of struct Material */
+extern array AvailableWahana; /* Nyimpen array of struct WahanaTree */
 extern JAM OpeningJam;
 extern JAM ClosingJam;
 

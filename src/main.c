@@ -69,6 +69,7 @@ int main () {
 				// Upgrade Logic
 				/* Jangan lupa tambah durasi dan uang */
 				/*totalAksi++;*/
+				Upgrade(&totalAksi, &totalUangAksi, &totalDetikAksi);
 			} else if(IsKataSama(CKata, buy)){
 				Buy(&totalAksi, &totalUangAksi, &totalDetikAksi);
 			} else if(IsKataSama(CKata, undo)){
