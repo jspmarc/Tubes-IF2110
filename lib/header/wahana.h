@@ -34,10 +34,11 @@ typedef struct tUpN{
 /* untuk menyimpan metadata tambahan pada wahana: posisi */
 typedef struct TangibleWahana {
 	addrNode baseTree;
-   int idMap;
+    int idMap;
 	Point posisi;
 	unsigned int currentUpgradeID;
-   int status; /* 0 - rusak; 1 - berfungsi */
+    int status; /* 0 - rusak; 1 - berfungsi */
+    int used;
 } TangibleWahana;
 typedef struct TangibleWahana* ATangibleWahana;
 
