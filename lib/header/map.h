@@ -27,6 +27,7 @@
 #include "point.h"
 #include "graph.h"
 #include "array.h"
+#include "listlinier.h"
 #include <stdio.h>
 
 #ifndef MAP_H
@@ -39,6 +40,7 @@ typedef struct {
   Point MapSize;
   Point Gate1;
   Point Gate2;
+  LL Buildings;
   Point Office;
   Point Antrian;
 } MAP;
@@ -49,6 +51,7 @@ typedef struct {
 #define NKol(M) Absis(MapSize(M))
 #define Gate1(M) (M).Gate1
 #define Gate2(M) (M).Gate2
+#define Buildings(M) (M).Buildings
 #define Office(M) (M).Office
 #define Antrian(M) (M).Antrian
 
@@ -62,8 +65,15 @@ typedef struct {
 
 // extern int jaringanMap;
 
-  /* Return nilai tengah dari suatu bilangan */
+boolean isNutupinGate(Point titiek);
+/* Memeriksa apakah titiek menutupi gate */
+/*
+    Jika di kanan atau kiri gate1 atau
+    di kanan atau di kiri gate2 dari map
+*/
+
 int MiddleOf(indeks N);
+/* Return nilai tengah dari suatu bilangan */
 
 void InitiateMapGraph();
 /* Menginisiasi Graph yang menghubungkan peta-peta(nodes) */
@@ -98,12 +108,6 @@ void MoveD ();
 
 void InitiateMap();
 /* Menyiapkan peta */
-
-boolean InteractOffice();
-/* true jika player ada di atas/bawah/kanan/kiri office */
-
-boolean InteractWahana();
-/* true jika player ada di atas/bawah/kanan/kiri office */
 
 /**
  * Fungsi untuk mencari wahana seitar position (sebagai argumen), kemudian

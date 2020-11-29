@@ -14,6 +14,7 @@
 //	 Point MapSize;
 //   Point Gate1;
 //   Point Gate2;
+//   LL Buildings;
 //   Point Office;
 //   Point Antrian;
 // } MAP;
@@ -24,11 +25,20 @@
 // #define NKol(M) Absis(MapSize(M));
 // #define Gate1(M) (M).Gate1
 // #define Gate2(M) (M).Gate2
+// #define Buildings(M) (M).Buildings
 // #define Office(M) (M).Office
 // #define Antrian(M) (M).Antrian
 
+boolean isNutupinGate (Point titiek) {
+	MAP map;
+
+	map = WhichMap(crrntMapID);
+
+	return (PointEQ(titiek, NextX(Gate1(map))) || PointEQ(titiek, BeforeX(Gate1(map))) ||
+	PointEQ(titiek, NextY(Gate2(map))) || PointEQ(titiek, BeforeY(Gate2(map))));
+}
+
 int MiddleOf(indeks N) {
-  /* Return nilai tengah dari suatu bilangan */
   return (N/2 + N%2);
 }
 
@@ -68,6 +78,8 @@ void ShowMap() {
 
 	map = WhichMap(crrntMapID);
 
+
+
   MakeMATRIKS(NBrs(map)+2, NKol(map)+2, &peta);
   for (int i = 0; i <= GetLastIdxBrs(peta); i++) {
     for (int j = 0; j <= GetLastIdxKol(peta); j++) {
@@ -93,9 +105,16 @@ void ShowMap() {
 
   Elmt(peta, Ordinat(Office(map)), Absis(Office(map))) = 'O';
   Elmt(peta, Ordinat(Antrian(map)), Absis(Antrian(map))) = 'A';
+
+	/* Render wahana yang sudah dibuat */
+	for (int i = 0; i < BuiltWahana.NbEl; i++) {
+		if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID) {
+			Elmt(peta, Ordinat(WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)), Absis(WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata))) = 'W';
+		}
+	}
+
   Elmt(peta, Ordinat(playerPos), Absis(playerPos)) = 'P';
-
-
+	printf("%s\n", isNutupinGate(playerPos) ? "iye nutupin" : "engga nutupin");
   TulisMATRIKS(peta); printf("\n");
 }
 
@@ -105,7 +124,7 @@ void MoveW () {
 
   /* ALGORITMA */
 	map = WhichMap(crrntMapID);
-  // player ke arah utara
+  // player ke arah timur
   Ordinat(playerPos)--;
   // jika player masuk tembok
   if (Ordinat(playerPos) == 0) {
@@ -127,9 +146,15 @@ void MoveW () {
       /* mundur lagi, keluar dari tembok */
       Ordinat(playerPos)++;
     }
-  } /* else if (wahana) { // If ada wahana, ga bisa dilewatin
-      Ordinat(playerPos)++;
-  } */
+  } else {
+		for (int i = 0; i < BuiltWahana.NbEl; i++) {
+			if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
+			(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
+				Ordinat(playerPos)++;
+				break;
+			}
+		}
+  }
 }
 
 void MoveA () {
@@ -138,7 +163,7 @@ void MoveA () {
 
   /* ALGORITMA */
 	map = WhichMap(crrntMapID);
-  // player ke arah utara
+  // player ke arah barat
   Absis(playerPos)--;
   // jika player masuk tembok
   if (Absis(playerPos) == 0) {
@@ -160,9 +185,15 @@ void MoveA () {
       /* mundur lagi, keluar dari tembok */
       Absis(playerPos)++;
     }
-  } /* else if (wahana) { // If ada wahana, ga bisa dilewatin
-      Absis(playerPos)++;
-  } */
+  } else {
+		for (int i = 0; i < BuiltWahana.NbEl; i++) {
+			if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
+			(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
+				Absis(playerPos)++;
+				break;
+			}
+		}
+  }
 }
 
 void MoveS () {
@@ -171,7 +202,7 @@ void MoveS () {
 
   /* ALGORITMA */
 	map = WhichMap(crrntMapID);
-  // player ke arah utara
+  // player ke arah selatan
   Ordinat(playerPos)++;
   // jika player masuk tembok
   if (Ordinat(playerPos) == NBrs(map) + 1) {
@@ -193,9 +224,15 @@ void MoveS () {
       /* mundur lagi, keluar dari tembok */
       Ordinat(playerPos)--;
     }
-  } /* else if (wahana) { // If ada wahana, ga bisa dilewatin
-      Ordinat(playerPos)--;
-  } */
+  } else {
+		for (int i = 0; i < BuiltWahana.NbEl; i++) {
+			if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
+			(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
+				Ordinat(playerPos)--;
+				break;
+			}
+		}
+  }
 }
 
 void MoveD () {
@@ -227,114 +264,22 @@ void MoveD () {
       /* mundur lagi, keluar dari tembok */
       Absis(playerPos)--;
     }
-  } /* else if (wahana) { // If ada wahana, ga bisa dilewatin
-      Absis (playerPos)--;
-  } */
+  } else {
+		for (int i = 0; i < BuiltWahana.NbEl; i++) {
+			if (IDMap((ATangibleWahana) BuiltWahana.arr[i].metadata) == crrntMapID && 
+			(PointEQ(playerPos, WahanaPoint((ATangibleWahana) BuiltWahana.arr[i].metadata)))) {
+				Absis(playerPos)--;
+				break;
+			}
+		}
+  }
 }
 
 void InitiateMap() {
-    /* ../../data/mapX.txt */
-    /* n = 19 */
     crrntMapID = 1;
     playerPos = MakePoint(3, 3);
 
-    /* 
-			Keterangan :
-        MiddleOf(X + 2) - 1;
-        + 2 untuk offset pagar.
-        - 1 untuk offset karena indeks yang dipakai dari 0.
-    */
-
-    /* inisiasi map1 */
-    
-	FILE *f = fopen("data/map1.txt", "r");
-	StartParser(f);
-	map1 = ParserMap(1);
-
-    // ID(map1) = 1;
-    // MapSize(map1) = MakePoint(5, 5);
-    // Absis(Gate1(map1)) = 0;
-    // Ordinat(Gate1(map1)) = MiddleOf(NBrs(map1) + 2) - 1;
-    // Absis(Gate2(map1)) = MiddleOf(NKol(map1) + 2) - 1 ;
-    // Ordinat(Gate2(map1)) = NBrs(map1) + 1;
-    // Absis(Office(map1)) = MiddleOf(NKol(map1) + 2) - 1;
-    // Ordinat(Office(map1)) = MiddleOf(NBrs(map1) + 2) - 1;
-    // Absis(Antrian(map1)) = MiddleOf(NKol(map1) + 2);
-    // Ordinat(Antrian(map1)) = MiddleOf(NBrs(map1) + 2);
-
-    /* inisiasi map2 */
-    f = fopen("data/map2.txt", "r");
-	StartParser(f);
-    map2 = ParserMap(2);
-
-    // ID(map2) = 2;
-    // NBrs(map2) = 5;
-    // NKol(map2) = 5;
-    // Absis(Gate1(map2)) = NKol(map2) + 1;
-    // Ordinat(Gate1(map2)) = MiddleOf(NBrs(map2) + 2) - 1;
-    // Absis(Gate2(map2)) = MiddleOf(NKol(map2) + 2) - 1;
-    // Ordinat(Gate2(map2)) = NBrs(map2) + 1;
-    // Absis(Office(map2)) = MiddleOf(NKol(map2) + 2) - 1;
-    // Ordinat(Office(map2)) = MiddleOf(NBrs(map2) + 2) - 1;
-    // Absis(Antrian(map2)) = MiddleOf(NKol(map2) + 2);
-    // Ordinat(Antrian(map2)) = MiddleOf(NBrs(map2)+ 2);
-
-    /* inisiasi map3 */
-    f = fopen("data/map3.txt", "r");
-	StartParser(f);
-    map3 = ParserMap(3);
-
-    // ID(map3) = 3;
-    // NBrs(map3) = 5;
-    // NKol(map3) = 5;
-    // Absis(Gate1(map3)) = NKol(map3) + 1;
-    // Ordinat(Gate1(map3)) = MiddleOf(NBrs(map3) + 2) - 1;
-    // Absis(Gate2(map3)) = MiddleOf(NKol(map3) + 2) -1;
-    // Ordinat(Gate2(map3)) = 0;
-    // Absis(Office(map3)) = MiddleOf(NKol(map3) + 2) - 1;
-    // Ordinat(Office(map3)) = MiddleOf(NBrs(map3) + 2) - 1;
-    // Absis(Antrian(map3)) = MiddleOf(NKol(map3) + 2);
-    // Ordinat(Antrian(map3)) = MiddleOf(NBrs(map3) + 2);
-
-    /* inisiasi map4 */
-    f = fopen("data/map4.txt", "r");
-	StartParser(f);
-    map4 = ParserMap(4);
-
-    // ID(map4) = 4;
-    // NBrs(map4) = 5;
-    // NKol(map4) = 5;
-    // Absis(Gate1(map4)) = 0;
-    // Ordinat(Gate1(map4)) = MiddleOf(NBrs(map4) + 2) - 1;
-    // Absis(Gate2(map4)) = MiddleOf(NKol(map4) + 2) - 1;
-    // Ordinat(Gate2(map4)) = 0;
-    // Absis(Office(map4)) = MiddleOf(NKol(map4) + 2) - 1;
-    // Ordinat(Office(map4)) = MiddleOf(NBrs(map4) + 2) - 1;
-    // Absis(Antrian(map4)) = MiddleOf(NKol(map4) + 2);
-    // Ordinat(Antrian(map4)) = MiddleOf(NBrs(map4) + 2);
-    
     InitiateMapGraph();
-}
-
-
-boolean InteractOffice() {
-	MAP map;
-
-	map = WhichMap(crrntMapID);
-	return PointEQ(playerPos, Office(map)) || 
-					PointEQ(playerPos, NextX(Office(map))) || 
-					PointEQ(playerPos, NextY(Office(map))) || 
-					PointEQ(playerPos, BeforeX(Office(map))) ||
-					PointEQ(playerPos, BeforeY(Office(map)));
-}
-
-boolean InteractWahana() {
-	/* Not finished yet */
-	// MAP map;
-
-	// map = WhichMap(crrntMapID);
-	/* how does the wahana disimpan? */
-	return false;
 }
 
 array WahanaSekitarPosisi(Point position) {

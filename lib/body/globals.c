@@ -60,7 +60,31 @@ void init() {
 	currentJam = MakeJAM(21, 0, 0);
 	OpeningJam = MakeJAM(9, 0, 0);
 
-	InitiateMap();
+	/* inisiasi map1 */
+    f = fopen("data/map1.txt", "r");
+	StartParser(f);
+	map1 = ParserMap(1);
+    fclose(f);
+
+    /* inisiasi map2 */
+    f = fopen("data/map2.txt", "r");
+	StartParser(f);
+    map2 = ParserMap(2);
+    fclose(f);
+
+    /* inisiasi map3 */
+    f = fopen("data/map3.txt", "r");
+	StartParser(f);
+    map3 = ParserMap(3);
+    fclose(f);
+
+    /* inisiasi map4 */
+    f = fopen("data/map4.txt", "r");
+	StartParser(f);
+    map4 = ParserMap(4);
+    fclose(f);
+
+	InitiateMap(); /* Initiate data peta lainnya */
 
 	f = fopen("./data/wahana.txt", "r");
 	StartParser(f);
