@@ -31,6 +31,7 @@ des Materi 2 TBFO
 id 5 jumlah 3
 ]
 hargaBikin 300000,
+
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -63,6 +64,7 @@ des anjay mabar
 id 5 jumlah 3
 ]
 hargaBikin 100000,
+
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -95,6 +97,7 @@ des Materi 2 Algeo
 id 5 jumlah 3
 ]
 hargaBikin 100000,
+
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -127,6 +130,7 @@ des anjay mabar
 id 5 jumlah 3
 ]
 hargaBikin 100000,
+
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10
@@ -159,6 +163,7 @@ des Materi 2 Orkom
 id 5 jumlah 3
 ]
 hargaBikin 100000,
+
 {0{1{}{}}{2{}{}}}
 id 0
 capacity 10

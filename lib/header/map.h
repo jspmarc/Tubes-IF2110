@@ -26,6 +26,7 @@
 #include "matriks.h"
 #include "point.h"
 #include "graph.h"
+#include "array.h"
 #include <stdio.h>
 
 #ifndef MAP_H
@@ -103,5 +104,11 @@ boolean InteractOffice();
 
 boolean InteractWahana();
 /* true jika player ada di atas/bawah/kanan/kiri office */
+
+/**
+ * Fungsi untuk mencari wahana seitar position (sebagai argumen), kemudian
+ * hasil pencarian akan dimasukkan ke dalam suatu array
+ */
+array WahanaSekitarPosisi(Point position);
 
 #endif

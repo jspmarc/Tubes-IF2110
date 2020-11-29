@@ -40,16 +40,16 @@ void Execute(){
 	}
 }
 
-void BuildWahana(UpgradeType Wahana, Point Loc) {
+void BuildWahana(WahanaTree Wahana, Point Loc) {
 	ATangibleWahana w;
 	PropertiAksi prop;
 	ArrayElType el;
 	w = (ATangibleWahana) malloc(sizeof(TangibleWahana));
 	WahanaPoint(w) = Loc;
 	TreeWahana(w) = Wahana;
-	UpgradeId(w) = Wahana.id;
+	UpgradeId(w) = Wahana->upgradeInfo.id;
 
-	el.id = Wahana.id;
+	el.id = Wahana->upgradeInfo.id;
 	el.info = 0;
 	el.metadata = w;
 
@@ -124,14 +124,38 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 		/* Cek bisa bangun wahana atau nggak */
 
 		/* Kalo bisa bangun */
-		BuildWahana(Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata), playerPos);
+		BuildWahana((WahanaTree) AvailableWahana.arr[idxWahana].metadata, playerPos);
 		(*totalAksi)++;
 		*totalDetikAksi += DoableActions.arr[BUILD].info;
 		*totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
 	}
 }
 
-void Upgrade(){
+void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
+	ATangibleWahana wahanaTerdekat;
+	/* ATangibleWahana */
+	array wahanaSekitarPlayer;
+
+	/* Nyariin wahana sekitar pemain */
+	wahanaSekitarPlayer = WahanaSekitarPosisi(playerPos);
+
+	/* Kalau wahana sekitar pemain ada lebih dari 1 */
+	if (wahanaSekitarPlayer.NbEl > 1) {
+		puts("Mau berinteraksi dengan wahana apa?");
+		/* Ngeprint nama wahana */
+		for (int i = 0; i < wahanaSekitarPlayer.NbEl; ++i) {
+			Kata namaWahana;
+			int wahanaUpgradeId = ((ATangibleWahana) wahanaSekitarPlayer.arr[i].metadata)->currentUpgradeID;
+			addrNode upgradeBersangkutan;
+
+			/* Dicari yang cocok upgradenya */
+			upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[i].metadata)->baseTree, wahanaUpgradeId);
+
+			SalinKataDariKe(upgradeBersangkutan->upgradeInfo.nama, &namaWahana);
+			printf("  -");
+			TulisKataKe(namaWahana, stdout);
+		}
+	}
 }
 
 void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
@@ -234,7 +258,7 @@ void Undo(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi) {
 		switch (data.prop.idAksi) {
 			case BUILD:
 				infoTangibleWahana = (ATangibleWahana) data.infoAksi;
-				*totalUangAksi -= TreeWahana(infoTangibleWahana).UpgradeCost.uang;
+				*totalUangAksi -= TreeWahana(infoTangibleWahana)->upgradeInfo.UpgradeCost.uang;
 				break;
 			case UPGRADE:
 				break;

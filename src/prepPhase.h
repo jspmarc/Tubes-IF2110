@@ -17,7 +17,7 @@ extern Stack actionStack;
 
 void Execute();
 
-void BuildWahana(UpgradeType Wahana, Point Loc);
+void BuildWahana(WahanaTree Wahana, Point Loc);
 
 void ExecBuild(ATangibleWahana Wahana);
 
@@ -27,7 +27,7 @@ void Save();
 
 void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi);
 
-void Upgrade();
+void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi);
 
 void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi);
 

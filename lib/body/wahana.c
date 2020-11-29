@@ -231,3 +231,22 @@ void ExecUpgrade(WahanaUpgradeStack Upgrade){
 	// free WahanaUpgradeStack: avoid memory leak!
 	free(Upgrade);
 }
+
+addrNode cariUpgrade (WahanaTree wahana, int UpID) {
+	if (IsTreeEmpty(wahana)) return NULL;
+	else if (IsTreeOneElmt(wahana)) {
+		if (wahana->upgradeInfo.id == UpID) return wahana;
+		else return NULL;
+	} else {
+		if (wahana->upgradeInfo.id == UpID) return wahana;
+		else {
+			addrNode retSimpul = NULL;
+
+			retSimpul = cariUpgrade(wahana->left, UpID);
+			if (retSimpul == NULL) retSimpul = cariUpgrade(wahana->right, UpID);
+
+			return retSimpul;
+		}
+	}
+}
+

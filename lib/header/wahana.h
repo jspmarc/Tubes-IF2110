@@ -33,7 +33,7 @@ typedef struct tUpN{
 
 /* untuk menyimpan metadata tambahan pada wahana: posisi */
 typedef struct TangibleWahana {
-	UpgradeType baseTree;
+	addrNode baseTree;
 	Point posisi;
 	unsigned char currentUpgradeID;
 } TangibleWahana;
@@ -254,5 +254,11 @@ WahanaUpgradeStack UpgradeWahana(ATangibleWahana T, unsigned char id);
  * id - ID Node tree, bagian upgrade
  */
 void ExecUpgrade(WahanaUpgradeStack Upgrade);
+
+/**
+ * Fungsi buat nyari upgrade dari suatu wahana.
+ * Kalau tidak ditemukan, akan mengembalikan Nil.
+ */
+addrNode cariUpgrade (WahanaTree wahana, int UpID);
 
 #endif

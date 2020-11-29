@@ -336,3 +336,30 @@ boolean InteractWahana() {
 	/* how does the wahana disimpan? */
 	return false;
 }
+
+array WahanaSekitarPosisi(Point position) {
+	/* ATangibleWahana */
+	array wahanaSekitarPlayer;
+
+	/* Nyariin wahana sekitar pemain */
+	for (int i = 0; i < BuiltWahana.NbEl; ++i) {
+		ATangibleWahana wahanaDekatPlayer = ((ATangibleWahana) BuiltWahana.arr[i].metadata);
+		Point bX = BeforeX(position), bY = BeforeY(position),
+			  nX = NextX(position), nY = NextY(position);
+
+		if (PointEQ(wahanaDekatPlayer->posisi, bX)
+			|| PointEQ(wahanaDekatPlayer->posisi, bY)
+			|| PointEQ(wahanaDekatPlayer->posisi, nX)
+			|| PointEQ(wahanaDekatPlayer->posisi, nY)) {
+			ArrayElType el;
+			
+			el.id = wahanaDekatPlayer->currentUpgradeID;
+			el.info = wahanaDekatPlayer->currentUpgradeID;
+			el.metadata = wahanaDekatPlayer;
+
+			InsArrLast(&wahanaSekitarPlayer, el);
+		}
+	}
+
+	return wahanaSekitarPlayer;
+}
