@@ -29,8 +29,8 @@ typedef struct {
 } actBuy;
 
 unsigned char getMaterialId(Kata K);
-Kata getMaterialName(unsigned char id);
+Kata getMaterialName(char id);
 
-void BuyResource();
+void BuyResource(int qty, char unsigned materialID);
 void ExecBuy(actBuy aB, JAM *curJam);
 #endif

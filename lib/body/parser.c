@@ -283,7 +283,6 @@ array ReadMaterialArray() {
 		InsArrLast(&MaterialArray, el);
 	}
 
-	PrintArr(MaterialArray);
 	return MaterialArray;
 }
 

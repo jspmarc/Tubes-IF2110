@@ -48,7 +48,7 @@ void BuildWahana(UpgradeType Wahana, Point Loc) {
 	TreeWahana(w) = Wahana;
 	UpgradeId(w) = Wahana.id;
 
-	DurasiAksi(prop) = MakeJAM(0, 30, 0); //arbitrary choice
+	DurasiAksi(prop) = MakeJAM(0, 30, 0); /* TODO: Harusnya dependant ke array DoableActions */
 	IdAksi(prop) = BUILD;
 	Push(&actionStack, (void *) w, prop);
 }

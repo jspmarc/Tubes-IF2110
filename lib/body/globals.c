@@ -10,6 +10,7 @@ Kata Nama;
 array BuiltWahana;
 
 /* Data */
+array DoableActions;
 array AvailableWahana;
 array BuyableMaterials;
 JAM OpeningJam;
@@ -33,6 +34,7 @@ void init() {
 
 	playerResources.uang = START_MONEY;
 
+	CreateArray(&DoableActions, 15);
 	CreateArray(&BuiltWahana, MAX_WAHANA);
 	CreateArray(&AvailableWahana, MAX_WAHANA);
     CreateArray(&BuyableMaterials, MAX_MATERIAL);
