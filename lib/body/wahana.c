@@ -4,6 +4,7 @@
 
 #include "../header/wahana.h"
 #include "../header/str.h"
+#include "../header/map.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -141,7 +142,8 @@ void DelDaun(WahanaTree *P, UpgradeType X) {
 void PrintPreorder(WahanaTree P) {
 		printf("(");
 		if(!IsTreeEmpty(P)){
-			TulisKataKe(Akar(P).nama, stdout);
+			/*TulisKataKe(Akar(P).nama, stdout);*/
+			printf("%d", Akar(P).id);
 			PrintPreorder(Left(P));
 			PrintPreorder(Right(P));
 		}
@@ -215,6 +217,16 @@ boolean IsInfoNodeSame(UpgradeType UT1, UpgradeType UT2) {
 	tf = tf && (UT1.isTaken == UT2.isTaken);
 	tf = tf && (UT1.UpgradeCost.uang == UT2.UpgradeCost.uang);
 	tf = tf && (true); /* Ngecek array materials sama atau tidak */
+	if (UT1.UpgradeCost.materials.NbEl == UT2.UpgradeCost.materials.NbEl) {
+		for (int i = 0; i < UT1.UpgradeCost.materials.NbEl && tf; ++i) {
+			tf = tf && ((Material *) UT1.UpgradeCost.materials.arr[i].metadata)->biayaMaterial == ((Material *) UT2.UpgradeCost.materials.arr[i].metadata)->biayaMaterial;
+			tf = tf && ((Material *) UT1.UpgradeCost.materials.arr[i].metadata)->idMaterial == ((Material *) UT2.UpgradeCost.materials.arr[i].metadata)->idMaterial;
+			tf = tf && ((Material *) UT1.UpgradeCost.materials.arr[i].metadata)->jumlahMaterial == ((Material *) UT2.UpgradeCost.materials.arr[i].metadata)->jumlahMaterial;
+			tf = tf && IsKataSama(((Material *) UT1.UpgradeCost.materials.arr[i].metadata)->namaMaterial, ((Material *) UT2.UpgradeCost.materials.arr[i].metadata)->namaMaterial);
+		}
+	} else {
+		tf = false;
+	}
 
 	return tf;
 }
@@ -237,3 +249,54 @@ addrNode cariUpgrade (WahanaTree wahana, int UpID) {
 	}
 }
 
+ATangibleWahana InteraksiWahanaSekitarPosisi(Point position) {
+	/* ATangibleWahana */
+	array wahanaSekitarPlayer;
+	addrNode upgradeBersangkutan;
+	Kata Wahana;
+	ATangibleWahana wahanaTerdekat;
+
+	/* Nyariin wahana sekitar pemain */
+	wahanaSekitarPlayer = WahanaSekitarPosisi(position);
+
+	/* Kalau wahana sekitar pemain ada lebih dari 1 */
+	if (wahanaSekitarPlayer.NbEl > 1) {
+		int idxWahana;
+		puts("Mau berinteraksi dengan wahana apa?");
+		/* Ngeprint nama wahana */
+		for (int i = 0; i < wahanaSekitarPlayer.NbEl; ++i) {
+			Kata namaWahana;
+			int wahanaUpgradeId = ((ATangibleWahana) wahanaSekitarPlayer.arr[i].metadata)->currentUpgradeID;
+
+			/* Dicari yang cocok upgradenya */
+			upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[i].metadata)->baseTree, wahanaUpgradeId);
+
+			SalinKataDariKe(upgradeBersangkutan->upgradeInfo.nama, &namaWahana);
+			printf("  -");
+			TulisKataKe(namaWahana, stdout);
+		}
+		printf("\n❯ ");
+		/* Ngebaca wahana yang mau diupgrade */
+		IgnoreBlank();
+		ADVKATA();
+		SalinKataKe(&Wahana);
+
+		for (idxWahana = 0; idxWahana < wahanaSekitarPlayer.NbEl; ++idxWahana) {
+			upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->baseTree, ((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->currentUpgradeID);
+
+			if (IsKataSama(upgradeBersangkutan->upgradeInfo.nama, Wahana)) {
+				wahanaTerdekat = (ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata;
+				break;
+			}
+		}
+
+		if (idxWahana == wahanaSekitarPlayer.NbEl) puts("Tidak ada wahana dengan nama itu di sekitarmu.");
+	} else if (wahanaSekitarPlayer.NbEl < 1) {
+		puts("Tidak ada wahana di sekitarmu yang bisa diupgrade.");
+		wahanaTerdekat = NULL;
+	} else { /* wahanaSekitarPlayer.NbEl == 1 */
+		wahanaTerdekat = (ATangibleWahana) wahanaSekitarPlayer.arr[0].metadata;
+	}
+
+	return wahanaTerdekat;
+}
