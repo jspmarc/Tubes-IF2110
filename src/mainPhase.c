@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "mainPhase.h"
+#include "commands.h"
 #include "./../lib/header/boolean.h"
 #include "./../lib/header/str.h"
 #include "./../lib/header/prioqueuell.h"
@@ -206,7 +207,7 @@ ATangibleWahana bacaInputWahana() {
 void OFFICE () {
     /* Tidak memakan waktu */
     // Kamus Lokal
-    char perintah[50];
+    Kata perintah;
     ATangibleWahana wahana;
     char * status;
     Kata namaWahana;
@@ -216,12 +217,15 @@ void OFFICE () {
     do {    
         do {
             printf("Masukkan perintah (Details / Report / Exit):\n");
-            scanf("%s",perintah);
-        } while(!strIsEqual(perintah,"Details") ||
-                !strIsEqual(perintah,"Report") ||
-                !strIsEqual(perintah,"Exit"));
+            printf("❯ ");
+            IgnoreBlank();
+            ADVKATA();
+            SalinKataKe(&perintah);
+        } while(!IsKataSama(perintah,Details) ||
+                !IsKataSama(perintah,Report) ||
+                !IsKataSama(perintah,Exit));
 
-        if(strIsEqual(perintah,"Details")) {
+        if(IsKataSama(perintah,Details)) {
             if(BuiltWahana.NbEl != 0) {
                 wahana = bacaInputWahana();
                 namaWahana = cariUpgrade(wahana->baseTree,wahana->currentUpgradeID)->upgradeInfo.nama;
@@ -236,7 +240,7 @@ void OFFICE () {
             } else {
                 printf("Belum ada wahana yang telah dibangun.\n");
             }
-        } else if(strIsEqual(perintah,"Report")) {
+        } else if(IsKataSama(perintah,Report)) {
             if(BuiltWahana.NbEl != 0) {
                 wahana = bacaInputWahana();
                 unsigned int money;
@@ -254,7 +258,7 @@ void OFFICE () {
             } else {
                 printf("Belum ada wahana yang telah dibangun.\n");
             }
-        } else if(strIsEqual(perintah,"Exit")) {
+        } else if(IsKataSama(perintah,Exit)) {
             printf("// Keluar dari office mode //\n");
             return;
         }
