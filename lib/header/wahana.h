@@ -12,7 +12,7 @@
 
 /* Isi simpul setiap upgrade. Dapat mengubah semua properti wahana */
 typedef struct {
-    unsigned char id; /* ID wahana (ID tree-nya, unik) */
+    unsigned int id; /* ID wahana (ID tree-nya, unik) */
     unsigned short kapasitas; /* Kapasitas wahana */
     unsigned int harga; /* Harga untuk naikin wahana */
     JAM durasi; /* Durasi naikin wahana */
@@ -36,7 +36,7 @@ typedef struct TangibleWahana {
 	addrNode baseTree;
     int idMap;
 	Point posisi;
-	unsigned char currentUpgradeID;
+	unsigned int currentUpgradeID;
 } TangibleWahana;
 typedef struct TangibleWahana* ATangibleWahana;
 
@@ -48,7 +48,7 @@ typedef struct TangibleWahana* ATangibleWahana;
 
 typedef struct WahanaUpgrade{
 	ATangibleWahana Wahana;
-	unsigned char idUpgrade;
+	unsigned int idUpgrade;
 } WahanaUpgradeInfo;
 typedef struct WahanaUpgrade* WahanaUpgradeStack;
 
@@ -90,13 +90,13 @@ void MakeTree(UpgradeType Akar, WahanaTree L, WahanaTree R, WahanaTree *P);
  * description - deskripsi wahana di node yang ingin diisi
  * cost - harga untuk mengupgrade/mengambil node yang ingin diisi
  */
-UpgradeType IsiSimpul(unsigned char id, unsigned short kapasitas, unsigned int harga,
+UpgradeType IsiSimpul(unsigned int id, unsigned short kapasitas, unsigned int harga,
             JAM durasi, Kata nama, Kata description, Resource upCost);
 
 /**
  * Fungsi untuk membuat Simpul kosong dengan ID yang diberikan.
  */
-UpgradeType BuatSimpulKosong(unsigned char id);
+UpgradeType BuatSimpulKosong(unsigned int id);
 
 /**
  * Fungsi untuk membuat isi simpul (akar) dari suatu node/simpul.
@@ -109,7 +109,7 @@ UpgradeType BuatSimpulKosong(unsigned char id);
  * description - deskripsi wahana di node yang ingin diisi
  * cost - harga untuk mengupgrade/mengambil node yang ingin diisi
  */
-void UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, unsigned int harga,
+void UbahIsiSimpul(WahanaTree *P, unsigned int id, unsigned short kapasitas, unsigned int harga,
             JAM durasi, Kata nama, Kata description, Resource upCost);
 
 /* Manajemen Memory */
@@ -211,7 +211,7 @@ boolean SearchTree(WahanaTree P, UpgradeType X);
  *
  * id - id wahana
  */
-addrNode SearchUpgrade(WahanaTree P, unsigned char id);
+addrNode SearchUpgrade(WahanaTree P, unsigned int id);
 
 /**
  * Fungsi untuk memeriksa isi informasi dari antara 2 struct info node sama

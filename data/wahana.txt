@@ -1,6 +1,6 @@
 [
-{0{1{}{}}{2{}{}}}
-id 0
+{21240{212410{}{}}{212411{}{}}}
+id 21240
 capacity 10
 price 10
 duration 300
@@ -10,7 +10,7 @@ description IF2124 Teori Bahasa Formal dan Otomata
 id 1 jumlah 1000
 ]
 hargaBikin 200000
-id 1
+id 212410
 capacity 10
 price 10
 duration 300
@@ -21,7 +21,7 @@ id 2 jumlah 10
 id 1 jumlah 3
 ]
 hargaBikin 100000
-id 2
+id 212411
 cap 1
 price 1
 dur 0
@@ -32,8 +32,8 @@ id 3 jumlah 3
 ]
 hargaBikin 300000,
 
-{0{1{}{}}{2{}{}}}
-id 0
+{21100{211010{}{}}{211011{}{}}}
+id 21100
 capacity 10
 price 10
 duration 300
@@ -43,7 +43,7 @@ description IF2110 Algoritma dan Struktur Data
 id 1 jumlah 1000
 ]
 hargaBikin 100000
-id 1
+id 211010
 capacity 10
 price 10
 duration 300
@@ -54,7 +54,7 @@ id 2 jumlah 10
 id 1 jumlah 3
 ]
 hargaBikin 100000
-id 2
+id 211011
 cap 1
 price 1
 dur 0
@@ -65,8 +65,8 @@ id 3 jumlah 3
 ]
 hargaBikin 100000,
 
-{0{1{}{}}{2{}{}}}
-id 0
+{21230{212310{}{}}{212311{}{}}}
+id 21230
 capacity 10
 price 10
 duration 300
@@ -76,7 +76,7 @@ description IF2123 Aljabar Linier dan Geometri
 id 1 jumlah 1000
 ]
 hargaBikin 100000
-id 1
+id 212310
 capacity 10
 price 10
 duration 300
@@ -87,7 +87,7 @@ id 3 jumlah 10
 id 1 jumlah 3
 ]
 hargaBikin 100000
-id 2
+id 212311
 cap 1
 price 1
 dur 0
@@ -98,8 +98,8 @@ id 2 jumlah 3
 ]
 hargaBikin 100000,
 
-{0{1{}{}}{2{}{}}}
-id 0
+{21200{212010{}{}}{212011{}{}}}
+id 21200
 capacity 10
 price 10
 duration 300
@@ -109,7 +109,7 @@ description IF2120 Matematika Diskrit
 id 1 jumlah 1000
 ]
 hargaBikin 100000
-id 1
+id 212010
 capacity 10
 price 10
 duration 300
@@ -120,7 +120,7 @@ id 3 jumlah 10
 id 1 jumlah 3
 ]
 hargaBikin 100000
-id 2
+id 212011
 cap 1
 price 1
 dur 0
@@ -131,8 +131,8 @@ id 2 jumlah 3
 ]
 hargaBikin 100000,
 
-{0{1{}{}}{2{}{}}}
-id 0
+{21300{213010{}{}}{213011{}{}}}
+id 21300
 capacity 10
 price 10
 duration 300
@@ -142,7 +142,7 @@ description IF2130 Organisasi dan Arsitektur Komputer
 id 1 jumlah 1000
 ]
 hargaBikin 100000
-id 1
+id 213010
 capacity 10
 price 10
 duration 300
@@ -153,7 +153,7 @@ id 3 jumlah 10
 id 1 jumlah 3
 ]
 hargaBikin 100000
-id 2
+id 213011
 cap 1
 price 1
 dur 0
@@ -164,8 +164,8 @@ id 2 jumlah 3
 ]
 hargaBikin 100000,
 
-{0{1{}{}}{2{}{}}}
-id 0
+{21210{212110{}{}}{212111{}{}}}
+id 21210
 capacity 10
 price 10
 duration 300
@@ -175,7 +175,7 @@ description IF2121 Logika Komputasional
 id 1 jumlah 1000
 ]
 hargaBikin 100000
-id 1
+id 212110
 capacity 10
 price 10
 duration 300
@@ -186,7 +186,7 @@ id 3 jumlah 10
 id 1 jumlah 3
 ]
 hargaBikin 100000
-id 2
+id 212111
 cap 1
 price 1
 dur 0

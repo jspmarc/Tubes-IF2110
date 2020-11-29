@@ -22,13 +22,13 @@ void MakeTree(UpgradeType Akar, WahanaTree L, WahanaTree R, WahanaTree *P) {
 	*P = Tree(Akar, L, R);
 }
 
-UpgradeType BuatSimpulKosong(unsigned char id){
+UpgradeType BuatSimpulKosong(unsigned int id){
 	UpgradeType simpul;
 	simpul.id = id;
 	return simpul;
 }
 
-UpgradeType IsiSimpul(unsigned char id, unsigned short kapasitas, unsigned int harga,
+UpgradeType IsiSimpul(unsigned int id, unsigned short kapasitas, unsigned int harga,
 			JAM durasi, Kata nama, Kata description, Resource upCost) {
 	UpgradeType simpul;
 
@@ -44,7 +44,7 @@ UpgradeType IsiSimpul(unsigned char id, unsigned short kapasitas, unsigned int h
 	return simpul;
 }
 
-void UbahIsiSimpul(WahanaTree *P, unsigned char id, unsigned short kapasitas, unsigned int harga,
+void UbahIsiSimpul(WahanaTree *P, unsigned int id, unsigned short kapasitas, unsigned int harga,
 			JAM durasi, Kata nama, Kata description, Resource upCost) {
 	UpgradeType *simpul;
 
@@ -194,7 +194,7 @@ boolean SearchTree(WahanaTree P, UpgradeType X) {
 	}
 }
 
-addrNode SearchUpgrade(WahanaTree P, unsigned char id){
+addrNode SearchUpgrade(WahanaTree P, unsigned int id){
 	addrNode R;
 	if(IsTreeEmpty(P)) return NULL;
 	if(Akar(P).id == id) return P;
