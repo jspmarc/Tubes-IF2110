@@ -87,7 +87,7 @@ int main () {
 	STARTKATA();
 
 	do{
-        JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
+		JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
 		// main game loop
 		if(IsKataSama(CKata, newC) && !isIngame) {
 			// ke new
@@ -140,13 +140,14 @@ int main () {
 				/* Jangan lupa tambah durasi dan uang */
 				isPrepPhase = false;
 				isMainPhase = true;
-				currentJam = MakeJAM(9, 0, 0);
-                RandomPengunjung();
+				RandomPengunjung();
+				Execute();
 			} else if(IsKataSama(CKata, mainC)){
 				// main Logic
 				/* Jangan lupa tambah durasi dan uang */
 				isPrepPhase = false;
 				isMainPhase = true;
+				ToMainPhase();
 			} else {
 				puts("Perintah tidak dikenali.");
 			}
