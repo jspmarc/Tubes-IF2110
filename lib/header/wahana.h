@@ -247,4 +247,8 @@ boolean IsInfoNodeSame(UpgradeType UT1, UpgradeType UT2);
  */
 addrNode cariUpgrade (WahanaTree wahana, int UpID);
 
+boolean hasUpgradeName(WahanaTree wahana, Kata nama);
+
+void PrintPathTo(WahanaTree wahana, Kata nama);
+
 #endif

@@ -300,3 +300,21 @@ ATangibleWahana InteraksiWahanaSekitarPosisi(Point position) {
 
 	return wahanaTerdekat;
 }
+
+boolean hasUpgradeName(WahanaTree wahana, Kata nama){
+	if(wahana == NULL) return 0;
+	if(IsKataSama(Akar(wahana).nama, nama)) return 1;
+	return hasUpgradeName(Left(wahana), nama) || hasUpgradeName(Right(wahana), nama);
+}
+
+void PrintPathTo(WahanaTree wahana, Kata nama){
+	if(wahana == NULL) return;
+	TulisKataKe(nama, stdout);
+	if(!IsKataSama(Akar(wahana).nama, nama)){
+		printf("->");
+		if(hasUpgradeName(Left(wahana), nama))
+			PrintPathTo(Left(wahana), nama);
+		else if(hasUpgradeName(Right(wahana), nama))
+		 	PrintPathTo(Right(wahana), nama);
+	}
+}
