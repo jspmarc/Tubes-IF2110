@@ -21,6 +21,29 @@ void BuildWahana(WahanaTree Wahana, Point Loc);
 
 void ExecBuild(ATangibleWahana Wahana);
 
+/**
+ * Fungsi untuk mempersiapkan upgrade wahanna.
+ * Pemain harus memilih upgrade ke daun kiri atau kanan.
+ * Sama seperti build, tapi bkn mengambil simpul pertama, melainkan simpul
+ * lainnya
+ * Akan memasukkan aksi ini ke stackAksi (variabel global)
+ *
+ * Upgrade - WahanaUpgradeStack
+ */
+void UpgradeWahana(ATangibleWahana T, unsigned char id);
+/**
+ * Fungsi untuk mengeksekusi aksi upgrade dari stackAksi (variabel global)
+ * Akan mengepop aksi ini dari stackAksi (variabel global)
+ *
+ * *Wahana - Wahana yang sudah dibangun
+ * id - ID Node tree, bagian upgrade
+ */
+void ExecUpgrade(WahanaUpgradeStack Upgrade);
+
+void BuyResource(int qty, char unsigned materialID, int harga);
+
+void ExecBuy(actBuy aB);
+
 void ToMainPhase();
 
 void Save();

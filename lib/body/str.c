@@ -15,7 +15,7 @@ int strLen(char * string) {
 /* fungsi membandingkan dua string */
 boolean strIsEqual(char * s1, char * s2) {
     int i;
-    boolean eq, endofs1, endofs2;
+    boolean eq;
 
     eq = true;
     i = 0;

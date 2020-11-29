@@ -219,19 +219,6 @@ boolean IsInfoNodeSame(UpgradeType UT1, UpgradeType UT2) {
 	return tf;
 }
 
-WahanaUpgradeStack UpgradeWahana(ATangibleWahana T, unsigned char id){
-	WahanaUpgradeStack s;
-	s = (WahanaUpgradeStack)malloc(sizeof(WahanaUpgradeInfo));
-	TangibleWahana(s) = T;
-	UpgradeID(s) = id;
-	return s;
-}
-void ExecUpgrade(WahanaUpgradeStack Upgrade){
-	// do stuff
-	// free WahanaUpgradeStack: avoid memory leak!
-	free(Upgrade);
-}
-
 addrNode cariUpgrade (WahanaTree wahana, int UpID) {
 	if (IsTreeEmpty(wahana)) return NULL;
 	else if (IsTreeOneElmt(wahana)) {

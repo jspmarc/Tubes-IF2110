@@ -22,7 +22,7 @@ void SERVE ();
 void REPAIR ();
     /* Tidak memakan waktu */
     /* DETAIL {input: wahana} */
-void DETAIL () {
+void DETAIL ();
     /* Tidak memakan waktu */
     /* OFFICE {input: office} */
 void OFFICE ();

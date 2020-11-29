@@ -43,55 +43,45 @@ int ParseTabKata(Kata K1) {
 	return ret;
 }
 
-void BuyResource(int qty, char unsigned materialID, int harga) {
-	actBuy *a;
-	a = (actBuy *) malloc(sizeof(actBuy));
-	a->qty = qty; /* Banyak pembelian */
-	a->harga = harga;
-	a->id = materialID; /* nama dari barang yang dibeli (tipe data kata) */
-	PropertiAksi prop;
-	prop.durasiAksi = DetikToJAM(DoableActions.arr[BUY].info);
-	prop.idAksi = BUY;
-	Push(&actionStack, a, prop);
-}
+/*Kata getMaterialName(char id){*/
+	/*int i;*/
+	/*Kata c;*/
+	/*boolean found;*/
+	/*for(i = 0; i < BuyableMaterials.NbEl && !found; i++){*/
+		/*if (((Material *) BuyableMaterials.arr[i].metadata)->idMaterial == id) {*/
+			/*c = ((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial;*/
+			/*found = true;*/
+		/*}*/
+	/*}*/
+	/*return c;*/
+/*}*/
 
-void ExecBuy(actBuy aB, JAM *curJam) {
-	Kata asd = getMaterialName(aB.id);
-	int harga, i = 0;
+/*unsigned short getMaterialPrice(char id);*/
 
-	/* Akan mencari indeks di mana ditemukan material dengan nama sesuai
-	 * variabel `asd` pada playerResources */
-	for (; !IsKataSama(asd, playerResources.materials[i].namaMaterial); ++i);
-	playerResources.materials[i].jumlahMaterial += aB.qty;
-
-	harga = playerResources.materials[i].biayaMaterial;
-	playerResources.uang -= harga * aB.qty;
-
-	*curJam = DetikToJAM(JAMToDetik(*curJam) - LAMA_BELI);
-}
-
-unsigned char getMaterialId(Kata K){
-	int i;
-	char id = -1;
+Material *getMaterialByID(char id) {
+	Material *pmat = NULL;
+	int i = 0;
 	boolean found = false;
-	for(i = 0; i < BuyableMaterials.NbEl && !found; i++){
-		if (IsKataSama(((Material *)BuyableMaterials.arr[i].metadata)->namaMaterial, K)) {
+	for(; i < BuyableMaterials.NbEl && !found; ++i) {
+		if (((Material *) BuyableMaterials.arr[i].metadata)->idMaterial == id) {
+			pmat = ((Material *) BuyableMaterials.arr[i].metadata);
 			found = true;
-			id = ((Material *) BuyableMaterials.arr[i].metadata)->idMaterial;
 		}
 	}
-	return id;
+
+	return pmat;
 }
 
-Kata getMaterialName(char id){
-	int i;
-	Kata c;
-	boolean found;
-	for(i = 0; i < BuyableMaterials.NbEl && !found; i++){
-		if (((Material *) BuyableMaterials.arr[i].metadata)->idMaterial == id) {
-			c = ((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial;
+Material *getMaterialByName(Kata Nama) {
+	Material *pmat = NULL;
+	int i = 0;
+	boolean found = false;
+	for(; i < BuyableMaterials.NbEl && !found; ++i) {
+		if (IsKataSama(Nama, ((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial)) {
+			pmat = ((Material *) BuyableMaterials.arr[i].metadata);
 			found = true;
 		}
 	}
-	return c;
+
+	return pmat;
 }

@@ -88,6 +88,7 @@ void ReadUpgrade(WahanaTree *T){
   SkipBlank();
   SkipNewLine();
   Resource Res;
+  CreateArray(&(Res.materials), MAX_MATERIAL);
   ReadToken();
   SkipBlank();
   ReadToken();
@@ -121,6 +122,9 @@ void ReadUpgrade(WahanaTree *T){
   i = 0;
   ADV();
   while(CC != ArrayEnd) {
+	ArrayElType el;
+	Material* mater = (Material *) malloc(sizeof(Material));
+
 	if(isFileParsed) break;
 	SkipBlank();
 	SkipNewLine();
@@ -129,14 +133,25 @@ void ReadUpgrade(WahanaTree *T){
 	SkipBlank();
 	SkipNewLine();
 	ReadToken();
-	Res.materials[i].idMaterial = ReadInt();
+	el.id = ReadInt();
+	mater->idMaterial = el.id;
 	SkipBlank();
 	SkipNewLine();
 	ReadToken();
 	SkipBlank();
 	SkipNewLine();
 	ReadToken();
-	Res.materials[i].jumlahMaterial = ReadInt();
+	mater->jumlahMaterial = ReadInt();
+	Material *pMat = getMaterialByID(el.id);
+	if (pMat == NULL) {
+		printf("id = %d\n", el.id);
+		printf("bruh moment");
+		exit(69);
+	}
+	SalinKataDariKe(pMat->namaMaterial, &(mater->namaMaterial));
+	mater->biayaMaterial = pMat->biayaMaterial;
+	el.metadata = mater;
+	InsArrLast(&(Res.materials), el);
 	i++;
 	SkipBlank();
 	SkipNewLine();
@@ -266,6 +281,10 @@ array ReadMaterialArray() {
 		}
 
 		mater = (Material*) malloc(sizeof(Material));
+		if (mater == NULL) {
+			printf("bruh moment");
+			exit(69);
+		}
 		*mater = ReadMaterial();
 
 		/* Skip ',' (pemisah antara tree) */

@@ -33,7 +33,7 @@ void Execute(){
 				break;
 			case BUY:
 				// execute buy;
-				ExecBuy(*(actBuy *)t, &DurasiAksi(prop));
+				ExecBuy(*(actBuy *)t);
 				break;
 		}
 		// The time is already taken account of, don't need to check
@@ -45,7 +45,7 @@ void BuildWahana(WahanaTree Wahana, Point Loc) {
 	PropertiAksi prop;
 	ArrayElType el;
 	w = (ATangibleWahana) malloc(sizeof(TangibleWahana));
-    IDMap(w) = crrntMapID; // Menyimpan id-map player saat ini
+	IDMap(w) = crrntMapID; // Menyimpan id-map player saat ini
 	WahanaPoint(w) = Loc;
 	TreeWahana(w) = Wahana;
 	UpgradeId(w) = Wahana->upgradeInfo.id;
@@ -66,6 +66,45 @@ void ExecBuild(ATangibleWahana Wahana){
 	ArrayElType el;
 	el = DelArrLast(&toBeBuiltWahana);
 	InsArrLast(&BuiltWahana, el);
+}
+
+void UpgradeWahana(ATangibleWahana T, unsigned char id){
+	WahanaUpgradeStack s;
+	s = (WahanaUpgradeStack)malloc(sizeof(WahanaUpgradeInfo));
+	TangibleWahana(s) = T;
+	UpgradeID(s) = id;
+	/*return s;*/
+}
+void ExecUpgrade(WahanaUpgradeStack Upgrade){
+	// do stuff
+	// free WahanaUpgradeStack: avoid memory leak!
+	free(Upgrade);
+}
+
+void BuyResource(int qty, char unsigned materialID, int harga) {
+	actBuy *a;
+	a = (actBuy *) malloc(sizeof(actBuy));
+	a->qty = qty; /* Banyak pembelian */
+	a->harga = harga;
+	a->id = materialID; /* nama dari barang yang dibeli (tipe data kata) */
+	PropertiAksi prop;
+	prop.durasiAksi = DetikToJAM(DoableActions.arr[BUY].info);
+	prop.idAksi = BUY;
+	Push(&actionStack, a, prop);
+}
+
+void ExecBuy(actBuy aB) {
+	/*Kata asd = getMaterialName(aB.id);*/
+	Material *mater = getMaterialByID(aB.id);
+	int harga, i = 0;
+
+	/* Akan mencari indeks di mana ditemukan material dengan nama sesuai
+	 * variabel `asd` pada playerResources */
+	for (; !IsKataSama(mater->namaMaterial, ((Material *) playerResources.materials.arr[i].metadata)->namaMaterial); ++i);
+	((Material *) playerResources.materials.arr[i].metadata)->jumlahMaterial += aB.qty;
+
+	harga = playerResources.materials.arr[i].info;
+	playerResources.uang -= harga * aB.qty;
 }
 
 void ToMainPhase(){
@@ -175,14 +214,19 @@ void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 		for (idxWahana = 0; idxWahana < wahanaSekitarPlayer.NbEl; ++idxWahana) {
 			upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->baseTree, ((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->currentUpgradeID);
 
-			if (IsKataSama(upgradeBersangkutan->upgradeInfo.nama, Wahana)) break;
+			if (IsKataSama(upgradeBersangkutan->upgradeInfo.nama, Wahana)) {
+				wahanaTerdekat = (ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata;
+				break;
+			}
 		}
 
 		if (idxWahana == wahanaSekitarPlayer.NbEl) puts("Tidak ada wahana dengan nama itu di sekitarmu.");
 	} else if (wahanaSekitarPlayer.NbEl < 1) {
 		puts("Tidak ada wahana di sekitarmu yang bisa diupgrade.");
+		return;
 	} else { /* wahanaSekitarPlayer.NbEl == 1 */
 		upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[0].metadata)->baseTree, ((ATangibleWahana) wahanaSekitarPlayer.arr[0].metadata)->currentUpgradeID);
+		wahanaTerdekat = (ATangibleWahana) wahanaSekitarPlayer.arr[0].metadata;
 	}
 
 	/* List Upgrade */
@@ -201,12 +245,30 @@ void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 		TulisKataKe(R->upgradeInfo.nama, stdout);
 		puts("");
 	}
+	if (L == NULL && R == NULL) {
+		puts("Wahana ini sudah tidak bisa diupgrade.");
+		return;
+	}
 
 	printf("\n❯ ");
 	/* Ngebaca wahana yang mau diupgrade */
 	IgnoreBlank();
 	ADVKATA();
 	SalinKataKe(&Wahana);
+
+	if (IsKataSama(L->upgradeInfo.nama, Wahana)) {
+		(*totalAksi)++;
+		*totalDetikAksi += DoableActions.arr[UPGRADE].info;
+		*totalUangAksi += L->upgradeInfo.UpgradeCost.uang;
+		UpgradeWahana(wahanaTerdekat, L->upgradeInfo.id);
+	} else if (IsKataSama(R->upgradeInfo.nama, Wahana)) {
+		(*totalAksi)++;
+		*totalDetikAksi += DoableActions.arr[UPGRADE].info;
+		*totalUangAksi += R->upgradeInfo.UpgradeCost.uang;
+		UpgradeWahana(wahanaTerdekat, L->upgradeInfo.id);
+	} else {
+		puts("Masukkan tidak valid.");
+	}
 }
 
 void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
@@ -217,7 +279,7 @@ void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 		 splitInput[2],
 		 namaMaterial;
 	int qty;
-	Material boughtMaterial;
+	Material *boughtMaterial;
 
 	printf("Ingin membeli apa?\nList:\n");
 	for (int i = 0; i < BuyableMaterials.NbEl; ++i) {
@@ -250,13 +312,14 @@ void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 	 * buyable materials */
 	namaMaterial = splitInput[1];
 	boolean found = false;
-	for (int i = 0; i < BuyableMaterials.NbEl && !found; ++i) {
-		Material curMater = *((Material *) BuyableMaterials.arr[i].metadata);
-		if (IsKataSama(curMater.namaMaterial, namaMaterial)) {
-			found = true;
-			boughtMaterial = curMater;
-		}
+	boughtMaterial = getMaterialByName(namaMaterial);
+
+	found = boughtMaterial != NULL;
+	if (!found) {
+		puts("Material itu tidak dijual.");
+		return;
 	}
+	
 
 	/* Nge-parse Kata ke int */
 	qty = 0;
@@ -266,23 +329,22 @@ void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 
 		if (addVal > 9 || addVal < 0) {
 			qty = -1;
-			break;
+			puts("Jumlah pembelian tidak valid.");
+			return;
 		} else qty += addVal;
 	}
 
 	/* Dah siap buat dimasukin ke actionStack, tinggal dicek aja
 	 * resource player cukup buat beli atau nggak */
-	int materialID = boughtMaterial.idMaterial;
+	int materialID = boughtMaterial->idMaterial;
 	if (qty != -1 && found) {
-		materialID = getMaterialId(namaMaterial);
-
 		/* Ngecek bisa beli atau nggak */
 
 		/* Kalo bisa */
-		BuyResource(qty, materialID, boughtMaterial.biayaMaterial);
+		BuyResource(qty, materialID, boughtMaterial->biayaMaterial);
 		(*totalAksi)++;
-		*totalDetikAksi += DoableActions.arr[BUY].info; /* TODO: Harusnya dependant sama DoableActions */
-		*totalUangAksi += qty * boughtMaterial.biayaMaterial;
+		*totalDetikAksi += DoableActions.arr[BUY].info;
+		*totalUangAksi += qty * boughtMaterial->biayaMaterial;
 	} else {
 		puts("Gagal membeli material karena jumlah pembelian tidak valid atau karena material tidak ada.");
 	}

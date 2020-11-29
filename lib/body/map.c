@@ -114,7 +114,6 @@ void ShowMap() {
 	}
 
   Elmt(peta, Ordinat(playerPos), Absis(playerPos)) = 'P';
-	printf("%s\n", isNutupinGate(playerPos) ? "iye nutupin" : "engga nutupin");
   TulisMATRIKS(peta); printf("\n");
 }
 
@@ -285,6 +284,8 @@ void InitiateMap() {
 array WahanaSekitarPosisi(Point position) {
 	/* ATangibleWahana */
 	array wahanaSekitarPlayer;
+
+	CreateArray(&wahanaSekitarPlayer, MAX_WAHANA);
 
 	/* Nyariin wahana sekitar pemain */
 	for (int i = 0; i < BuiltWahana.NbEl; ++i) {

@@ -43,11 +43,34 @@ void __isiDoableActions() {
 	DoableActions.arr[BUY].info = JAMToDetik(MakeJAM(0, 15, 0));
 }
 
+void __isiPlayerResources() {
+	playerResources.uang = START_MONEY;
+	CreateArray(&playerResources.materials, MAX_MATERIAL);
+
+	for (int i = 0; i < BuyableMaterials.NbEl; ++i) {
+		Material *mater = (Material *) malloc(sizeof(Material));
+		if (mater == NULL) {
+			printf("bruh moment");
+			exit(69);
+		}
+		ArrayElType el;
+
+		mater->biayaMaterial = ((Material *) BuyableMaterials.arr[i].metadata)->biayaMaterial;
+		mater->idMaterial = ((Material *) BuyableMaterials.arr[i].metadata)->idMaterial;
+		mater->jumlahMaterial = 0;
+		SalinKataDariKe(((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial, &(mater->namaMaterial));
+
+		el.id = mater->idMaterial;
+		el.info = mater->biayaMaterial;
+		el.metadata = mater;
+
+		InsArrLast(&playerResources.materials, el);
+	}
+}
+
 void init() {
 	FILE *f;
 	CreateEmptyStack(&actionStack);
-
-	playerResources.uang = START_MONEY;
 
 	CreateArray(&DoableActions, BANYAK_AKSI);
 	__isiDoableActions();
@@ -61,39 +84,41 @@ void init() {
 	OpeningJam = MakeJAM(9, 0, 0);
 
 	/* inisiasi map1 */
-    f = fopen("data/map1.txt", "r");
+	f = fopen("data/map1.txt", "r");
 	StartParser(f);
 	map1 = ParserMap(1);
-    fclose(f);
+	fclose(f);
 
-    /* inisiasi map2 */
-    f = fopen("data/map2.txt", "r");
+	/* inisiasi map2 */
+	f = fopen("data/map2.txt", "r");
 	StartParser(f);
-    map2 = ParserMap(2);
-    fclose(f);
+	map2 = ParserMap(2);
+	fclose(f);
 
-    /* inisiasi map3 */
-    f = fopen("data/map3.txt", "r");
+	/* inisiasi map3 */
+	f = fopen("data/map3.txt", "r");
 	StartParser(f);
-    map3 = ParserMap(3);
-    fclose(f);
+	map3 = ParserMap(3);
+	fclose(f);
 
-    /* inisiasi map4 */
-    f = fopen("data/map4.txt", "r");
+	/* inisiasi map4 */
+	f = fopen("data/map4.txt", "r");
 	StartParser(f);
-    map4 = ParserMap(4);
-    fclose(f);
+	map4 = ParserMap(4);
+	fclose(f);
 
 	InitiateMap(); /* Initiate data peta lainnya */
+
+	f = fopen("./data/materials.txt", "r");
+	StartParser(f);
+	BuyableMaterials = ReadMaterialArray();
+	fclose(f);
 
 	f = fopen("./data/wahana.txt", "r");
 	StartParser(f);
 	AvailableWahana = ReadTreeArray();
 	fclose(f);
 
-	f = fopen("./data/materials.txt", "r");
-	StartParser(f);
-	BuyableMaterials = ReadMaterialArray();
-	fclose(f);
+	__isiPlayerResources();
 }
 

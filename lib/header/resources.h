@@ -5,11 +5,6 @@
 #ifndef RESOURCES_H
 #define RESOURCES_H
 
-#define MAX_MATERIAL 1000
-#define JUMLAH_MATERIAL_DAPAT_DIBELI 0x7fffffff
-
-#define LAMA_BELI 1800 
-
 /* Spek (harga dan nama) material yg dpt dibeli */
 typedef struct {
     unsigned char idMaterial;
@@ -20,7 +15,7 @@ typedef struct {
 
 typedef struct {
     int uang; /* Banyak uang yang dimiliki pemain */
-    Material materials[MAX_MATERIAL]; /* Array of PlayerMaterial, id material berkoresponden dengan index, klo ga punya bikin jumlah-nya jadi 0 */
+    array materials; /* Array of Material, id material berkoresponden dengan index, klo ga punya bikin jumlah-nya jadi 0 */
 } Resource;
 
 typedef struct {
@@ -29,9 +24,9 @@ typedef struct {
 	unsigned char id;
 } actBuy;
 
-unsigned char getMaterialId(Kata K);
-Kata getMaterialName(char id);
-
-void BuyResource(int qty, char unsigned materialID, int harga);
-void ExecBuy(actBuy aB, JAM *curJam);
+//unsigned char getMaterialId(Kata K);
+//Kata getMaterialName(char id);
+//unsigned short getMaterialPrice(char id);
+Material *getMaterialByID(char id);
+Material *getMaterialByName(Kata Nama);
 #endif
