@@ -19,7 +19,7 @@ void Execute();
 
 void BuildWahana(WahanaTree Wahana, Point Loc);
 
-void ExecBuild(ATangibleWahana Wahana);
+void ExecBuild(ATangibleWahana Wahana, Resource *totalResourceAksi);
 
 /**
  * Fungsi untuk mempersiapkan upgrade wahanna.
@@ -30,7 +30,7 @@ void ExecBuild(ATangibleWahana Wahana);
  *
  * Upgrade - WahanaUpgradeStack
  */
-void UpgradeWahana(ATangibleWahana T, unsigned char id);
+void UpgradeWahana(ATangibleWahana T, unsigned int id);
 /**
  * Fungsi untuk mengeksekusi aksi upgrade dari stackAksi (variabel global)
  * Akan mengepop aksi ini dari stackAksi (variabel global)
@@ -38,11 +38,11 @@ void UpgradeWahana(ATangibleWahana T, unsigned char id);
  * *Wahana - Wahana yang sudah dibangun
  * id - ID Node tree, bagian upgrade
  */
-void ExecUpgrade(WahanaUpgradeStack Upgrade);
+void ExecUpgrade(WahanaUpgradeStack Upgrad, Resource *totalResourceAksi);
 
 void BuyResource(int qty, char unsigned materialID, int harga);
 
-void ExecBuy(actBuy aB);
+void ExecBuy(actBuy aB, Resource *totalResourceAksi);
 
 void ToMainPhase();
 
@@ -50,11 +50,11 @@ void Save();
 
 void Build(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi);
 
-void Upgrade(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksii);
+void Upgrade(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksi);
 
-void Buy(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksii);
+void Buy(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksi);
 
 void ExecuteUpgrade();
 
-void Undo(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksii);
+void Undo(unsigned *totalAksi, long *totalDetikAks, Resource *totalResourceAksi);
 #endif

@@ -5,7 +5,7 @@
 #include "../lib/header/resources.h"
 #include <stdio.h>
 
-void Execute(){
+void Execute(Resource *totalResourceAksi){
 	// Do execute stuff
 	// Pop from Stack then pop some more?
 	Stack A;
@@ -25,25 +25,28 @@ void Execute(){
 		switch(IdAksi(prop)){
 			case BUILD:
 				// execute build;
-				ExecBuild((ATangibleWahana)t);
+				ExecBuild((ATangibleWahana)t, totalResourceAksi);
 				break;
 			case UPGRADE:
 				// execute upgrade;
-				ExecUpgrade((WahanaUpgradeStack)t);
+				ExecUpgrade((WahanaUpgradeStack)t, totalResourceAksi);
 				break;
 			case BUY:
 				// execute buy;
-				ExecBuy(*(actBuy *)t);
+				ExecBuy(*(actBuy *)t, totalResourceAksi);
 				break;
 		}
 		// The time is already taken account of, don't need to check
 	}
+
+	ToMainPhase();
 }
 
 void BuildWahana(WahanaTree Wahana, Point Loc) {
 	ATangibleWahana w;
 	PropertiAksi prop;
 	ArrayElType el;
+
 	w = (ATangibleWahana) malloc(sizeof(TangibleWahana));
 	IDMap(w) = crrntMapID; // Menyimpan id-map player saat ini
 	WahanaPoint(w) = Loc;
@@ -60,22 +63,37 @@ void BuildWahana(WahanaTree Wahana, Point Loc) {
 	IdAksi(prop) = BUILD;
 	Push(&actionStack, (void *) w, prop);
 }
-void ExecBuild(ATangibleWahana Wahana){
-	// Store ATangibleWahana somehow
-	// Do not free ATangibleWahana, because we need it.
+void ExecBuild(ATangibleWahana Wahana, Resource *totalResourceAksi){
 	ArrayElType el;
+	Resource *tempResource = (Resource  *) malloc(sizeof(Resource));
+
+	/* Pindahin dari array toBeBuiltWahana ke BuiltWahana */
 	el = DelArrLast(&toBeBuiltWahana);
 	InsArrLast(&BuiltWahana, el);
+
+	/* Kurangi resource totalResourceAksi */
+	KurangDuaResource(*totalResourceAksi, ((ATangibleWahana) el.metadata)->baseTree->upgradeInfo.UpgradeCost, tempResource);
+	*totalResourceAksi = *tempResource;
+	/* Kurangi resource player */
+	KurangDuaResource(playerResources, ((ATangibleWahana) el.metadata)->baseTree->upgradeInfo.UpgradeCost, tempResource);
+	playerResources = *tempResource;
+
+	free(tempResource);
 }
 
-void UpgradeWahana(ATangibleWahana T, unsigned char id){
+void UpgradeWahana(ATangibleWahana T, unsigned int id){
 	WahanaUpgradeStack s;
 	s = (WahanaUpgradeStack)malloc(sizeof(WahanaUpgradeInfo));
 	TangibleWahana(s) = T;
 	UpgradeID(s) = id;
-	/*return s;*/
+
+	PropertiAksi prop;
+	prop.durasiAksi = DetikToJAM(DoableActions.arr[UPGRADE].info);
+	prop.idAksi = UPGRADE;
+
+	Push(&actionStack, s, prop);
 }
-void ExecUpgrade(WahanaUpgradeStack Upgrade){
+void ExecUpgrade(WahanaUpgradeStack Upgrade, Resource *totalResourceAksi){
 	// do stuff
 	// free WahanaUpgradeStack: avoid memory leak!
 	free(Upgrade);
@@ -87,24 +105,29 @@ void BuyResource(int qty, char unsigned materialID, int harga) {
 	a->qty = qty; /* Banyak pembelian */
 	a->harga = harga;
 	a->id = materialID; /* nama dari barang yang dibeli (tipe data kata) */
+
 	PropertiAksi prop;
 	prop.durasiAksi = DetikToJAM(DoableActions.arr[BUY].info);
 	prop.idAksi = BUY;
+
 	Push(&actionStack, a, prop);
 }
 
-void ExecBuy(actBuy aB) {
+void ExecBuy(actBuy aB, Resource *totalResourceAksi) {
 	/*Kata asd = getMaterialName(aB.id);*/
 	Material *mater = getMaterialByID(BuyableMaterials, aB.id);
 	int harga, i = 0;
 
 	/* Akan mencari indeks di mana ditemukan material dengan nama sesuai
-	 * variabel `asd` pada playerResources */
+	 * variabel `mater` pada playerResources */
 	for (; !IsKataSama(mater->namaMaterial, ((Material *) playerResources.materials.arr[i].metadata)->namaMaterial); ++i);
 	((Material *) playerResources.materials.arr[i].metadata)->jumlahMaterial += aB.qty;
 
 	harga = playerResources.materials.arr[i].info;
-	playerResources.uang -= harga * aB.qty;
+	/*playerResources.uang -= harga * aB.qty;*/
+	
+	Resource *temp = (Resource *) malloc(sizeof(Resource));
+	temp->uang = -(harga * aB.qty);
 }
 
 void ToMainPhase(){
@@ -115,6 +138,7 @@ void ToMainPhase(){
 	while(!IsStackEmpty(actionStack)){
 		Pop(&actionStack, &t, &p);
 	}
+	currentJam = MakeJAM(9, 0, 0);
 }
 
 void Save(){
@@ -191,7 +215,6 @@ void Build(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAks
 			BuildWahana((WahanaTree) AvailableWahana.arr[idxWahana].metadata, playerPos);
 			(*totalAksi)++;
 			*totalDetikAksi += DoableActions.arr[BUILD].info;
-			/**totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;*/
 			*totalResourceAksi = *resourceSetelahBerubah;
 		} else if (udahDibangun) {
 			puts("Wahana sudah pernah dibangun.");
@@ -367,6 +390,20 @@ void Buy(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi)
 			(*totalAksi)++;
 			*totalDetikAksi += DoableActions.arr[BUY].info;
 			totalResourceAksi->uang += qty * boughtMaterial->biayaMaterial;
+
+			Resource Res, *pRes = (Resource *) malloc(sizeof(Resource));
+			Res.uang = -(qty*boughtMaterial->biayaMaterial);
+			CreateArray(&Res.materials, MAX_MATERIAL);
+			Res.materials.arr[0].metadata = (Material *) malloc(sizeof(Material));
+			*((Material *) Res.materials.arr[0].metadata) = *((Material *)boughtMaterial);
+			((Material *) Res.materials.arr[0].metadata)->jumlahMaterial = qty;
+			Res.materials.NbEl = 1;
+
+			KurangDuaResource(*totalResourceAksi, Res, pRes);
+			*totalResourceAksi = *pRes;
+
+			free(pRes);
+			free(Res.materials.arr[0].metadata);
 		}
 	} else {
 		puts("Gagal membeli material karena jumlah pembelian tidak valid atau karena material tidak ada.");

@@ -69,9 +69,9 @@ int main () {
 	/* *** Helper buat debug  */
 	/*ArrayElType el;*/
 	/*ATangibleWahana w = (ATangibleWahana) malloc(sizeof(TangibleWahana));*/
-	/*el.id = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;*/
-	/*el.info = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;*/
-	/*w->baseTree = ((WahanaTree) AvailableWahana.arr[0].metadata);*/
+	/*el.id = ((WahanaTree) AvailableWahana.arr[1].metadata)->upgradeInfo.id;*/
+	/*el.info = ((WahanaTree) AvailableWahana.arr[1].metadata)->upgradeInfo.id;*/
+	/*w->baseTree = ((WahanaTree) AvailableWahana.arr[1].metadata);*/
 	/*w->currentUpgradeID = el.id;*/
 	/*w->posisi = MakePoint(Absis(playerPos), Ordinat(playerPos)+1);*/
 	/*w->idMap = 1;*/
@@ -105,8 +105,16 @@ int main () {
 		} else if (IsKataSama(CKata, exitC)) {
 			KeluarDariGame();
 		} else if (IsKataSama(CKata, inventory) && isIngame) {
+			puts("Resource yang kamu miliki:");
 			PrintResource(playerResources);
-			puts("");
+			puts("\nResource yang dibutuhkan untuk eksekusi: ");
+			PrintResource(totalResourceAksi);
+
+			Kata _;
+			puts("Masukkan apapun untuk melanjutkan...");
+			IgnoreBlank();
+			ADVKATA();
+			SalinKataKe(&_);
 		} else if (isIngame && isPrepPhase) {
 			if(CKata.Length == 1){
 				// w,a,s,d
@@ -133,13 +141,11 @@ int main () {
 				/* Jangan lupa tambah durasi dan uang */
 				isPrepPhase = false;
 				isMainPhase = true;
-				currentJam = MakeJAM(9, 0, 0);
 			} else if(IsKataSama(CKata, mainC)){
 				// main Logic
 				/* Jangan lupa tambah durasi dan uang */
 				isPrepPhase = false;
 				isMainPhase = true;
-				currentJam = MakeJAM(9, 0, 0);
 			} else {
 				puts("Perintah tidak dikenali.");
 			}
@@ -211,10 +217,6 @@ int main () {
 					if (totalJamAksi.SS != 0) printf(" %d second%c", totalJamAksi.SS, totalJamAksi.SS > 1 ? 's':'\0');
 					printf(" (%ld seconds)\n", totalDetikAksi);
 					printf("Total uang yang dibutuhkan: %d\n", totalResourceAksi.uang);
-
-					puts("");
-					PrintResource(totalResourceAksi);
-					puts("");
 				} else if (isMainPhase) {
 					printf("Current Time: %02d.%02d\n", currentJam.HH, currentJam.MM);
 					printf("Closing Time: %02d.%02d\n", ClosingJam.HH, ClosingJam.MM);
