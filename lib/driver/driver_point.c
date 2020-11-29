@@ -34,5 +34,6 @@ int main() {
     printf("before y: ");P3 = BeforeY(P1);TulisPoint(P3);nl;
     printf("point p1 digeser 3,3 -> "); Geser(&P1,3,3);TulisPoint(P1);
     nl;
+    printf("END OF PROGRAM\n");
     return 0;
 }

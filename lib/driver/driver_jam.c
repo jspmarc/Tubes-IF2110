@@ -53,6 +53,6 @@ int main() {
     printf("jam 1 next 1000 detik\t");
     NextNDetik(J, 1000);
     TulisJAM(J);nl;
-
+    printf("END OF PROGRAM\n");
     return 0;
 }

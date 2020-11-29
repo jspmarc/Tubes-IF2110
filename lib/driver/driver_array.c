@@ -163,6 +163,6 @@ int main() {
     printf("\nDELETE ARRAY\n");
     DeleteArray(&A);
     DeleteArray(&B);
-    printf("yes\n");
+    printf("END OF PROGRAM\n");
     return 0;
 }
