@@ -4,6 +4,7 @@
 
 /* State */
 Stack actionStack;
+Queue antrianCustomer;
 Resource playerResources;
 JAM currentJam;
 Kata Nama;

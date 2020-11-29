@@ -142,7 +142,7 @@ void Build(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAks
 		puts("Tidak dapat membangun di posisi ini.");
 		return;
 	}
-
+	
 	printf("Ingin membangun apa?\nList:\n");
 	for (int i = 0; i < AvailableWahana.NbEl; ++i) {
 		printf("  - ");

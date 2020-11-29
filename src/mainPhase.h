@@ -12,6 +12,11 @@
 
 #ifndef MAINPHASE_H
 #define MAINPHASE_H
+
+void printUpgrade();
+void printHistory();
+ATangibleWahana bacaInputWahana();
+
 /* Memakan waktu */
 /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
 void SERVE();

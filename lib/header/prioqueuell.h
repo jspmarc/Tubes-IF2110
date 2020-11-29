@@ -74,6 +74,4 @@ void Enqueue(Queue * Q, address * A);
 /* F.S. X = nilai elemen HEAD pd I.S., HEAD "mundur" */
 void Dequeue(Queue * Q, address * X);
 
-void PelangganMarah(Queue *Q);
-
 #endif

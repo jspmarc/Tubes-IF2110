@@ -110,6 +110,7 @@ int main () {
 		} else if (isIngame && isPrepPhase) {
 			if(CKata.Length == 1){
 				// w,a,s,d
+                /* jika move berhasil, waktu bertambah */
 				if(CKata.TabKata[0] == 'w') MoveW();
 				else if(CKata.TabKata[0] == 'a') MoveA();
 				else if(CKata.TabKata[0] == 's') MoveS();
@@ -143,6 +144,8 @@ int main () {
 				puts("Perintah tidak dikenali.");
 			}
 		} else if (isMainPhase && isIngame) {
+			if(PointEQ(playerPos, Office(WhichMap(crrntMapID))))
+				printf("Masukkan Perintah (Masukkan 'office' untuk mengakses office): \n");
 			if(IsKataSama(CKata, serve)){
 				// Serve Logic
 				/* Jangan lupa tambah durasi dan uang */
@@ -153,13 +156,14 @@ int main () {
 				// Repair Logic
 				/* Jangan lupa tambah durasi dan uang */
 				REPAIR();
+                /* Pertambahan waktu sudah ada di REPAIR() */
+                /* Jika berhasil repair, waktu bertambah, 
+                   jika tidak tetap */
 			} else if(IsKataSama(CKata, detail)){
 				// Detail Logic
-				/* Jangan lupa tambah durasi dan uang */
 				DETAIL();
-			} else if(IsKataSama(CKata, office)){
+			} else if(IsKataSama(CKata, office) && PointEQ(playerPos, Office(WhichMap(crrntMapID)))){
 				// Office Logic
-				/* Jangan lupa tambah durasi dan uang */
 				OFFICE();
 			} else if(IsKataSama(CKata, prepare)){
 				// Prepare Logic
