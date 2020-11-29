@@ -37,7 +37,7 @@ int main () {
 	el.id = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;
 	el.info = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;
 	w->baseTree = ((WahanaTree) AvailableWahana.arr[0].metadata);
-	w->currentUpgradeID = 0;
+	w->currentUpgradeID = 21240;
 	w->posisi = MakePoint(Absis(playerPos), Ordinat(playerPos)+1);
 	w->idMap = 1;
 	el.metadata = w;

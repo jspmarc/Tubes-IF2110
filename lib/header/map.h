@@ -28,6 +28,7 @@
 #include "graph.h"
 #include "array.h"
 #include "listlinier.h"
+#include "wahana.h"
 #include <stdio.h>
 
 #ifndef MAP_H
@@ -114,5 +115,7 @@ void InitiateMap();
  * hasil pencarian akan dimasukkan ke dalam suatu array
  */
 array WahanaSekitarPosisi(Point position);
+
+ATangibleWahana InteraksiWahanaSekitarPosisi(Point position);
 
 #endif
