@@ -71,5 +71,6 @@ int main() {
     printf("M3\n");
     TulisMATRIKS(M3);nl;
 
+    printf("END OF PROGRAM\n");
     return 0;
 }

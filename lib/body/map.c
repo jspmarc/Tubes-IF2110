@@ -299,10 +299,10 @@ array WahanaSekitarPosisi(Point position) {
 		Point bX = BeforeX(position), bY = BeforeY(position),
 			  nX = NextX(position), nY = NextY(position);
 
-		if (PointEQ(wahanaDekatPlayer->posisi, bX)
-			|| PointEQ(wahanaDekatPlayer->posisi, bY)
-			|| PointEQ(wahanaDekatPlayer->posisi, nX)
-			|| PointEQ(wahanaDekatPlayer->posisi, nY)) {
+		if (PointEQ(wahanaDekatPlayer->posisi, bX) ||
+			PointEQ(wahanaDekatPlayer->posisi, bY) ||
+			PointEQ(wahanaDekatPlayer->posisi, nX) ||
+			PointEQ(wahanaDekatPlayer->posisi, nY)) {
 			ArrayElType el;
 			
 			el.id = wahanaDekatPlayer->currentUpgradeID;

@@ -121,4 +121,3 @@ void init() {
 
 	__isiPlayerResources();
 }
-

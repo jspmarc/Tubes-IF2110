@@ -10,6 +10,8 @@ int main() {
     char ctemp;
     int a;
     Graph G;
+    int iprec, isucc;
+    adrNode aprec, asucc;
 
     // ALgoritma
     printf("CREATE GRAPH\n");
@@ -19,9 +21,10 @@ int main() {
     printf("press enter ");
     scanf("%c", &ctemp);nl;
 
+    InsertEdge(&G,iprec,isucc);
 
     printf("\nDELETE GRAPH\n");
 
-    printf("yes\n");
+    printf("END OF PROGRAM\n");
     return 0;
 }
