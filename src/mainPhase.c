@@ -82,7 +82,6 @@ void REPAIR () {
     array wahanaSekitarPlayer;
 	addrNode upgradeBersangkutan;
 	Kata Wahana;
-	ATangibleWahana wahanaTerdekat;
 
     wahanaSekitarPlayer = WahanaSekitarPosisi(playerPos);
     if (wahanaSekitarPlayer.NbEl == 1) {
@@ -146,8 +145,6 @@ void DETAIL () {
     int idxWahana;
     Kata namaWahana;
     ATangibleWahana atWahana;
-    addrNode addrwahana;
-    unsigned int ID;
 
     wahana = WahanaSekitarPosisi(playerPos);
     if(wahana.NbEl != 0) {
