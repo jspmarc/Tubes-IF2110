@@ -417,11 +417,11 @@ void Undo(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi
 	// Undo Logic
 	UndoData data;
 
-	Pop(&actionStack, (StackInfoType) &data.infoAksi, &data.prop);
-
 	if (*totalAksi == 0) {
 		puts("Tidak ada aksi yang dapat diurungkan");
 	} else {
+		Pop(&actionStack, (StackInfoType) &data.infoAksi, &data.prop);
+
 		ATangibleWahana infoTangibleWahana;
 		actBuy *infoBuyMaterial;
 

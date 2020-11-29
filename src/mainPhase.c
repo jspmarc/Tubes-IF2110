@@ -31,7 +31,7 @@ void SERVE() {
         if (Prio(pengunjung) == 5) Prio(pengunjung) = 4; // Jika prioritas sudah 5, tak bisa bertambah
         Enqueue(&antrianCustomer, &pengunjung);
     } else {
-        DealokasiQueue(pengunjung);
+        /*DealokasiQueue(pengunjung);*/
     }
 
     /* Uang bertambah */
@@ -69,7 +69,7 @@ void SERVE() {
             } else {
                 NextQueue(precPengurangSyabar) = NextQueue(precPengurangSyabar);
             }
-            DealokasiQueue(pengurangSyabar);
+            /*DealokasiQueue(pengurangSyabar);*/
         }
         pengurangSyabar = NextQueue(pengurangSyabar);
     }

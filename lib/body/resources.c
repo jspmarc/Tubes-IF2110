@@ -139,7 +139,7 @@ void TambahDuaResource(Resource res1, Resource res2, Resource *result) {
 			Material *matres2 = (Material *) res2.materials.arr[i].metadata;
 			result->materials.arr[i].metadata = (Material *) malloc(sizeof(Material));
 			if (i < res1.materials.NbEl) {
-				Material *matres1 = getMaterialByName(res1.materials, matres2->namaMaterial);
+				Material *matres1 = getMaterialByID(res1.materials, matres2->idMaterial);
 
 				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
 					= matres2->jumlahMaterial + matres1->jumlahMaterial;
@@ -158,6 +158,8 @@ void TambahDuaResource(Resource res1, Resource res2, Resource *result) {
 }
 
 void KurangDuaResource(Resource res1, Resource res2, Resource *result) {
+	PrintResource(res2);
+	PrintResource(res1);
 	result->uang = res1.uang - res2.uang;
 
 	CreateArray(&result->materials, MAX_MATERIAL);
@@ -167,8 +169,9 @@ void KurangDuaResource(Resource res1, Resource res2, Resource *result) {
 			Material *matRes1 = (Material *) res1.materials.arr[i].metadata;
 			result->materials.arr[i].metadata = (Material *) malloc(sizeof(Material));
 			if (i < res2.materials.NbEl) {
-				Material *matRes2 = getMaterialByName(res2.materials, matRes1->namaMaterial);
+				Material *matRes2 = getMaterialByID(res2.materials, matRes1->idMaterial);
 
+				puts("DDSUAD");
 				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
 					= matRes1->jumlahMaterial - matRes2->jumlahMaterial;
 			} else {
