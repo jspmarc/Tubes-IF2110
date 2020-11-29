@@ -114,17 +114,16 @@ int main () {
 			IgnoreBlank();
 			ADVKATA();
 			SalinKataKe(&_);
+		} else if(CKata.Length == 1 && isIngame) {
+			// w,a,s,d
+			/* jika move berhasil, waktu bertambah */
+			if(CKata.TabKata[0] == 'w') MoveW();
+			else if(CKata.TabKata[0] == 'a') MoveA();
+			else if(CKata.TabKata[0] == 's') MoveS();
+			else if(CKata.TabKata[0] == 'd') MoveD();
+			else puts("Perintah tidak dikenali.");
 		} else if (isIngame && isPrepPhase) {
-			if(CKata.Length == 1){
-				// w,a,s,d
-				/* jika move berhasil, waktu bertambah */
-				if(CKata.TabKata[0] == 'w') MoveW();
-				else if(CKata.TabKata[0] == 'a') MoveA();
-				else if(CKata.TabKata[0] == 's') MoveS();
-				else if(CKata.TabKata[0] == 'd') MoveD();
-				else puts("Perintah tidak dikenali.");
-
-			} else if(IsKataSama(CKata, build)){
+			if(IsKataSama(CKata, build)){
 				Build(&totalAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, upgrade)){
 				// Upgrade Logic
@@ -141,7 +140,7 @@ int main () {
 				isPrepPhase = false;
 				isMainPhase = true;
 				RandomPengunjung();
-				Execute();
+				Execute(&totalResourceAksi);
 			} else if(IsKataSama(CKata, mainC)){
 				// main Logic
 				/* Jangan lupa tambah durasi dan uang */
