@@ -29,6 +29,8 @@ void SERVE() {
         DelLLVFirst(&wahanaID(pengunjung), &idWahanaYangSudahDikunjungi);
         if (Prio(pengunjung) == 5) Prio(pengunjung) = 4; // Jika prioritas sudah 5, tak bisa bertambah
         Enqueue(&antrianCustomer, &pengunjung);
+    } else {
+        DealokasiQueue(pengunjung);
     }
 
     /* Uang bertambah */
@@ -43,6 +45,34 @@ void SERVE() {
         (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
         (((ATangibleWahana) BuiltWahana.arr[i].metadata)->usedTotal) += 1;
     }
+
+    /* Mengurangkan kesabaran para pengunjung-pengunjung sekalian semuanya */
+    address pengurangSyabar;
+    address precPengurangSyabar;
+    precPengurangSyabar = Nil;
+    pengurangSyabar = Head(antrianCustomer);
+    while (NextQueue(pengurangSyabar) != Nil) {
+        Kesabaran(pengurangSyabar) = Kesabaran(pengurangSyabar) - 1;
+        // Kalau kesabaran customer jadi nol
+        if (Kesabaran(pengurangSyabar) == 0) {
+            // kalau customer satu-satunya elemen, queue antrianCustomer jadi empty
+            if (Head(antrianCustomer) == Tail(antrianCustomer)) {
+                CreateEmptyQueue(&antrianCustomer);
+            // Elemen pertama sudah tak sabar
+            } else if (precPengurangSyabar == Nil) {
+                Head(antrianCustomer) = NextQueue(Head(antrianCustomer));
+            // Elemen terakhir sudah tak sabar
+            } else if (NextQueue(pengurangSyabar) == Nil) {
+                Tail(antrianCustomer) = precPengurangSyabar;
+            // Elemen tengah sudah tak sabar
+            } else {
+                NextQueue(precPengurangSyabar) = NextQueue(precPengurangSyabar);
+            }
+            DealokasiQueue(pengurangSyabar);
+        }
+        pengurangSyabar = NextQueue(pengurangSyabar);
+    }
+
 }
 
 void REPAIR () {
