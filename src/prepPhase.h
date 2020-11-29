@@ -17,17 +17,21 @@ extern Stack actionStack;
 
 void Execute();
 
-void ToMainPhase();
-
-void Save();
-
 void BuildWahana(UpgradeType Wahana, Point Loc);
 
 void ExecBuild(ATangibleWahana Wahana);
 
+void ToMainPhase();
+
+void Save();
+
+void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi);
+
 void Upgrade();
+
+void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi);
 
 void ExecuteUpgrade();
 
-UndoData Undo();
+void Undo(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi);
 #endif
