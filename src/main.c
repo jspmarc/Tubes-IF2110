@@ -32,6 +32,18 @@ int main () {
 	JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
 
 	/* ALGORITMA */
+    // ArrayElType el;
+    //     ATangibleWahana w;
+    //     el.id = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;
+    //     el.info = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;
+    //     w->baseTree = ((WahanaTree) AvailableWahana.arr[0].metadata);
+    //     w->currentUpgradeID = 1;
+    //     w->posisi = MakePoint(Absis(playerPos), Ordinat(playerPost)+1);
+    //     w->idMap = 1;
+    //     el.metadata = w;
+
+    //     InsArrLast(&BuiltWahana, el);
+
 	printf("\n");
 	/* Pembacaan file wahana dilakukan di init() */
 	// Accept input

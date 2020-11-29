@@ -1,5 +1,5 @@
 id 4
-size (5,5)
+size (8,5)
 gate1 (0,4)
 gate2 (3,0)
 office (3,4)
