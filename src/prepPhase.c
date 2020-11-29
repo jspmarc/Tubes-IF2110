@@ -122,7 +122,6 @@ void BuyResource(int qty, char unsigned materialID, int harga) {
 }
 
 void ExecBuy(actBuy aB, Resource *totalResourceAksi) {
-	/*Kata asd = getMaterialName(aB.id);*/
 	Material *mater = getMaterialByID(BuyableMaterials, aB.id);
 	int harga, i = 0;
 
@@ -134,8 +133,16 @@ void ExecBuy(actBuy aB, Resource *totalResourceAksi) {
 	harga = playerResources.materials.arr[i].info;
 	/*playerResources.uang -= harga * aB.qty;*/
 	
-	Resource *temp = (Resource *) malloc(sizeof(Resource));
-	temp->uang = -(harga * aB.qty);
+	Resource *tampung = (Resource *) malloc(sizeof(Resource)),
+			 *temp = (Resource *) malloc(sizeof(Resource));
+	tampung->uang = -(harga * aB.qty);
+	CreateArray(&tampung->materials, MAX_MATERIAL);
+	tampung->materials.arr[0].metadata = (Material *) malloc(sizeof(Material));
+	*((Material *) tampung->materials.arr[0].metadata) = *mater;
+
+	((Material *) tampung->materials.arr[0].metadata)->jumlahMaterial = aB.qty;
+	KurangDuaResource(*totalResourceAksi, *tampung, temp);
+	/*PrintResource(*temp);*/
 }
 
 void ToMainPhase(){
@@ -435,7 +442,7 @@ void Undo(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi
 		(*totalAksi)--;
 		*totalDetikAksi -= JAMToDetik(data.prop.durasiAksi);
 
-		Resource *temp;
+		Resource *temp, *perubahan;
 		switch (data.prop.idAksi) {
 			case BUILD:
 				infoTangibleWahana = (ATangibleWahana) data.infoAksi;
@@ -446,7 +453,6 @@ void Undo(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi
 
 				DelArrLast(&toBeBuiltWahana);
 
-				free(temp);
 				break;
 			case UPGRADE:
 				infoTangibleWahana = TangibleWahana((WahanaUpgradeStack) data.infoAksi);
@@ -454,13 +460,25 @@ void Undo(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi
 				temp = (Resource *)malloc(sizeof(Resource));
 				KurangDuaResource(*totalResourceAksi, n->upgradeInfo.UpgradeCost , temp);
 				*totalResourceAksi = *temp;
-				free(temp);
-				free((WahanaUpgradeStack) data.infoAksi);
 				break;
 			case BUY:
 				infoBuyMaterial = (actBuy *) data.infoAksi;
-				totalResourceAksi->uang -= infoBuyMaterial->qty * infoBuyMaterial->harga;
+				/*totalResourceAksi->uang -= infoBuyMaterial->qty * infoBuyMaterial->harga;*/
+
+				temp = (Resource *) malloc(sizeof(Resource));
+				perubahan = (Resource *) malloc(sizeof(Resource));
+				perubahan->uang = infoBuyMaterial->qty * infoBuyMaterial->harga * -1;
+				CreateArray(&perubahan->materials, 1);
+				perubahan->materials.arr[0].metadata = (Material *) malloc(sizeof(Material));
+				*((Material *) perubahan->materials.arr[0].metadata) = *getMaterialByID(BuyableMaterials, infoBuyMaterial->id);
+				((Material *) perubahan->materials.arr[0].metadata)->jumlahMaterial = infoBuyMaterial->qty;
+				perubahan->materials.NbEl = 1;
+				TambahDuaResource(*totalResourceAksi, *perubahan, temp);
+				*totalResourceAksi = *temp;
+
 				break;
 		}
+	free(temp);
+	free((WahanaUpgradeStack) data.infoAksi);
 	}
 }

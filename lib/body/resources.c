@@ -158,8 +158,6 @@ void TambahDuaResource(Resource res1, Resource res2, Resource *result) {
 }
 
 void KurangDuaResource(Resource res1, Resource res2, Resource *result) {
-	PrintResource(res2);
-	/*PrintResource(res1);*/
 	result->uang = res1.uang - res2.uang;
 
 	CreateArray(&result->materials, MAX_MATERIAL);
