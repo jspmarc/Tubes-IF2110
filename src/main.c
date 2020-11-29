@@ -11,6 +11,7 @@
 #include "../lib/header/map.h"
 #include "commands.h"
 #include "prepPhase.h"
+#include "mainPhase.h"
 
 void ShowMenu() {
 	printf("new : New Game\n");
@@ -141,21 +142,21 @@ int main () {
 			if(IsKataSama(CKata, serve)){
 				// Serve Logic
 				/* Jangan lupa tambah durasi dan uang */
-                Serve();
+                SERVE();
                 // Sekali serp 15 menit (gatau kenapa, pengen aja)
                 currentJam = NextNDetik(currentJam, 900);
 			} else if(IsKataSama(CKata, repair)){
 				// Repair Logic
 				/* Jangan lupa tambah durasi dan uang */
-				repair();
+				REPAIR();
 			} else if(IsKataSama(CKata, detail)){
 				// Detail Logic
 				/* Jangan lupa tambah durasi dan uang */
-				detail();
+				DETAIL();
 			} else if(IsKataSama(CKata, office)){
 				// Office Logic
 				/* Jangan lupa tambah durasi dan uang */
-				office();
+				OFFICE();
 			} else if(IsKataSama(CKata, prepare)){
 				// Prepare Logic
 				isMainPhase = false;

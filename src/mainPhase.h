@@ -14,14 +14,14 @@
 #define MAINPHASE_H
 /* Memakan waktu */
 /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
-void Serve();
+void SERVE();
 /* Memakan waktu */
 /* REPAIR {input: wahana} */
-void repair();
+void REPAIR();
 /* Tidak memakan waktu */
 /* DETAIL {input: wahana} */
-void detail();
+void DETAIL();
 /* Tidak memakan waktu */
 /* OFFICE {input: office} */
-void office();
+void OFFICE();
 #endif

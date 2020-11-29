@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "mainPhase.h"
 #include "./../lib/header/boolean.h"
 #include "./../lib/header/str.h"
 #include "./../lib/header/prioqueuell.h"
@@ -12,7 +13,7 @@
 
 #define nl printf("\n")
 
-void Serve() {
+void SERVE() {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
     address pengunjung;
@@ -46,13 +47,13 @@ void Serve() {
     ShowMap();
 }
 
-void repair () {
+void REPAIR () {
     /* Memakan waktu */
     // berarti abis benerin atangiblewahana->status jadi 1
     return;
 }
 
-void detail () {
+void DETAIL () {
     /* Tidak memakan waktu */
     // Kamus Lokal
     char *status;
@@ -113,12 +114,11 @@ ATangibleWahana bacaInputWahana() {
     return wahana;
 }
 
-void office () {
+void OFFICE () {
     /* Tidak memakan waktu */
     // Kamus Lokal
     char perintah[50];
     ATangibleWahana wahana;
-    int idxWahana;
     char * status;
 
     // Algoritma
