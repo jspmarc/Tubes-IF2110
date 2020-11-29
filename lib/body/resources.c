@@ -43,9 +43,10 @@ int ParseTabKata(Kata K1) {
 	return ret;
 }
 
-void BuyResource(int qty, char unsigned materialID) {
+void BuyResource(int qty, char unsigned materialID, int harga) {
 	actBuy a;
 	a.qty = qty; /* Banyak pembelian */
+	a.harga = harga;
 	a.id = materialID; /* nama dari barang yang dibeli (tipe data kata) */
 	PropertiAksi prop;
 	prop.durasiAksi = MakeJAM(0, 15, 0); /* TODO: Harusnya dependant ke array DoableActions */

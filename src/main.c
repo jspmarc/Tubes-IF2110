@@ -183,7 +183,7 @@ int main () {
 					/* Ngecek bisa bangun atau nggak */
 
 					/* Kalo bisa */
-					BuyResource(qty, materialID);
+					BuyResource(qty, materialID, boughtMaterial.biayaMaterial);
 					totalAksi++;
 					totalDetikAksi += JAMToDetik(MakeJAM(0, 15, 0)); /* TODO: Harusnya dependant sama DoableActions */
 					totalUangAksi += qty * boughtMaterial.biayaMaterial;

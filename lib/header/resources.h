@@ -25,12 +25,13 @@ typedef struct {
 
 typedef struct {
 	int qty;
+	int harga;
 	unsigned char id;
 } actBuy;
 
 unsigned char getMaterialId(Kata K);
 Kata getMaterialName(char id);
 
-void BuyResource(int qty, char unsigned materialID);
+void BuyResource(int qty, char unsigned materialID, int harga);
 void ExecBuy(actBuy aB, JAM *curJam);
 #endif
