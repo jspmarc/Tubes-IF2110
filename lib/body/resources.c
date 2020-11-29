@@ -114,24 +114,30 @@ void TambahDuaResource(Resource res1, Resource res2, Resource *result) {
 
 	CreateArray(&result->materials, MAX_MATERIAL);
 
-	printf("%d\t%d\n",res1.materials.NbEl, res2.materials.NbEl);
+	// Cari max length dari array resource
+	unsigned max = res1.materials.NbEl > res2.materials.NbEl ? res1.materials.NbEl : res2.materials.NbEl;
+
+	Material * temp;
+	for(int i = 0; i < max; i++){
+		// alokasi memori untuk resource resultnya
+		// kalo ga, segfault karena null pointer semua :D
+		temp = (Material *)malloc(sizeof(Material));
+		// set defaultnya
+		// ato ngga, terserah
+		// yang pasti nanti harus di free
+		result->materials.arr[i].metadata = temp;
+
+	}
+
 	if (res1.materials.NbEl >= res2.materials.NbEl) {
-		PrintArr(res1.materials);
-		puts("");
 		for (int i = 0; i < res1.materials.NbEl; ++i) {
-			printf("%d\n", i);
+			Material *matRes1 = (Material *) res1.materials.arr[i].metadata;
 			if (i < res2.materials.NbEl) {
-				puts("Apel");
-				Material *matRes1 = (Material *) res1.materials.arr[i].metadata;
 				Material *matRes2 = getMaterialByID(matRes1->idMaterial);
-				puts("Semangka");
 
 				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
 					= matRes1->jumlahMaterial + matRes2->jumlahMaterial;
-				puts("Mangga");
 			} else {
-				puts("Pisang gede");
-				Material *matRes1 = (Material *) res1.materials.arr[i].metadata;
 				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
 					= matRes1->jumlahMaterial;
 			}
@@ -161,6 +167,10 @@ void KurangDuaResource(Resource res1, Resource res2, Resource *result) {
 						res1.materials.MaxEl : res2.materials.NbEl;
 
 	CreateArray(&ret.materials, bigger);
+
+	for(int i = 0; i < bigger; i++){
+		result->materials.arr[i].metadata = (Material *)malloc(sizeof(Material));
+	}
 
 	for (int i = 0; i < bigger; ++i) {
 		if (i < res2.materials.NbEl) {

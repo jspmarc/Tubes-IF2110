@@ -9,6 +9,7 @@ JAM currentJam;
 Kata Nama;
 array BuiltWahana;
 array toBeBuiltWahana;
+Queue antrianCustomer;
 
 /* Data */
 array DoableActions;
