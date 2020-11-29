@@ -156,7 +156,7 @@ void DETAIL () {
             printf("// Nama         : "); TulisKataKe(namaWahana,stdout); nl;
             printf("// Lokasi       : "); TulisPoint(atWahana->posisi); nl;
             printf("// Upgrades(s)  : "); printUpgrade(atWahana->baseTree); nl;
-            printf("// History      : "); printHistory(atWahana->baseTree); nl;
+            printf("// History      : "); printHistory(atWahana->baseTree, namaWahana); nl;
                 if (atWahana->status == '1') status = "Berfungsi";
                 else status = "Rusak";
             printf("// Status       : %s\n\n", status);
