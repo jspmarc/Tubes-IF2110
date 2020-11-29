@@ -96,6 +96,14 @@ void UpgradeWahana(ATangibleWahana T, unsigned int id){
 void ExecUpgrade(WahanaUpgradeStack Upgrade, Resource *totalResourceAksi){
 	// do stuff
 	// free WahanaUpgradeStack: avoid memory leak!
+	unsigned char id = UpgradeID(Upgrade);
+	ATangibleWahana TW = TangibleWahana(Upgrade);
+	Resource cost = Akar(SearchUpgrade(TW->baseTree, id)).UpgradeCost;
+	TW->currentUpgradeID = id;
+	Resource *temp = (Resource *)malloc(sizeof(Resource));
+	KurangDuaResource(playerResources, cost, temp);
+	playerResources = *temp;
+	free(temp);
 	free(Upgrade);
 }
 
@@ -297,7 +305,7 @@ void Upgrade(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceA
 		bisaBangun = IsResourcesEnough(playerResources, *resourceSetelahBerubah);
 
 		if (bisaBangun) {
-			/*UpgradeWahana(wahanaTerdekat, R->upgradeInfo.id);*/
+			UpgradeWahana(wahanaTerdekat, R->upgradeInfo.id);
 			(*totalAksi)++;
 			*totalDetikAksi += DoableActions.arr[UPGRADE].info;
 			Resource *temp = (Resource *) malloc(sizeof(Resource));
@@ -427,11 +435,12 @@ void Undo(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi
 		(*totalAksi)--;
 		*totalDetikAksi -= JAMToDetik(data.prop.durasiAksi);
 
+		Resource *temp;
 		switch (data.prop.idAksi) {
 			case BUILD:
 				infoTangibleWahana = (ATangibleWahana) data.infoAksi;
 
-				Resource *temp = (Resource *) malloc(sizeof(Resource));
+				temp = (Resource *) malloc(sizeof(Resource));
 				KurangDuaResource(*totalResourceAksi, ((ATangibleWahana) data.infoAksi)->baseTree->upgradeInfo.UpgradeCost, temp);
 				*totalResourceAksi = *temp;
 
@@ -440,6 +449,13 @@ void Undo(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi
 				free(temp);
 				break;
 			case UPGRADE:
+				infoTangibleWahana = TangibleWahana((WahanaUpgradeStack) data.infoAksi);
+				addrNode n = SearchUpgrade(infoTangibleWahana->baseTree, UpgradeID((WahanaUpgradeStack) data.infoAksi));
+				temp = (Resource *)malloc(sizeof(Resource));
+				KurangDuaResource(*totalResourceAksi, n->upgradeInfo.UpgradeCost , temp);
+				*totalResourceAksi = *temp;
+				free(temp);
+				free((WahanaUpgradeStack) data.infoAksi);
 				break;
 			case BUY:
 				infoBuyMaterial = (actBuy *) data.infoAksi;
