@@ -14,6 +14,33 @@
 
 #define nl printf("\n")
 
+void RandomPengunjung() {
+    time_t t;
+    int nPengunjung;
+    address pengunjung;
+    int qesabaran;
+    int prioriti;
+    int panjangLis;
+    int indeks;
+
+    srand((unsigned) time(&t));
+
+    /* Random banyaknya penunjung */
+    nPengunjung = rand()%12;
+    /* sebanyak pengunjung */
+    for (int i = 0; i < nPengunjung; i++) {
+        qesabaran = rand()%11; /* random kesabaran pengunjung */
+        prioriti = rand()%5; /* random prioritas pengunjung */
+        AlokasiElQueue(&pengunjung, qesabaran, prioriti); 
+        panjangLis = rand()%5; /* random panjang list yang ingin dinaiki */
+        for (int j = 0; j < panjangLis; j++) {
+            indeks = rand()%(BuiltWahana.NbEl); /* random indeks data di BuiltWahana */
+            InsVFirst(&wahanaID(pengunjung), BuiltWahana.arr[indeks].id); /* memasukan id BuiltWahana ke LL WahanaID */
+        }
+        Enqueue(&antrianCustomer, &pengunjung);
+    }
+}
+
 void SERVE() {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
@@ -31,7 +58,7 @@ void SERVE() {
         if (Prio(pengunjung) == 5) Prio(pengunjung) = 4; // Jika prioritas sudah 5, tak bisa bertambah
         Enqueue(&antrianCustomer, &pengunjung);
     } else {
-        /*DealokasiQueue(pengunjung);*/
+        DealokasiElQueue(pengunjung);
     }
 
     /* Uang bertambah */
@@ -69,7 +96,7 @@ void SERVE() {
             } else {
                 NextQueue(precPengurangSyabar) = NextQueue(precPengurangSyabar);
             }
-            /*DealokasiQueue(pengurangSyabar);*/
+            DealokasiElQueue(pengurangSyabar);
         }
         pengurangSyabar = NextQueue(pengurangSyabar);
     }

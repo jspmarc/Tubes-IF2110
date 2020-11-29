@@ -13,6 +13,10 @@
 #ifndef MAINPHASE_H
 #define MAINPHASE_H
 
+void RandomPengunjung();
+/* Merandom pengunjung untuk simulasi main */
+/* antrianCustomer sudah terisi sebanyak nPengunjung dengan kesabaran dan prioritas random dan listlinier berisi wahana yang ingin dinaiki */
+
 void printUpgrade();
 void printHistory();
 ATangibleWahana bacaInputWahana();
