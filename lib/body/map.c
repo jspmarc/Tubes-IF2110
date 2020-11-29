@@ -145,6 +145,7 @@ void MoveW () {
 					Ordinat(playerPos) = NBrs(map);
 					Absis(playerPos) = Absis(Gate2(map));
         }
+        currentJam = NextNDetik(currentJam, 1);
     } else {
       /* mundur lagi, keluar dari tembok */
       Ordinat(playerPos)++;
@@ -168,8 +169,9 @@ void MoveW () {
 					nabrakWahana = true;
 				}
 			}
+            if (!nabrakWahana) currentJam = NextNDetik(currentJam, 1);
 		}
-  }
+    }
 }
 
 void MoveA () {
@@ -197,6 +199,7 @@ void MoveA () {
 				Ordinat(playerPos) = Ordinat(Gate1(map));
 				Absis(playerPos) = NKol(map);
 			}
+            currentJam = NextNDetik(currentJam, 1);
     } else {
       /* mundur lagi, keluar dari tembok */
       Absis(playerPos)++;
@@ -220,6 +223,7 @@ void MoveA () {
 					nabrakWahana = true;
 				}
 			}
+            if (!nabrakWahana) currentJam = NextNDetik(currentJam, 1);
 		}
   }
 }
@@ -249,6 +253,7 @@ void MoveS () {
 				Ordinat(playerPos) = 1;
 				Absis(playerPos) = Absis(Gate2(map));
 			}
+            currentJam = NextNDetik(currentJam, 1);
     } else {
       /* mundur lagi, keluar dari tembok */
       Ordinat(playerPos)--;
@@ -271,6 +276,7 @@ void MoveS () {
 					nabrakWahana = true;
 				}
 			}
+            if (!nabrakWahana) currentJam = NextNDetik(currentJam, 1);
 		}
   }
 }
@@ -301,6 +307,7 @@ void MoveD () {
 				Ordinat(playerPos) = Ordinat(Gate1(map));
 				Absis(playerPos) = 1;
 			}
+            currentJam = NextNDetik(currentJam, 1);
     } else {
       /* mundur lagi, keluar dari tembok */
       Absis(playerPos)--;
@@ -323,6 +330,7 @@ void MoveD () {
 					nabrakWahana = true;
 				}
 			}
+            if (!nabrakWahana) currentJam = NextNDetik(currentJam, 1);
 		}
   }
 }

@@ -43,13 +43,67 @@ void SERVE() {
         (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
         (((ATangibleWahana) BuiltWahana.arr[i].metadata)->usedTotal) += 1;
     }
-
-    ShowMap();
 }
 
 void REPAIR () {
     /* Memakan waktu */
     // berarti abis benerin atangiblewahana->status jadi 1
+    array wahanaSekitarPlayer;
+	addrNode upgradeBersangkutan;
+	Kata Wahana;
+	ATangibleWahana wahanaTerdekat;
+
+    wahanaSekitarPlayer = WahanaSekitarPosisi(playerPos);
+    if (wahanaSekitarPlayer.NbEl == 1) {
+        if (((ATangibleWahana) wahanaSekitarPlayer.arr[0].metadata)->status == 1)
+            puts("Wahana tidak rusak.");
+        else {
+            ((ATangibleWahana) wahanaSekitarPlayer.arr[0].metadata)->status = 1;
+            /* Bayar harga repair (1/2 harga build) */
+            playerResources.uang -= Akar((WahanaTree) AvailableWahana.arr[0].metadata).UpgradeCost.uang;
+            currentJam = NextNDetik(currentJam, 900);
+            puts("Wahana telah diperbaiki.");
+        }
+    } else if (wahanaSekitarPlayer.NbEl > 1) {
+		int idxWahana;
+		puts("Mau berinteraksi dengan wahana apa?");
+		/* Ngeprint nama wahana */
+		for (int i = 0; i < wahanaSekitarPlayer.NbEl; ++i) {
+			Kata namaWahana;
+			int wahanaUpgradeId = ((ATangibleWahana) wahanaSekitarPlayer.arr[i].metadata)->currentUpgradeID;
+    
+			/* Dicari yang cocok upgradenya */
+			upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[i].metadata)->baseTree, wahanaUpgradeId);
+
+			SalinKataDariKe(upgradeBersangkutan->upgradeInfo.nama, &namaWahana);
+			printf("  -");
+			TulisKataKe(namaWahana, stdout);
+		}
+		printf("\n❯ ");
+		/* Ngebaca wahana yang mau diupgrade */
+		IgnoreBlank();
+		ADVKATA();
+		SalinKataKe(&Wahana);
+
+		for (idxWahana = 0; idxWahana < wahanaSekitarPlayer.NbEl; ++idxWahana) {
+			upgradeBersangkutan = cariUpgrade(((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->baseTree, ((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->currentUpgradeID);
+
+			if (IsKataSama(upgradeBersangkutan->upgradeInfo.nama, Wahana)) {
+               if (((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->status == 1)
+                    puts("Wahana tidak rusak.");
+                else {
+                    ((ATangibleWahana) wahanaSekitarPlayer.arr[idxWahana].metadata)->status = 1;
+                    playerResources.uang -= Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
+                    currentJam = NextNDetik(currentJam, 900);
+                    puts("Wahana telah diperbaiki.");
+                }
+                break;
+			}
+		}
+		if (idxWahana == wahanaSekitarPlayer.NbEl) puts("Tidak ada wahana dengan nama itu di sekitarmu.");
+    } else { /* Tidak ada wahana di sekitar */
+		puts("Tidak ada wahana di sekitarmu yang bisa diupgrade.");
+    }
     return;
 }
 
