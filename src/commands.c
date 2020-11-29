@@ -3,7 +3,8 @@
 Kata newC, load, exitC, build,
 			 upgrade, buy, undo, execute,
 			 mainC, serve, repair, detail,
-			 office, prepare, inventory;
+			 office, prepare, Details, Report,
+			 Exit, inventory;
 
 
 void initCommands(){
@@ -22,6 +23,9 @@ void initCommands(){
 	copyToKata("detail", &detail);
 	copyToKata("office", &office);
 	copyToKata("prepare", &prepare);
+	copyToKata("Details", &Details);
+	copyToKata("Report", &Report);
+	copyToKata("Exit", &Exit);
 	copyToKata("inventory", &inventory);
 }
 
