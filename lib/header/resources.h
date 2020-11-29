@@ -29,4 +29,26 @@ typedef struct {
 //unsigned short getMaterialPrice(char id);
 Material *getMaterialByID(char id);
 Material *getMaterialByName(Kata Nama);
+
+/**
+ * Fungsi untuk memeriksa apakah array of materials pada matYangMauDikurangi mencukupi
+ * kebutuhan pada matPengurang
+ */
+boolean IsMaterialsEnough(array matYangMauDikurangi, array matPengurang);
+
+/**
+ * Fungsi untuk memeriksa apakah resource pada resYangMauDikurangi mencukupi
+ * kebutuhan pada resPengurang
+ */
+boolean IsResourcesEnough(Resource resYangMauDikurangi, Resource resPengurang);
+
+/**
+ * FUngsi untuk menambahkan dua buah resource
+ */
+void TambahDuaResource(Resource res1, Resource res2, Resource *result);
+
+/**
+ * FUngsi untuk mengurangi res1 oleh res2
+ */
+void KurangDuaResource(Resource res1, Resource res2, Resource *result);
 #endif

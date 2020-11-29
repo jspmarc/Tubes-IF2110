@@ -57,7 +57,7 @@ void __isiPlayerResources() {
 
 		mater->biayaMaterial = ((Material *) BuyableMaterials.arr[i].metadata)->biayaMaterial;
 		mater->idMaterial = ((Material *) BuyableMaterials.arr[i].metadata)->idMaterial;
-		mater->jumlahMaterial = 0;
+		mater->jumlahMaterial = 100;
 		SalinKataDariKe(((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial, &(mater->namaMaterial));
 
 		el.id = mater->idMaterial;
@@ -120,4 +120,6 @@ void init() {
 	fclose(f);
 
 	__isiPlayerResources();
+
+	playerPos = MakePoint(2, 2);
 }

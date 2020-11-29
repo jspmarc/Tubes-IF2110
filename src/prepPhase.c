@@ -121,13 +121,25 @@ void Save(){
 	// Save state, something something hard to do
 }
 
-void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
+void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi){
 	Kata Wahana;
 	int idxWahana;
+	boolean bisaBangun = true;
+	MAP map = WhichMap(crrntMapID);
 	// Build Logic
+
+	/* Cek bisa bangun atau nggak secara geografis */
+	bisaBangun = bisaBangun
+	&& !isNutupinGate(playerPos)
+	&& PointNEQ(map.Office, playerPos)
+	&& PointNEQ(map.Antrian, playerPos);
 
 	if (BuiltWahana.NbEl == AvailableWahana.NbEl) {
 		puts("Kamu sudah membangun semua wahana yang mungkin pada permainan ini.");
+		return;
+	}
+	if (!bisaBangun) {
+		puts("Tidak dapat membangun di posisi ini.");
 		return;
 	}
 
@@ -152,40 +164,39 @@ void Build(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 	if (idxWahana >= AvailableWahana.NbEl) {
 		puts("Wahana itu tidak ada dan tidak nyata");
 	} else {
-		/* *** RENDER WAHANA DI PETA *** */
-		/* Yg skrg boleh diapus aja */
-		MAP currentMap;
-
-		currentMap = WhichMap(crrntMapID);
-		if (Ordinat(BeforeY(playerPos)) != 0) {
-			/* Render tulisan W */
-			Ordinat(playerPos)--;
-		} else if (Absis(BeforeX(playerPos)) != 0) {
-			/* Render tulisan W */
-			Absis(playerPos)--;
-		} else if (Ordinat(NextY(playerPos)) == Ordinat(currentMap.MapSize)+1) {
-			/* Render tulisan W */
-			Ordinat(playerPos)++;
-		} else {}
-		/* *** END RENDER WAHANA DI PETA *** */
-
 		/* Cek bisa bangun wahana atau nggak */
+		/* Secara resource */
 
-		/* Kalo bisa bangun */
-		BuildWahana((WahanaTree) AvailableWahana.arr[idxWahana].metadata, playerPos);
-		(*totalAksi)++;
-		*totalDetikAksi += DoableActions.arr[BUILD].info;
-		*totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
+		Resource *resourceSetelahBerubah;
+		resourceSetelahBerubah = (Resource *) malloc(sizeof(Resource));
+		TambahDuaResource(*totalResourceAksi, ((WahanaTree) AvailableWahana.arr[idxWahana].metadata)->upgradeInfo.UpgradeCost, resourceSetelahBerubah);
+		bisaBangun = IsResourcesEnough(playerResources, *resourceSetelahBerubah);
+
+		if (bisaBangun) {
+			/* Kalo bisa bangun */
+			BuildWahana((WahanaTree) AvailableWahana.arr[idxWahana].metadata, playerPos);
+			(*totalAksi)++;
+			*totalDetikAksi += DoableActions.arr[BUILD].info;
+			*totalUangAksi += Akar((WahanaTree) AvailableWahana.arr[idxWahana].metadata).UpgradeCost.uang;
+			*totalResourceAksi = *resourceSetelahBerubah;
+		} else {
+			puts("Tidak dapat membangun karena material atau uang mu kurang.");
+		}
+
+		free(resourceSetelahBerubah);
 	}
 }
 
-void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
+void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi){
 	ATangibleWahana wahanaTerdekat;
 	WahanaTree upgradeBersangkutan;
 	Kata Wahana;
 
 	wahanaTerdekat = InteraksiWahanaSekitarPosisi(playerPos);
+	if (wahanaTerdekat == NULL) return;
 	upgradeBersangkutan = cariUpgrade(wahanaTerdekat->baseTree, wahanaTerdekat->currentUpgradeID);
+
+
 	/* List Upgrade */
 	addrNode L = Left(upgradeBersangkutan),
 			 R = Right(upgradeBersangkutan);
@@ -228,7 +239,7 @@ void Upgrade(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 	}
 }
 
-void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
+void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi){
 	// Buy Logic
 	/* Jangan lupa tambah durasi dan uang */
 	/*BuyResource();*/
@@ -309,7 +320,7 @@ void Buy(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi){
 void ExecuteBuy(Material M){
 }
 
-void Undo(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi) {
+void Undo(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi, Resource *totalResourceAksi) {
 	// Undo Logic
 	UndoData data;
 
@@ -328,6 +339,7 @@ void Undo(unsigned *totalAksi, int *totalUangAksi, long *totalDetikAksi) {
 			case BUILD:
 				infoTangibleWahana = (ATangibleWahana) data.infoAksi;
 				*totalUangAksi -= TreeWahana(infoTangibleWahana)->upgradeInfo.UpgradeCost.uang;
+				DelArrLast(&toBeBuiltWahana);
 				break;
 			case UPGRADE:
 				break;

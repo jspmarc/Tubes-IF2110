@@ -18,6 +18,35 @@ void ShowMenu() {
 	printf("exit : Exit Game\n");
 }
 
+void IsiTotalResourceAksi(Resource *totalResourceAksi) {
+	totalResourceAksi->uang = 0;
+	CreateArray(&totalResourceAksi->materials, MAX_MATERIAL);
+	for (int i = 0; i < BuyableMaterials.NbEl; ++i) {
+		ArrayElType el;
+		Material *mater = (Material *) malloc(sizeof(Material));
+
+		el.id = ((Material *) BuyableMaterials.arr[i].metadata)->idMaterial;
+		el.info = ((Material *) BuyableMaterials.arr[i].metadata)->biayaMaterial;
+
+		mater->biayaMaterial = el.info;
+		mater->idMaterial = el.id;
+		mater->jumlahMaterial = 0;
+		SalinKataDariKe(((Material *) BuyableMaterials.arr[i].metadata)->namaMaterial, &mater->namaMaterial);
+
+		el.metadata = mater;
+
+		InsArrLast(&totalResourceAksi->materials, el);
+	}
+}
+
+void EfektifkanPerubahanResourcePemain(Resource resourcePengubah) {
+}
+
+void KeluarDariGame() {
+	puts("Jaa matane");
+	exit(0);
+}
+
 /* Main */
 int main () {
 	/* KAMUS */
@@ -28,24 +57,29 @@ int main () {
 
 	long totalDetikAksi = 0; int totalUangAksi = 0;
 	unsigned totalAksi = 0;
+	Resource totalResourceAksi;
+
+	IsiTotalResourceAksi(&totalResourceAksi);
 
 	JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
 
 	/* ALGORITMA */
-	ArrayElType el;
-	ATangibleWahana w = (ATangibleWahana) malloc(sizeof(TangibleWahana));
-	el.id = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;
-	el.info = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;
-	w->baseTree = ((WahanaTree) AvailableWahana.arr[0].metadata);
-	w->currentUpgradeID = 21240;
-	w->posisi = MakePoint(Absis(playerPos), Ordinat(playerPos)+1);
-	w->idMap = 1;
-	el.metadata = w;
 
-	InsArrLast(&BuiltWahana, el);
+	/* *** Helper buat debug  */
+	/*ArrayElType el;*/
+	/*ATangibleWahana w = (ATangibleWahana) malloc(sizeof(TangibleWahana));*/
+	/*el.id = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;*/
+	/*el.info = ((WahanaTree) AvailableWahana.arr[0].metadata)->upgradeInfo.id;*/
+	/*w->baseTree = ((WahanaTree) AvailableWahana.arr[0].metadata);*/
+	/*w->currentUpgradeID = el.id;*/
+	/*w->posisi = MakePoint(Absis(playerPos), Ordinat(playerPos)+1);*/
+	/*w->idMap = 1;*/
+	/*el.metadata = w;*/
 
-	printf("\n");
+	/*InsArrLast(&BuiltWahana, el);*/
+	/* Helper buat debug ***  */
 	/* Pembacaan file wahana dilakukan di init() */
+
 	// Accept input
 	printf("Willy Wangky no Fum Factory e Youkoso\n");
 
@@ -66,6 +100,8 @@ int main () {
 			isIngame = 1;
 		} else if(IsKataSama(CKata, load) && !isIngame) {
 			// ke load ?
+		} else if (IsKataSama(CKata, exitC)) {
+			KeluarDariGame();
 		} else if (isIngame && isPrepPhase) {
 			if(CKata.Length == 1){
 				// w,a,s,d
@@ -76,16 +112,16 @@ int main () {
 				else puts("Perintah tidak dikenali.");
 
 			} else if(IsKataSama(CKata, build)){
-				Build(&totalAksi, &totalUangAksi, &totalDetikAksi);
+				Build(&totalAksi, &totalUangAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, upgrade)){
 				// Upgrade Logic
 				/* Jangan lupa tambah durasi dan uang */
 				/*totalAksi++;*/
-				Upgrade(&totalAksi, &totalUangAksi, &totalDetikAksi);
+				Upgrade(&totalAksi, &totalUangAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, buy)){
-				Buy(&totalAksi, &totalUangAksi, &totalDetikAksi);
+				Buy(&totalAksi, &totalUangAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, undo)){
-				Undo(&totalAksi, &totalUangAksi, &totalDetikAksi);
+				Undo(&totalAksi, &totalUangAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, execute)){
 				// Execute Logic
 				/* Jangan lupa tambah durasi dan uang */
@@ -183,9 +219,9 @@ int main () {
 			IgnoreBlank();
 			ADVKATA();
 		}
-	} while(!IsKataSama(CKata, exitC) && !EndKata);
+	} while(!EndKata);
 
-	printf("Jaa matane\n");
+	puts("Jaa matane");
 
 	return 0;
 }

@@ -93,19 +93,19 @@ void OFFICE () {
                     !strIsEqual(perintah,"Logkom"));
             
             // mungkin pake switch case?
-            if(strIsEqual(perintah,"TBFO")) {
-                A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-            } else if(strIsEqual(perintah,"Alstrukdat")) {
-                A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-            } else if(strIsEqual(perintah,"Algeo")) {
-                A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-            } else if(strIsEqual(perintah,"Matdis")) {
-                A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-            } else if(strIsEqual(perintah,"Orkom")) {
-                A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-            } else { // if(strIsEqual(perintah,"Logkom"))
-                A = /* ADT */; B = /* ADT */; C = /* ADT */; D = /* ADT */;
-            }
+            /*if(strIsEqual(perintah,"TBFO")) {*/
+                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
+            /*} else if(strIsEqual(perintah,"Alstrukdat")) {*/
+                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
+            /*} else if(strIsEqual(perintah,"Algeo")) {*/
+                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
+            /*} else if(strIsEqual(perintah,"Matdis")) {*/
+                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
+            /*} else if(strIsEqual(perintah,"Orkom")) {*/
+                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
+            /*} else { // if(strIsEqual(perintah,"Logkom"))*/
+                /*A =  ADT ; B =  ADT ; C =  ADT ; D =  ADT ;*/
+            /*}*/
             printf("Banyak kali wahana dinaiki           : %d kali\n",A);
             printf("Penghasilan wahana                   : %d\n",B);
             printf("Banyak kali wahana dinaiki hari ini  : %d kali\n",C);

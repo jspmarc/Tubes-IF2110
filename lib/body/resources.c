@@ -85,3 +85,93 @@ Material *getMaterialByName(Kata Nama) {
 
 	return pmat;
 }
+
+boolean IsMaterialsEnough(array matYangMauDikurangi, array matPengurang) {
+	boolean bisa = true;
+
+	if (matYangMauDikurangi.NbEl < matPengurang.NbEl) {
+		/* Harusnya tidak terjadi seperti ini */
+		puts("Sebuah kesalahan telah terjadi. Mohon mengontak pembuat program.");
+		exit(20);
+	}
+
+	for (int i = 0; i < matPengurang.NbEl && bisa; ++i) {
+		Material matPengurangSekarang = *((Material *) matPengurang.arr[i].metadata),
+				 matYangMauDikurangiSekarang = *getMaterialByID(matPengurangSekarang.idMaterial);
+		bisa = bisa && matPengurangSekarang.jumlahMaterial <= matYangMauDikurangiSekarang.jumlahMaterial;
+	}
+
+	return bisa;
+}
+
+boolean IsResourcesEnough(Resource resYangMauDikurangi, Resource resPengurang) {
+	return resYangMauDikurangi.uang >= resPengurang.uang
+	&& IsMaterialsEnough(resYangMauDikurangi.materials, resPengurang.materials);
+}
+
+void TambahDuaResource(Resource res1, Resource res2, Resource *result) {
+	result->uang = res1.uang + res2.uang;
+
+	CreateArray(&result->materials, MAX_MATERIAL);
+
+	printf("%d\t%d\n",res1.materials.NbEl, res2.materials.NbEl);
+	if (res1.materials.NbEl >= res2.materials.NbEl) {
+		PrintArr(res1.materials);
+		puts("");
+		for (int i = 0; i < res1.materials.NbEl; ++i) {
+			printf("%d\n", i);
+			if (i < res2.materials.NbEl) {
+				puts("Apel");
+				Material *matRes1 = (Material *) res1.materials.arr[i].metadata;
+				Material *matRes2 = getMaterialByID(matRes1->idMaterial);
+				puts("Semangka");
+
+				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
+					= matRes1->jumlahMaterial + matRes2->jumlahMaterial;
+				puts("Mangga");
+			} else {
+				puts("Pisang gede");
+				Material *matRes1 = (Material *) res1.materials.arr[i].metadata;
+				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
+					= matRes1->jumlahMaterial;
+			}
+		}
+	} else {
+		for (int i = 0; i < res2.materials.NbEl; ++i) {
+			if (i < res1.materials.NbEl) {
+				Material *matRes2 = (Material *) res1.materials.arr[i].metadata;
+				Material *matRes1 = getMaterialByID(matRes2->idMaterial);
+
+				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
+					= matRes1->jumlahMaterial + matRes2->jumlahMaterial;
+			} else {
+				((Material *) result->materials.arr[i].metadata)->jumlahMaterial
+					= ((Material *) res2.materials.arr[i].metadata)->jumlahMaterial;
+			}
+		}
+	}
+}
+
+void KurangDuaResource(Resource res1, Resource res2, Resource *result) {
+	Resource ret;
+
+	ret.uang = res1.uang - res2.uang;
+
+	unsigned bigger = res1.materials.NbEl >= res2.materials.NbEl ?
+						res1.materials.MaxEl : res2.materials.NbEl;
+
+	CreateArray(&ret.materials, bigger);
+
+	for (int i = 0; i < bigger; ++i) {
+		if (i < res2.materials.NbEl) {
+			Material *matRes1 = (Material *) res1.materials.arr[i].metadata,
+					 *matRes2 = getMaterialByID(matRes1->idMaterial);
+
+			((Material *) ret.materials.arr[i].metadata)->jumlahMaterial
+				= matRes1->jumlahMaterial - matRes2->jumlahMaterial;
+		} else {
+			((Material *) ret.materials.arr[i].metadata)->jumlahMaterial
+				= ((Material *) res1.materials.arr[i].metadata)->jumlahMaterial;
+		}
+	}
+}

@@ -9,11 +9,11 @@
 #define _GAME_GLOBAL_H
 
 #define START_MONEY 100000
-#define MAX_WAHANA 10 // 10 wahana should be enough, can be extended
-#define MAX_MATERIAL 25
+#define MAX_WAHANA 6
+#define MAX_MATERIAL 5
 #define JUMLAH_MATERIAL_DAPAT_DIBELI 0x7fffffff
 
-#define BANYAK_AKSI 15
+#define BANYAK_AKSI 10
 
 /* List ID aksi: (Prep phase)
  * ID   -   Aksi
