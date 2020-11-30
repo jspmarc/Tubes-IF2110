@@ -34,5 +34,5 @@ void DETAIL();
 /* OFFICE {input: office} */
 void OFFICE();
 
-int HAHAWAHANANYARUSAKLOLOLOLOLL();
+void HAHAWAHANANYARUSAKLOLOLOLOLL();
 #endif
