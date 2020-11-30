@@ -51,17 +51,12 @@ void SERVE() {
 
     // jika tidak ada wahana yang ingin dikunjungi, keluar antrian
     Dequeue(&antrianCustomer, &pengunjung);
-	int lohkokadaangka = HAHAWAHANANYARUSAKLOLOLOLOLL();
-	if (lohkokadaangka == 0) {
-		pengunjung->prio++;
-	} else if (lohkokadaangka == 2) {
-		return;
-	}
+	HAHAWAHANANYARUSAKLOLOLOLOLL();
 
-	/* lohkokadaangka == 1 */
 
     // Serve berlaku untuk pengunjung pertama antrian tiap command
     // Jika masih ada wahana yang ingin dikunjungi
+    if(pengunjung == Nil) return;
     if (!IsEmpty(wahanaID(pengunjung))) {
         // Masuk kembali ke antrian, prioritas bertambah
         DelLLVFirst(&wahanaID(pengunjung), &idWahanaYangSudahDikunjungi);
@@ -77,12 +72,16 @@ void SERVE() {
         i++;
     }
 
+
+
     // ID Wahana yang diinginkan pengunjung ketemu
-    if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))
-		&& ((ATangibleWahana) BuiltWahana.arr[i].metadata)->status == true) {
-        playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
-        (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
-        (((ATangibleWahana) BuiltWahana.arr[i].metadata)->usedTotal) += 1;
+    if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))){
+        if(((ATangibleWahana) BuiltWahana.arr[i].metadata)->status == 0) Prio(pengunjung)++;
+        else{
+            playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
+            (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
+            (((ATangibleWahana) BuiltWahana.arr[i].metadata)->usedTotal) += 1;
+        }
     }
 
     /* Mengurangkan kesabaran para pengunjung-pengunjung sekalian semuanya */
@@ -315,16 +314,16 @@ void printHistory(WahanaTree wahana, Kata nama) {
     PrintPathTo(wahana, nama);
 }
 
-int HAHAWAHANANYARUSAKLOLOLOLOLL() {
+void HAHAWAHANANYARUSAKLOLOLOLOLL() {
 	if (BuiltWahana.NbEl == 0)
-		return 2; /* ga ada wahana */
+		return; /* ga ada wahana */
 
 	int index = random() % BuiltWahana.NbEl;
 	int apakahRusak = random() % 100;
 	if (apakahRusak <= 30) {
 		((ATangibleWahana) BuiltWahana.arr[index].metadata)->status = false;
-		return 0; /* haha wahananyaa rusak lololo */
+		return; /* haha wahananyaa rusak lololo */
 	}
 
-	return 1; /* wahana is fine */
+	return; /* wahana is fine */
 }
