@@ -46,71 +46,71 @@ void RandomPengunjung() {
 void SERVE() {
     /* Memakan waktu */
     /* SERVE {input: type pengunjung, wahana, wahana.antrian} */
-    address pengunjung;
-    infotype idWahanaYangSudahDikunjungi;
+    if (BuiltWahana.NbEl != 0) {
+        address pengunjung;
+        infotype idWahanaYangSudahDikunjungi;
 
-    // jika tidak ada wahana yang ingin dikunjungi, keluar antrian
-    Dequeue(&antrianCustomer, &pengunjung);
-	HAHAWAHANANYARUSAKLOLOLOLOLL();
+        // jika tidak ada wahana yang ingin dikunjungi, keluar antrian
+        Dequeue(&antrianCustomer, &pengunjung);
+        HAHAWAHANANYARUSAKLOLOLOLOLL();
 
-
-    // Serve berlaku untuk pengunjung pertama antrian tiap command
-    // Jika masih ada wahana yang ingin dikunjungi
-    if(pengunjung == Nil) return;
-    if (!IsEmpty(wahanaID(pengunjung))) {
-        // Masuk kembali ke antrian, prioritas bertambah
-        DelLLVFirst(&wahanaID(pengunjung), &idWahanaYangSudahDikunjungi);
-        if (Prio(pengunjung) == 5) Prio(pengunjung) = 4; // Jika prioritas sudah 5, tak bisa bertambah
-        Enqueue(&antrianCustomer, &pengunjung);
-    } else {
-        DealokasiElQueue(pengunjung);
-    }
-
-    /* Uang bertambah */
-    int i = 0;
-    while ((i < BuiltWahana.NbEl) && ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer)))))) {
-        i++;
-    }
-
-
-
-    // ID Wahana yang diinginkan pengunjung ketemu
-    if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))){
-        if(((ATangibleWahana) BuiltWahana.arr[i].metadata)->status == 0) Prio(pengunjung)++;
-        else{
-            playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
-            (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
-            (((ATangibleWahana) BuiltWahana.arr[i].metadata)->usedTotal) += 1;
+        // Serve berlaku untuk pengunjung pertama antrian tiap command
+        // Jika masih ada wahana yang ingin dikunjungi
+        if(pengunjung == Nil) return;
+        if (!IsEmpty(wahanaID(pengunjung))) {
+            // Masuk kembali ke antrian, prioritas bertambah
+            DelLLVFirst(&wahanaID(pengunjung), &idWahanaYangSudahDikunjungi);
+            if (Prio(pengunjung) == 5) Prio(pengunjung) = 4; // Jika prioritas sudah 5, tak bisa bertambah
+            Enqueue(&antrianCustomer, &pengunjung);
+        } else {
+            DealokasiElQueue(pengunjung);
         }
-    }
 
-    /* Mengurangkan kesabaran para pengunjung-pengunjung sekalian semuanya */
-    address pengurangSyabar;
-    address precPengurangSyabar;
-    precPengurangSyabar = Nil;
-    pengurangSyabar = Head(antrianCustomer);
-    while (NextQueue(pengurangSyabar) != Nil) {
-        Kesabaran(pengurangSyabar) = Kesabaran(pengurangSyabar) - 1;
-        // Kalau kesabaran customer jadi nol
-        if (Kesabaran(pengurangSyabar) == 0) {
-            // kalau customer satu-satunya elemen, queue antrianCustomer jadi empty
-            if (Head(antrianCustomer) == Tail(antrianCustomer)) {
-                CreateEmptyQueue(&antrianCustomer);
-            // Elemen pertama sudah tak sabar
-            } else if (precPengurangSyabar == Nil) {
-                Head(antrianCustomer) = NextQueue(Head(antrianCustomer));
-            // Elemen terakhir sudah tak sabar
-            } else if (NextQueue(pengurangSyabar) == Nil) {
-                Tail(antrianCustomer) = precPengurangSyabar;
-            // Elemen tengah sudah tak sabar
-            } else {
-                NextQueue(precPengurangSyabar) = NextQueue(precPengurangSyabar);
+        /* Uang bertambah */
+        int i = 0;
+        while ((i < BuiltWahana.NbEl) && ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer)))))) {
+            i++;
+        }
+
+        // ID Wahana yang diinginkan pengunjung ketemu
+        if ((BuiltWahana.arr[i].id) == Info(LLFirst(wahanaID(Head(antrianCustomer))))){
+            if(((ATangibleWahana) BuiltWahana.arr[i].metadata)->status == 0) Prio(pengunjung)++;
+            else{
+                playerResources.uang += ((((ATangibleWahana) BuiltWahana.arr[i].metadata)->baseTree)->upgradeInfo).harga;
+                (((ATangibleWahana) BuiltWahana.arr[i].metadata)->used) += 1;
+                (((ATangibleWahana) BuiltWahana.arr[i].metadata)->usedTotal) += 1;
             }
-            /*DealokasiQueue(pengurangSyabar);*/
         }
-        pengurangSyabar = NextQueue(pengurangSyabar);
-    }
 
+        /* Mengurangkan kesabaran para pengunjung-pengunjung sekalian semuanya */
+        address pengurangSyabar;
+        address precPengurangSyabar;
+        precPengurangSyabar = Nil;
+        pengurangSyabar = Head(antrianCustomer);
+        while (NextQueue(pengurangSyabar) != Nil) {
+            Kesabaran(pengurangSyabar) = Kesabaran(pengurangSyabar) - 1;
+            // Kalau kesabaran customer jadi nol
+            if (Kesabaran(pengurangSyabar) == 0) {
+                // kalau customer satu-satunya elemen, queue antrianCustomer jadi empty
+                if (Head(antrianCustomer) == Tail(antrianCustomer)) {
+                    CreateEmptyQueue(&antrianCustomer);
+                // Elemen pertama sudah tak sabar
+                } else if (precPengurangSyabar == Nil) {
+                    Head(antrianCustomer) = NextQueue(Head(antrianCustomer));
+                // Elemen terakhir sudah tak sabar
+                } else if (NextQueue(pengurangSyabar) == Nil) {
+                    Tail(antrianCustomer) = precPengurangSyabar;
+                // Elemen tengah sudah tak sabar
+                } else {
+                    NextQueue(precPengurangSyabar) = NextQueue(precPengurangSyabar);
+                }
+                /*DealokasiQueue(pengurangSyabar);*/
+            }
+            pengurangSyabar = NextQueue(pengurangSyabar);
+        }
+    } else {
+        printf("Belum ada wahana yang dibangun\n\n");
+    }
 }
 
 void REPAIR () {
