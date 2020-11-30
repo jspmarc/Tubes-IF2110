@@ -84,6 +84,7 @@ void init() {
 
 	currentJam = MakeJAM(21, 0, 0);
 	OpeningJam = MakeJAM(9, 0, 0);
+	ClosingJam = MakeJAM(21, 0, 0);
 
 	/* inisiasi map1 */
 	f = fopen("data/map1.txt", "r");
