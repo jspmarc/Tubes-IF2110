@@ -72,6 +72,7 @@ void Dequeue(Queue * Q, address * X) {
 
     *X = Head(*Q);
 
+	if (IsQueueEmpty(*Q)) return;
     if (Tail(*Q) == Head(*Q)) { /* Cuman ada satu elemen */
         Tail(*Q) = NULL;
         Head(*Q) = NULL;

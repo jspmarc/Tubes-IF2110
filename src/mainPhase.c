@@ -16,7 +16,6 @@
 #define nl printf("\n")
 
 void RandomPengunjung() {
-    time_t t;
     int nPengunjung;
     address pengunjung;
     int qesabaran;
