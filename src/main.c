@@ -157,8 +157,6 @@ int main () {
 				puts("Perintah tidak dikenali.");
 			}
 		} else if (isMainPhase && isIngame) {
-			if(PointEQ(playerPos, Office(WhichMap(crrntMapID))))
-				printf("Masukkan Perintah (Masukkan 'office' untuk mengakses office): \n");
 			if(IsKataSama(CKata, serve)){
 				// Serve Logic
 				/* Jangan lupa tambah durasi dan uang */
@@ -238,6 +236,9 @@ int main () {
 				}
 
 				puts("");
+				
+				if(PointEQ(playerPos, Office(WhichMap(crrntMapID))) && isMainPhase && isIngame)
+				printf("Masukkan 'office' untuk mengakses office\n");
 				printf("Masukkan perintah:\n");
 			}
 			printf("❯ ");
