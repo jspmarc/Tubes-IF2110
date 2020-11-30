@@ -38,6 +38,7 @@ extern JAM currentJam;
 extern Kata Nama;
 extern array BuiltWahana; /* Menyimpan wahana yang sudah dibuat, array of ATangibleWahana. */
 extern array toBeBuiltWahana; /* array of ATangibleWahana */
+extern long totalDetikAksi;
 
 /* Data */
 extern array DoableActions; /* Nyimpen array of aksi */

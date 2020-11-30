@@ -182,6 +182,10 @@ void Build(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAks
 		puts("Tidak dapat membangun di posisi ini.");
 		return;
 	}
+	if (*totalDetikAksi +DoableActions.arr[BUILD].info > Durasi(currentJam, OpeningJam)) {
+		puts("Waktu untuk membangun tidak cukup.");
+		return;
+	}
 	
 	printf("Ingin membangun apa?\nList:\n");
 	for (int i = 0; i < AvailableWahana.NbEl; ++i) {
@@ -250,6 +254,11 @@ void Upgrade(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceA
 	wahanaTerdekat = InteraksiWahanaSekitarPosisi(playerPos);
 	if (wahanaTerdekat == NULL) return;
 	upgradeBersangkutan = cariUpgrade(wahanaTerdekat->baseTree, wahanaTerdekat->currentUpgradeID);
+
+	if (*totalDetikAksi +DoableActions.arr[UPGRADE].info > Durasi(currentJam, OpeningJam)) {
+		puts("Waktu untuk upgrade tidak cukup.");
+		return;
+	}
 
 
 	/* List Upgrade */
@@ -339,6 +348,11 @@ void Buy(unsigned *totalAksi, long *totalDetikAksi, Resource *totalResourceAksi)
 		 namaMaterial;
 	int qty;
 	Material *boughtMaterial;
+
+	if (*totalDetikAksi +DoableActions.arr[BUY].info > Durasi(currentJam, OpeningJam)) {
+		puts("Waktu untuk membeli bahan tidak cukup.");
+		return;
+	}
 
 	printf("Ingin membeli apa?\nList:\n");
 	for (int i = 0; i < BuyableMaterials.NbEl; ++i) {

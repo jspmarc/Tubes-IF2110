@@ -13,6 +13,8 @@
 #include "prepPhase.h"
 #include "mainPhase.h"
 
+long totalDetikAksi = 0;
+
 void ShowMenu() {
 	printf("new : New Game\n");
 	printf("load : Load Game\n");
@@ -56,7 +58,6 @@ int main () {
 	init();
 	initCommands();
 
-	long totalDetikAksi = 0;
 	unsigned totalAksi = 0;
 	Resource totalResourceAksi;
 
@@ -65,17 +66,17 @@ int main () {
 	/* ALGORITMA */
 
 	/* *** Helper buat debug  */
-	/*ArrayElType el;*/
-	/*ATangibleWahana w = (ATangibleWahana) malloc(sizeof(TangibleWahana));*/
-	/*el.id = ((WahanaTree) AvailableWahana.arr[1].metadata)->upgradeInfo.id;*/
-	/*el.info = ((WahanaTree) AvailableWahana.arr[1].metadata)->upgradeInfo.id;*/
-	/*w->baseTree = ((WahanaTree) AvailableWahana.arr[1].metadata);*/
-	/*w->currentUpgradeID = el.id;*/
-	/*w->posisi = MakePoint(Absis(playerPos), Ordinat(playerPos)+1);*/
-	/*w->idMap = 1;*/
-	/*el.metadata = w;*/
+	ArrayElType el;
+	ATangibleWahana w = (ATangibleWahana) malloc(sizeof(TangibleWahana));
+	el.id = ((WahanaTree) AvailableWahana.arr[1].metadata)->upgradeInfo.id;
+	el.info = ((WahanaTree) AvailableWahana.arr[1].metadata)->upgradeInfo.id;
+	w->baseTree = ((WahanaTree) AvailableWahana.arr[1].metadata);
+	w->currentUpgradeID = el.id;
+	w->posisi = MakePoint(Absis(playerPos), Ordinat(playerPos)+1);
+	w->idMap = 1;
+	el.metadata = w;
 
-	/*InsArrLast(&BuiltWahana, el);*/
+	InsArrLast(&BuiltWahana, el);
 	/* Helper buat debug ***  */
 
 	/* Pembacaan file wahana dilakukan di init() */
