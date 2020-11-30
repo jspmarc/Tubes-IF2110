@@ -88,7 +88,8 @@ int main () {
 	STARTKATA();
 
 	do{
-		JAM durasi = DetikToJAM(Durasi(currentJam, OpeningJam));
+		JAM durasiP = DetikToJAM(Durasi(currentJam, OpeningJam));
+		JAM durasiM = DetikToJAM(Durasi(currentJam, ClosingJam));
 		// main game loop
 		if(IsKataSama(CKata, newC) && !isIngame) {
 			// ke new
@@ -128,7 +129,7 @@ int main () {
 				Build(&totalAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, upgrade)){
 				// Upgrade Logic
-				/* Jangan lupa tambah durasi dan uang */
+				/* Jangan lupa tambah durasiP dan uang */
 				/*totalAksi++;*/
 				Upgrade(&totalAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, buy)){
@@ -137,7 +138,7 @@ int main () {
 				Undo(&totalAksi, &totalDetikAksi, &totalResourceAksi);
 			} else if(IsKataSama(CKata, execute)){
 				// Execute Logic
-				/* Jangan lupa tambah durasi dan uang */
+				/* Jangan lupa tambah durasiP dan uang */
 				isPrepPhase = false;
 				isMainPhase = true;
 				/*RandomPengunjung();*/
@@ -147,7 +148,7 @@ int main () {
 				Execute(&totalResourceAksi);
 			} else if(IsKataSama(CKata, mainC)){
 				// main Logic
-				/* Jangan lupa tambah durasi dan uang */
+				/* Jangan lupa tambah durasiP dan uang */
 				isPrepPhase = false;
 				isMainPhase = true;
 				totalAksi = 0;
@@ -160,13 +161,13 @@ int main () {
 		} else if (isMainPhase && isIngame) {
 			if(IsKataSama(CKata, serve)){
 				// Serve Logic
-				/* Jangan lupa tambah durasi dan uang */
+				/* Jangan lupa tambah durasiP dan uang */
 				SERVE();
 				// Sekali serp 15 menit (gatau kenapa, pengen aja)
 				currentJam = NextNDetik(currentJam, 900);
 			} else if(IsKataSama(CKata, repair)){
 				// Repair Logic
-				/* Jangan lupa tambah durasi dan uang */
+				/* Jangan lupa tambah durasiP dan uang */
 				REPAIR();
 				/* Pertambahan waktu sudah ada di REPAIR() */
 				/* Jika berhasil repair, waktu bertambah, 
@@ -210,10 +211,10 @@ int main () {
 					printf("Current Time: %02d.%02d\n", currentJam.HH, currentJam.MM);
 					printf("Opening Time: %02d.%02d\n", OpeningJam.HH, OpeningJam.MM);
 					printf("Time Remaining:");
-					if (durasi.HH != 0) printf(" %d hour%c", durasi.HH, durasi.HH > 1 ? 's':'\0');
-					if (durasi.MM != 0) printf(" %d minute%c", durasi.MM, durasi.MM > 1 ? 's':'\0');
-					if (durasi.SS != 0) printf(" %d second%c", durasi.SS, durasi.SS > 1 ? 's':'\0');
-					printf(" (%ld seconds)\n\n", JAMToDetik(durasi));
+					if (durasiP.HH != 0) printf(" %d hour%c", durasiP.HH, durasiP.HH > 1 ? 's':'\0');
+					if (durasiP.MM != 0) printf(" %d minute%c", durasiP.MM, durasiP.MM > 1 ? 's':'\0');
+					if (durasiP.SS != 0) printf(" %d second%c", durasiP.SS, durasiP.SS > 1 ? 's':'\0');
+					printf(" (%ld seconds)\n\n", JAMToDetik(durasiP));
 
 					printf("Total aksi yang akan dilakukan: %d\n", totalAksi);
 					printf("Total waktu yang dibutuhkan:");
@@ -227,10 +228,10 @@ int main () {
 					printf("Current Time: %02d.%02d\n", currentJam.HH, currentJam.MM);
 					printf("Closing Time: %02d.%02d\n", ClosingJam.HH, ClosingJam.MM);
 					printf("Time Remaining:");
-					if (durasi.HH != 0) printf(" %d hour%c", durasi.HH, durasi.HH > 1 ? 's':'\0');
-					if (durasi.MM != 0) printf(" %d minute%c", durasi.MM, durasi.MM > 1 ? 's':'\0');
-					if (durasi.SS != 0) printf(" %d second%c", durasi.SS, durasi.SS > 1 ? 's':'\0');
-					printf(" (%ld seconds)\n\n", JAMToDetik(durasi));
+					if (durasiM.HH != 0) printf(" %d hour%c", durasiM.HH, durasiM.HH > 1 ? 's':'\0');
+					if (durasiM.MM != 0) printf(" %d minute%c", durasiM.MM, durasiM.MM > 1 ? 's':'\0');
+					if (durasiM.SS != 0) printf(" %d second%c", durasiM.SS, durasiM.SS > 1 ? 's':'\0');
+					printf(" (%ld seconds)\n\n", JAMToDetik(durasiM));
 
 					/* Print antrian */
 					printf("Antrian [%d/%d]:\n", NbElmtQueue(antrianCustomer), MAX_WAHANA);
